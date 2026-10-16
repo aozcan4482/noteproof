@@ -1,0 +1,937 @@
+{
+ "tool": "proposal_tool",
+ "version": "4.11.0",
+ "stage": "proposal",
+ "stageLabel": "Proposal",
+ "stageFills": "The plan: who the system is for, what it will do, how it will be built and checked, and who does what. Nothing is implemented yet: the Delivery and evidence part stays empty.",
+ "saved": "2026-10-16T18:52:26.235Z",
+ "proposal": {
+  "course": "SEN0401",
+  "stage": "proposal",
+  "semester": "2026-2027 Fall",
+  "title": "NoteProof: Bitcoin timestamps and an AI-tagged knowledge graph for students' lecture notes",
+  "customers": [
+   {
+    "name": "3rd- and 4th-year Software Engineering students at İstanbul Kültür University",
+    "contact": "3rd- and 4th-year students who answered our survey",
+    "reached": "Google Form survey shared in the 3rd- and 4th-year WhatsApp groups on 16 October 2026, 20 responses",
+    "relation": "owner",
+    "gets": "one archive where their notes are found by course and topic, credited to the students who registered them, with a proof anyone can check"
+   }
+  ],
+  "endUsers": [
+   {
+    "group": "Note author",
+    "who": "students who write their own lecture notes and share them with classmates",
+    "task": "uploads a note, confirms its course and topics, and receives a timestamp proof",
+    "frequency": "weekly",
+    "device": "phone or laptop browser"
+   },
+   {
+    "group": "Note reader",
+    "who": "students who look for notes before quizzes and exams",
+    "task": "searches notes by course and topic and checks who registered each note first",
+    "frequency": "weekly",
+    "device": "phone"
+   },
+   {
+    "group": "Note verifier",
+    "who": "a classmate, a lecturer or a club jury settling who had a note first",
+    "task": "opens a note's proof page and checks when and by whom it was registered",
+    "frequency": "occasional",
+    "device": "laptop browser"
+   }
+  ],
+  "problem": "Students in our department share their lecture notes with each other, but the notes end up scattered across WhatsApp groups, photographed pages and a few Drive folders. In a survey of 20 third- and fourth-year students on 16 October 2026, 17 said they share their own notes, 3 of them regularly; 10 of the 17 share them in WhatsApp groups and 9 send photos of the pages. Five of the 20 said a note of theirs had been passed on or sold without their name or permission, and 5 more could not tell, because nobody can follow a note once it is shared. Nobody can prove who had a note first either: file dates change whenever a file is copied, and the owner of a shared folder can edit or replace anything in it. Before an exam, the median student needs 10 to 20 minutes to find a note on one topic, and 13 of the 20 need 10 minutes or more, scrolling through chats with no way to tell which copy is the original. Authors get no credit for their work and readers study from whatever copy they find; 14 of the 20 said they would use an archive that finds notes by course and topic and proves whose note each one is.",
+  "mission": "Give every Note author a way to register a lecture note and receive a proof, anchored on the Bitcoin signet in the way Nakamoto's timestamp server describes, that the note existed in their hands on that day; let an AI tagger file each note under a shared course and topic vocabulary; and let every Note reader find notes by topic, see who registered each one first, and be warned about copies of earlier notes.",
+  "missionOrigin": "IOrigin_Derived",
+  "outcome": "A student uploads a note after class, confirms the course and topics the AI suggests, and the next day holds a proof linked to a Bitcoin transaction; before the exam a classmate searches a topic, finds that note with its author and date, and anyone can check the proof without trusting the archive or the people who run it.",
+  "areas": [
+   {
+    "area": "Note registration and Bitcoin timestamping",
+    "where": "register/ and anchor/",
+    "measure": "notes scattered in chats and folders, with no proof of who had them first"
+   },
+   {
+    "area": "Course knowledge graph and AI tagging",
+    "where": "ontology/, shapes/ and tagger/",
+    "measure": "no shared course and topic vocabulary today"
+   },
+   {
+    "area": "Search, copy warnings and proof pages",
+    "where": "web/ and search/",
+    "measure": "searching means scrolling through chats today"
+   }
+  ],
+  "deliverables": [
+   {
+    "text": "Registration service that hashes each note with SHA-256 and records who registered it and when (PROV-O)",
+    "area": "A1",
+    "layer": "Layer_Product",
+    "kind": "Kind_Functional"
+   },
+   {
+    "text": "Daily Merkle-root timestamp on Bitcoin signet with a Merkle-path proof for every note",
+    "area": "A1",
+    "layer": "Layer_Product",
+    "kind": "Kind_Functional"
+   },
+   {
+    "text": "Only a 32-byte root on chain: no note content, names or student numbers",
+    "area": "A1",
+    "layer": "Layer_Product",
+    "kind": "Kind_NonFunctional"
+   },
+   {
+    "text": "Note ontology on schema.org, a SKOS vocabulary of courses and topics, and SHACL shapes",
+    "area": "A2",
+    "layer": "Layer_Product",
+    "kind": "Kind_Functional"
+   },
+   {
+    "text": "AI tagger that suggests a note's course, topics and a short summary for the author to confirm",
+    "area": "A2",
+    "layer": "Layer_Product",
+    "kind": "Kind_Functional"
+   },
+   {
+    "text": "Evaluation set of 60 notes with known topics and 20 planted copies",
+    "area": "A2",
+    "layer": "Layer_Work",
+    "kind": "Kind_Functional"
+   },
+   {
+    "text": "Topic search that also finds narrower topics, with answers that cite the notes",
+    "area": "A3",
+    "layer": "Layer_Product",
+    "kind": "Kind_Functional"
+   },
+   {
+    "text": "Copy warning that compares a new note with earlier timestamped notes",
+    "area": "A3",
+    "layer": "Layer_Product",
+    "kind": "Kind_Functional"
+   },
+   {
+    "text": "Public proof page that checks a note file against the Bitcoin transaction without the archive's server",
+    "area": "A3",
+    "layer": "Layer_Product",
+    "kind": "Kind_Functional"
+   },
+   {
+    "text": "Search results and proof checks appear in under 3 seconds on a phone",
+    "area": "A3",
+    "layer": "Layer_Product",
+    "kind": "Kind_NonFunctional"
+   }
+  ],
+  "exclusions": [
+   {
+    "what": "Bitcoin mainnet transactions and real fees",
+    "why": "the course project runs on signet; the proof works the same way and needs no real money"
+   },
+   {
+    "what": "Proving who originally wrote a note",
+    "why": "a timestamp proves that a file existed and who registered it at that time; it cannot show that the registrant did not copy it from an unregistered source"
+   },
+   {
+    "what": "Deciding plagiarism cases or punishing students",
+    "why": "the system shows evidence; decisions stay with people such as lecturers and the class"
+   },
+   {
+    "what": "Lecturers' slides, textbook pages and other people's material",
+    "why": "the archive is for students' own notes; others' material is outside its purpose and its copyright"
+   }
+  ],
+  "entities": [
+   {
+    "entity": "Note",
+    "def": "a student's own lecture note file (PDF, photo or text), a schema:CreativeWork identified by its SHA-256 hash",
+    "create": "yes",
+    "use": "yes",
+    "end": "yes"
+   },
+   {
+    "entity": "Registration",
+    "def": "a PROV-O activity recording which student account registered which note hash, and when",
+    "create": "yes",
+    "use": "yes",
+    "end": "no"
+   },
+   {
+    "entity": "Topic",
+    "def": "a SKOS concept for a course topic, such as 'Transaction fees' under SEN0401, with broader and narrower topics",
+    "create": "yes",
+    "use": "yes",
+    "end": "no"
+   },
+   {
+    "entity": "Daily timestamp",
+    "def": "a signet transaction whose OP_RETURN output holds the Merkle root of one day's note hashes",
+    "create": "yes",
+    "use": "yes",
+    "end": "no"
+   },
+   {
+    "entity": "Proof",
+    "def": "a note's Merkle path and the txid, which anyone can check against the block",
+    "create": "yes",
+    "use": "yes",
+    "end": "no"
+   }
+  ],
+  "projectKinds": [
+   "PK_ChainProv",
+   "PK_Search"
+  ],
+  "projectKind": "PK_ChainProv",
+  "tech": [
+   "PROVOStandard",
+   "SchemaOrgVocabulary",
+   "SKOSVocabularyModel",
+   "SHACLCore",
+   "PySHACLLib",
+   "JSONLDContext",
+   "RDFLibPython",
+   "SPARQLFamily",
+   "OxigraphStore",
+   "GraphRAGPattern",
+   "CoolURIPractice",
+   "KVKKRegime"
+  ],
+  "techWhy": "Each note is described as a schema.org CreativeWork, and PROV-O records the registration activity: which student account registered which hash, and when, so the archive's history is standard linked data that the proof page can show. A SKOS concept scheme holds the courses and their topics, starting from SEN0401's fourteen chapters, with broader and narrower links; the AI tagger may only choose concepts from it, and a SPARQL property path over skos:narrower lets a search for 'Transactions' also find notes on 'Transaction fees'. SHACL shapes, run with pySHACL, refuse a note without a course, an unknown topic or an unconfirmed tag. Records travel as JSON-LD, RDFLib handles them in Python and Oxigraph stores them. Search answers follow the GraphRAG pattern: the model only phrases notes the graph returns and cites them. Stable IRIs give every proof a permanent link, and the KVKK regime decides that only hashes reach the chain.",
+  "goals": [
+   {
+    "goal": "Every shared note carries a proof of when and by whom it was registered, checkable without the archive",
+    "facing": "Facing_Mission",
+    "area": "A1",
+    "why": "this is the credit authors lack today"
+   },
+   {
+    "goal": "Every note is tagged with a course and topics from the shared vocabulary",
+    "facing": "Facing_Scope",
+    "area": "A2",
+    "why": "an untagged note cannot be found"
+   },
+   {
+    "goal": "Readers find notes by topic and are warned about copies of earlier notes",
+    "facing": "Facing_Scope",
+    "area": "A3",
+    "why": "search and the copy warning are what readers use"
+   },
+   {
+    "goal": "No note content or personal data reaches the chain, and no AI tag is saved without the author's confirmation",
+    "facing": "Facing_Containment",
+    "area": "A1",
+    "why": "KVKK forbids the first; trust in the archive forbids the second"
+   }
+  ],
+  "spec": "The system lets a student upload a lecture note as a PDF, a photo or text. It computes the note's SHA-256 hash and records the registration with PROV-O. An AI tagger reads the note's text and suggests a course, topics from the SKOS vocabulary and a two-sentence summary; nothing is saved until the author confirms, and the SHACL shapes refuse a note without a course or with an unknown topic. A copy check compares the new note with earlier notes and links possible copies to the earlier note's proof. Once a day the timestamp service builds a Merkle tree of the day's hashes and writes its root in an OP_RETURN output of a Bitcoin signet transaction, giving each note a Merkle path. Readers search by course and topic, including narrower topics. A public proof page recomputes a note's hash, walks its Merkle path and shows the block time, without needing the archive's server.",
+  "scenarios": [
+   {
+    "kind": "Scen_Nominal",
+    "text": "Given a note registered and confirmed today, when the daily timestamp has one confirmation, then the note's proof page shows its hash, its Merkle path, the signet txid and the block time"
+   },
+   {
+    "kind": "Scen_Rejection",
+    "text": "Given a note file that was changed by one character after it was timestamped, when its proof is checked, then the hash does not match and the page says it is not the registered file"
+   },
+   {
+    "kind": "Scen_Rejection",
+    "text": "Given a note whose author picks a topic that is not in the vocabulary, when the author confirms it, then the note is refused and the author is asked to choose a topic from the list"
+   }
+  ],
+  "useCase": "Note author: upload a note, confirm the AI's tags, get a proof. Note reader: search by topic, open a note, see its author and date. Note verifier: open a proof page and check it. 3rd- and 4th-year students: own the archive and decide its upload rules.",
+  "objectives": [
+   {
+    "objective": "Notes with a valid timestamp proof within 24 hours",
+    "goal": "G1",
+    "mkind": "Meas_Derived",
+    "query": "share of pilot notes whose Merkle path verifies against a confirmed signet transaction within 24 hours of upload, %",
+    "baseline": "0",
+    "target": "100",
+    "dir": "Dir_Increase"
+   },
+   {
+    "objective": "Notes tagged with a valid course and topics",
+    "goal": "G2",
+    "mkind": "Meas_Counted",
+    "query": "share of pilot notes whose confirmed tags pass the shapes, %",
+    "baseline": "0",
+    "target": "100",
+    "dir": "Dir_Increase"
+   },
+   {
+    "objective": "AI topic suggestions accepted unchanged",
+    "goal": "G2",
+    "mkind": "Meas_Judged",
+    "query": "share of suggested topics that authors confirm without correction on the 60 evaluation notes, %",
+    "baseline": "0",
+    "target": "80",
+    "dir": "Dir_Increase"
+   },
+   {
+    "objective": "Minutes to find a note on a topic before an exam",
+    "goal": "G3",
+    "mkind": "Meas_Counted",
+    "query": "median minutes a student needs to find a note on one topic: now, the middle of the survey's median answer (10 to 20 minutes, 20 students); in the pilot, timed for 20 searches",
+    "baseline": "15",
+    "target": "2",
+    "dir": "Dir_Decrease"
+   },
+   {
+    "objective": "Planted copies caught by the copy warning",
+    "goal": "G3",
+    "mkind": "Meas_Counted",
+    "query": "share of the 20 planted copies in the evaluation set that the copy warning flags, %",
+    "baseline": "0",
+    "target": "90",
+    "dir": "Dir_Increase"
+   },
+   {
+    "objective": "Note content, personal data or unconfirmed tags leaked",
+    "goal": "G4",
+    "mkind": "Meas_Counted",
+    "query": "OP_RETURN outputs holding anything but a 32-byte root, plus saved tags the author did not confirm",
+    "baseline": "0",
+    "target": "0",
+    "dir": "Dir_Hold"
+   }
+  ],
+  "activity": "Swimlanes: Note author · NoteProof services · Bitcoin signet · Note reader or verifier\n\nA. Register a note\n1. Start: the note author uploads a note (PDF, photo or text).\n2. The registration service checks the file type and size. [not allowed] → the upload is refused with the reason → end.\n3. It computes the note's SHA-256 hash. [hash already registered] → the page shows the earlier registration and its proof → end.\n4. Fork, in parallel:\n   4a. The AI tagger extracts the text and suggests a course, topics from the SKOS vocabulary and a two-sentence summary.\n   4b. The copy checker compares the text with earlier notes.\n5. Join: the author sees the suggestions and any similar earlier note.\n6. The author confirms or corrects every tag. [author cancels] → nothing is saved → end.\n7. pySHACL validates the confirmed tags against the shapes. [invalid] → the violations are shown and the author returns to step 6.\n8. [similar earlier note found] → the note is marked as a possible copy and linked to the earlier note's proof.\n9. The note and its PROV-O registration are stored and its hash is queued; the author sees \"proof pending\". End of the author's flow.\n\nB. Daily timestamp (time event: every day at 23:00)\n10. The timestamp service collects the day's queued hashes. [queue empty] → end.\n11. It builds the Merkle tree and puts the 32-byte root in an OP_RETURN output.\n12. It broadcasts the transaction to the Bitcoin signet through Bitcoin Core and waits for one confirmation. [not confirmed within 6 blocks] → it bumps the fee and broadcasts again.\n13. It stores the txid, the block height and each note's Merkle path, and marks the notes \"timestamped\". End.\n\nC. Find and check a note\n14. The reader searches by course and topic; the search also covers narrower topics.\n15. The reader opens a note card with its author, date and proof badge.\n16. On the proof page the browser recomputes the file's hash, walks its Merkle path and fetches the block from a public signet node.\n17. [hash and root match] → \"proven\", with the block time. [no match] → \"not the registered file\". End.",
+  "sequence": "The upload page sends the file to the registration service, which computes the SHA-256 hash, extracts the text and asks the tagger and the copy checker in parallel. The tagger asks the language model for concepts limited to the SKOS vocabulary and returns them; the copy checker compares the text's embedding with earlier notes and returns any match. The author confirms; the service asks pySHACL to validate and stores the note and its PROV-O registration in Oxigraph. Each night the timestamp service reads the day's hashes, builds the Merkle tree, asks the Bitcoin Core signet node to fund and broadcast an OP_RETURN transaction, waits for a confirmation and stores the txid and each Merkle path. The proof page recomputes the hash in the browser, walks the path and asks a public signet node for the block.",
+  "initiativeKind": "Kind_InitialDevelopment",
+  "epics": [
+   {
+    "epic": "Register and timestamp notes on Bitcoin",
+    "objective": "O1"
+   },
+   {
+    "epic": "Tag notes with the course knowledge graph",
+    "objective": "O2"
+   },
+   {
+    "epic": "Search, copy warnings and proof pages",
+    "objective": "O4"
+   }
+  ],
+  "stories": [
+   {
+    "epic": "E1",
+    "role": "Note author",
+    "want": "to upload my note and get a proof of when I registered it",
+    "so": "I can show later that I had it first",
+    "ac": "Given my note PDF When I upload it Then I see its SHA-256 hash and registration time, and after the next daily timestamp a proof linked to a signet transaction",
+    "cat": "Cat_NewCapability",
+    "concern": "Concern_Data",
+    "bv": "9",
+    "tc": "7",
+    "rr": "6",
+    "js": "4"
+   },
+   {
+    "epic": "E1",
+    "role": "Note author",
+    "want": "every note registered in a day to be timestamped in one Bitcoin transaction",
+    "so": "proofs cost one transaction a day instead of one per note",
+    "ac": "Given 40 notes registered today When the daily timestamp runs Then one signet transaction holds their Merkle root and each note has its own Merkle path",
+    "cat": "Cat_NewCapability",
+    "concern": "Concern_Security",
+    "bv": "8",
+    "tc": "6",
+    "rr": "8",
+    "js": "5"
+   },
+   {
+    "epic": "E2",
+    "role": "Note author",
+    "want": "the AI to suggest my note's course and topics for me to confirm",
+    "so": "tagging takes seconds and uses the same words as everyone else",
+    "ac": "Given a note about transaction fees When I upload it Then the AI suggests SEN0401 and the topic 'Transaction fees' from the vocabulary, and nothing is saved until I confirm",
+    "cat": "Cat_NewCapability",
+    "concern": "Concern_Interaction",
+    "bv": "7",
+    "tc": "5",
+    "rr": "5",
+    "js": "5"
+   },
+   {
+    "epic": "E2",
+    "role": "Note author",
+    "want": "to be stopped when my note has no course or an unknown topic",
+    "so": "the archive stays searchable",
+    "ac": "Given a note whose topic is not in the vocabulary When I confirm it Then it is refused and I am asked to pick a topic from the list",
+    "cat": "Cat_NewCapability",
+    "concern": "Concern_Data",
+    "bv": "5",
+    "tc": "4",
+    "rr": "6",
+    "js": "2"
+   },
+   {
+    "epic": "E3",
+    "role": "Note reader",
+    "want": "to search a topic and also find notes on its narrower topics",
+    "so": "I find the right note before an exam in minutes",
+    "ac": "Given notes tagged 'Transaction fees' and 'Fee rate' When I search 'Transactions' in SEN0401 Then both notes are listed with their authors and registration dates",
+    "cat": "Cat_NewCapability",
+    "concern": "Concern_Interface_UI",
+    "bv": "9",
+    "tc": "7",
+    "rr": "4",
+    "js": "4"
+   },
+   {
+    "epic": "E3",
+    "role": "Note reader",
+    "want": "to be warned when a note looks like a copy of an earlier one",
+    "so": "I credit the student who had it first",
+    "ac": "Given a note nearly identical to one registered a week earlier by another student When it is uploaded Then it is marked as a possible copy and linked to the earlier note's proof",
+    "cat": "Cat_NewCapability",
+    "concern": "Concern_Architecture",
+    "bv": "7",
+    "tc": "4",
+    "rr": "7",
+    "js": "5"
+   },
+   {
+    "epic": "E3",
+    "role": "Note verifier",
+    "want": "to check a note's proof from a link without an account",
+    "so": "I can settle who had a note first without trusting the archive",
+    "ac": "Given a note file and its proof link When I open the proof page while the archive's server is offline Then the page recomputes the hash, walks the Merkle path and shows the block time of the signet transaction",
+    "cat": "Cat_NewCapability",
+    "concern": "Concern_Interface",
+    "bv": "8",
+    "tc": "4",
+    "rr": "7",
+    "js": "3"
+   }
+  ],
+  "dod": [
+   {
+    "criterion": "All tests pass in continuous integration",
+    "check": "GitHub Actions on every push, with a regtest node for the timestamp tests"
+   },
+   {
+    "criterion": "Notes conform to the shapes",
+    "check": "pySHACL in the registration service's tests"
+   },
+   {
+    "criterion": "Only 32-byte roots reach the chain",
+    "check": "a test decoding every OP_RETURN output of the test run"
+   },
+   {
+    "criterion": "The AI tagger and copy warning meet their targets",
+    "check": "the 60-note evaluation set, run in CI"
+   }
+  ],
+  "classModel": "Note is a schema:CreativeWork identified by its SHA-256 hash, with a title, a file type, a summary, one Course and one or more Topics. Course and Topic are skos:Concepts in one scheme, linked by skos:broader and skos:narrower. Registration is a prov:Activity that generated the Note's record, associated with a StudentAccount (pseudonymous) at a time. A new version of a note is a new Note linked by prov:wasRevisionOf. DailyTimestamp holds a date, a Merkle root, a signet txid and a block height; every Note has one Proof, its Merkle path, pointing to a DailyTimestamp. CopyWarning links a Note to an earlier Note with a similarity score.",
+  "tests": [
+   {
+    "story": "S1",
+    "case": "upload a note PDF and check its hash, registration time and, after anchoring, its proof",
+    "data": "one sample note PDF"
+   },
+   {
+    "story": "S2",
+    "case": "register 40 notes, run the daily timestamp on regtest and verify every Merkle path against the transaction",
+    "data": "40 sample notes and a funded regtest wallet"
+   },
+   {
+    "story": "S3",
+    "case": "upload the 60 evaluation notes and compare the suggested topics with the known ones",
+    "data": "the 60-note evaluation set"
+   },
+   {
+    "story": "S4",
+    "case": "confirm a note with a topic outside the vocabulary and expect a refusal",
+    "data": "one note with an unknown topic"
+   },
+   {
+    "story": "S5",
+    "case": "search 'Transactions' and expect notes on its narrower topics",
+    "data": "notes tagged with a topic and its narrower topics"
+   },
+   {
+    "story": "S6",
+    "case": "upload the 20 planted copies and count how many are flagged",
+    "data": "20 planted copies of evaluation notes"
+   },
+   {
+    "story": "S7",
+    "case": "verify a note file on the proof page with the archive's server switched off",
+    "data": "one timestamped note and a public signet node"
+   }
+  ],
+  "model_Data": "Design-level class diagram: Note (schema:CreativeWork), Course and Topic (skos:Concept), Registration (prov:Activity), StudentAccount (prov:Agent, pseudonymous), DailyTimestamp, Proof and CopyWarning; NoteShape requires a hash, a course and at least one topic from the scheme, and no class holds a real name or student number.",
+  "model_Security": "State machine of a note: uploaded, tagged, confirmed, registered, timestamped, superseded. Only the author moves a note from tagged to confirmed; only confirmed notes are queued for the daily timestamp; a timestamped note is never edited - a new version is a new note that revises it; a file whose hash does not match its proof is shown as not the registered file.",
+  "model_Interaction": "Sequence: the author uploads a note; the page shows the AI's suggested course, topics and summary; the author confirms or changes each one from the vocabulary list; the page sends the confirmed tags; the service validates them and returns the registration time and the note's pending proof.",
+  "model_User_interface": "Storyboard: an upload page with a drop area and the AI's suggestions as removable chips; a search page with course and topic filters and note cards showing author, date and a proof badge (pending, proven or altered); a proof page with the hash, the Merkle path drawn as a small tree, the txid and the block time; Turkish labels, phone first.",
+  "model_Architecture": "Component diagram: RegistrationService (hashing, PROV-O, pySHACL) writing to Oxigraph; Tagger, the only component that calls the language model for tags, limited to the SKOS concepts; CopyChecker comparing text embeddings; TimestampService holding the signet wallet key and talking to a Bitcoin Core node; SearchService answering SPARQL; ProofPage verifying in the browser.",
+  "model_Interface": "Component boundary: the proof is a small JSON-LD file with the note's hash, its Merkle path, the txid and the block height; the ProofPage needs only this file, the note file and any public signet node, so it works when the archive's server is gone; the registration API returns the named shape violations.",
+  "chainDesign": "The project is a direct implementation of the timestamp server in section 3 of Nakamoto's Bitcoin paper: hash the items, publish the hash widely, and the publication proves the items existed at that time; each new block includes the previous one, so every later block reinforces the timestamp. We use the Bitcoin signet through a Bitcoin Core node and its RPC interface, with regtest for automated tests. Each note is hashed with SHA-256; once a day the hashes form a Merkle tree (section 7 of the paper, from Bayer, Haber and Stornetta) and one transaction spends a UTXO into an OP_RETURN output carrying the 32-byte root, so any number of notes costs one transaction. A note's proof is its Merkle path and the txid; checking it is like simplified payment verification (section 8): the verifier needs the path and the block, not a full node. A blockchain is needed because the archive and whoever runs it can change dates in their own database; only a public record that nobody can rewrite without redoing the proof-of-work of that block and every block after it gives a time that no single party controls. Only the root goes on chain, never note content or personal data.",
+  "team": [
+   {
+    "name": "Arda Özcan",
+    "no": "2200004482",
+    "email": "2200004482@stu.iku.edu.tr",
+    "share": "15",
+    "admin": [
+     "A_TeamLead"
+    ],
+    "dev": [
+     "R_Architect",
+     "R_Backend"
+    ]
+   },
+   {
+    "name": "Aysu Akdüzen",
+    "no": "2200004962",
+    "email": "2200004962@stu.iku.edu.tr",
+    "share": "14",
+    "admin": [
+     "A_CustomerLiaison"
+    ],
+    "dev": [
+     "R_Analyst"
+    ]
+   },
+   {
+    "name": "Eylem Sarıbal",
+    "no": "2000003742",
+    "email": "2000003742@stu.iku.edu.tr",
+    "share": "14",
+    "admin": [
+     "A_LogSteward"
+    ],
+    "dev": [
+     "R_Ontologist"
+    ]
+   },
+   {
+    "name": "Aleyna Cebeci",
+    "no": "2100002803",
+    "email": "2100002803@stu.iku.edu.tr",
+    "share": "14",
+    "admin": [
+     "A_LogSteward"
+    ],
+    "dev": [
+     "R_AI"
+    ]
+   },
+   {
+    "name": "Burak Sami Şirin",
+    "no": "2200004655",
+    "email": "2200004655@stu.iku.edu.tr",
+    "share": "15",
+    "admin": [
+     "A_ReleaseManager"
+    ],
+    "dev": [
+     "R_Chain",
+     "R_Ops"
+    ]
+   },
+   {
+    "name": "Erdener Çimen",
+    "no": "2200004744",
+    "email": "2200004744@stu.iku.edu.tr",
+    "share": "14",
+    "admin": [
+     "A_Facilitator",
+     "A_DocLead"
+    ],
+    "dev": [
+     "R_Frontend",
+     "R_UX"
+    ]
+   },
+   {
+    "name": "Emine Esra Çiçek",
+    "no": "2100004506",
+    "email": "2100004506@stu.iku.edu.tr",
+    "share": "14",
+    "admin": [
+     "A_QualityLead"
+    ],
+    "dev": [
+     "R_Tester",
+     "R_AI"
+    ]
+   }
+  ],
+  "leads": {
+   "P01": "Arda Özcan",
+   "P02": "Aysu Akdüzen",
+   "P03": "Aysu Akdüzen",
+   "P04": "Arda Özcan",
+   "P05": "Aleyna Cebeci",
+   "P06": "Eylem Sarıbal",
+   "P07": "Burak Sami Şirin",
+   "P08": "Arda Özcan",
+   "P09": "Emine Esra Çiçek",
+   "P10": "Burak Sami Şirin",
+   "P11": "Aysu Akdüzen",
+   "P12": "Burak Sami Şirin",
+   "P13": "Erdener Çimen",
+   "P14": "Burak Sami Şirin"
+  },
+  "modules": [
+   {
+    "name": "Note ontology and SKOS course vocabulary",
+    "kind": "module",
+    "what": "Note, course and topic model on schema.org and PROV-O, the SKOS scheme of courses and topics, and the SHACL shapes",
+    "epic": "E2",
+    "owner": "Eylem Sarıbal",
+    "second": "Aleyna Cebeci"
+   },
+   {
+    "name": "Registration service",
+    "kind": "module",
+    "what": "Accepts uploads, hashes notes with SHA-256, records the registration and validates the tags",
+    "epic": "E1",
+    "owner": "Arda Özcan",
+    "second": "Burak Sami Şirin"
+   },
+   {
+    "name": "Bitcoin timestamp service",
+    "kind": "module",
+    "what": "Builds the daily Merkle tree, writes its root in an OP_RETURN output on signet and stores each note's proof",
+    "epic": "E1",
+    "owner": "Burak Sami Şirin",
+    "second": "Arda Özcan"
+   },
+   {
+    "name": "AI tagger",
+    "kind": "feature",
+    "what": "Suggests a note's course, topics and a two-sentence summary, limited to the SKOS vocabulary, for the author to confirm",
+    "epic": "E2",
+    "owner": "Aleyna Cebeci",
+    "second": "Eylem Sarıbal"
+   },
+   {
+    "name": "Copy warning and evaluation set",
+    "kind": "feature",
+    "what": "Flags notes similar to earlier ones by text embeddings; the 60 evaluation notes and 20 planted copies that measure the tagger and the warning",
+    "epic": "E3",
+    "owner": "Emine Esra Çiçek",
+    "second": "Aleyna Cebeci"
+   },
+   {
+    "name": "Search and proof pages",
+    "kind": "feature",
+    "what": "Topic search with narrower topics, note cards with proof badges, and the public proof page",
+    "epic": "E3",
+    "owner": "Erdener Çimen",
+    "second": "Aysu Akdüzen"
+   },
+   {
+    "name": "Student survey, pilot and acceptance",
+    "kind": "module",
+    "what": "The survey, the contact with the 3rd- and 4th-year students, the pilot with volunteers and the acceptance of each story",
+    "epic": "E3",
+    "owner": "Aysu Akdüzen",
+    "second": "Emine Esra Çiçek"
+   }
+  ],
+  "milestones": [
+   {
+    "date": "2026-10-30",
+    "deliverable": "Course vocabulary, note ontology and shapes; registration with SHA-256",
+    "owner": "Eylem Sarıbal"
+   },
+   {
+    "date": "2026-11-13",
+    "deliverable": "Daily Bitcoin signet timestamps and the public proof page",
+    "owner": "Burak Sami Şirin"
+   },
+   {
+    "date": "2026-11-27",
+    "deliverable": "AI tagger, copy warning and topic search",
+    "owner": "Aleyna Cebeci"
+   },
+   {
+    "date": "2026-12-11",
+    "deliverable": "Pilot with 3rd- and 4th-year volunteers, evaluation report and tagged release v1.0.0",
+    "owner": "Arda Özcan"
+   }
+  ],
+  "risks": [
+   {
+    "risk": "A copier registers a note before its real author does",
+    "likelihood": "medium",
+    "impact": "high",
+    "mitigation": "authors register on the day they write; the copy warning links later copies to the earlier proof; the exclusions state what a timestamp cannot prove"
+   },
+   {
+    "risk": "The AI suggests wrong topics",
+    "likelihood": "medium",
+    "impact": "medium",
+    "mitigation": "topics must come from the SKOS scheme, the author confirms every tag, and the evaluation set measures accuracy in CI"
+   },
+   {
+    "risk": "Students upload slides or textbook pages instead of their own notes",
+    "likelihood": "medium",
+    "impact": "medium",
+    "mitigation": "upload rules, a report button and removal from the archive; only hashes are on chain, so removal is complete"
+   },
+   {
+    "risk": "Too few students use it to make search useful",
+    "likelihood": "medium",
+    "impact": "high",
+    "mitigation": "pilot in a quiz week with volunteers from the 3rd- and 4th-year groups and seed the archive with the team's own notes"
+   },
+   {
+    "risk": "The signet faucet or node is unavailable",
+    "likelihood": "medium",
+    "impact": "low",
+    "mitigation": "keep a funded test wallet and fall back to regtest for demonstrations"
+   }
+  ],
+  "refs": [
+   {
+    "ref": "Nakamoto, S. (2008). Bitcoin: A Peer-to-Peer Electronic Cash System."
+   },
+   {
+    "ref": "Antonopoulos, A. M. & Harding, D. A. (2023). Mastering Bitcoin, 3rd ed. O'Reilly."
+   },
+   {
+    "ref": "Haber, S. & Stornetta, W. S. (1991). How to time-stamp a digital document. Journal of Cryptology 3(2)."
+   },
+   {
+    "ref": "Bayer, D., Haber, S. & Stornetta, W. S. (1993). Improving the efficiency and reliability of digital time-stamping. In Sequences II, Springer."
+   },
+   {
+    "ref": "Todd, P. (2016). OpenTimestamps: Scalable, Trust-Minimized, Distributed Timestamping with Bitcoin."
+   },
+   {
+    "ref": "Alm, K. (2019). BIP 325: Signet. Bitcoin Improvement Proposals."
+   },
+   {
+    "ref": "W3C (2013). PROV-O: The PROV Ontology. W3C Recommendation."
+   },
+   {
+    "ref": "W3C (2009). SKOS Simple Knowledge Organization System Reference. W3C Recommendation."
+   },
+   {
+    "ref": "W3C (2017). Shapes Constraint Language (SHACL). W3C Recommendation."
+   },
+   {
+    "ref": "Law No. 6698 on the Protection of Personal Data (KVKK), Türkiye."
+   }
+  ],
+  "repo": "https://github.com/aozcan4482/noteproof",
+  "worklog": [
+   {
+    "seq": 1,
+    "ts": "2026-10-16T14:16:51.654Z",
+    "member": "Arda Özcan",
+    "process": "P01",
+    "story": "S1",
+    "hours": 2,
+    "description": "Compared four project ideas (repair passport, signet quests, lecture-note proof, designer artwork proof) and chose NoteProof with the team",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "GENESIS",
+    "hash": "2e127220470993959c5e80277d72c0bed4e6ea60ae9a2f910012b0c128d85b8c"
+   },
+   {
+    "seq": 2,
+    "ts": "2026-10-16T14:19:57.056Z",
+    "member": "Aysu Akdüzen",
+    "process": "P02",
+    "story": "S1",
+    "hours": 1.5,
+    "description": "Analysed the 20 survey responses and wrote the problem statement with their numbers",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "2e127220470993959c5e80277d72c0bed4e6ea60ae9a2f910012b0c128d85b8c",
+    "hash": "1b46c8629e7d7dd07892c87fc8ae354e52ca5a247cc5948f61af498d443bb6d2"
+   },
+   {
+    "seq": 3,
+    "ts": "2026-10-16T14:23:56.100Z",
+    "member": "Arda Özcan",
+    "process": "P02",
+    "story": "S5",
+    "hours": 1.5,
+    "description": "Designed the five-question student survey and shared it in the 3rd- and 4th-year WhatsApp groups",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "1b46c8629e7d7dd07892c87fc8ae354e52ca5a247cc5948f61af498d443bb6d2",
+    "hash": "903654b094e02b10b89f8a9e3e66f489dcc77cb7900acdae60b92c792733ca07"
+   },
+   {
+    "seq": 4,
+    "ts": "2026-10-16T14:24:19.331Z",
+    "member": "Aysu Akdüzen",
+    "process": "P11",
+    "story": "S5",
+    "hours": 1.5,
+    "description": "Checked the problem statement and the objectives’ baselines against the survey export",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "903654b094e02b10b89f8a9e3e66f489dcc77cb7900acdae60b92c792733ca07",
+    "hash": "46fe0fb79238470baa359fa8542816813bb6d116f65b3393f2b393d1df11cf1b"
+   },
+   {
+    "seq": 5,
+    "ts": "2026-10-16T14:24:58.211Z",
+    "member": "Eylem Sarıbal",
+    "process": "P06",
+    "story": "S3",
+    "hours": 1.5,
+    "description": "Listed the 14 chapters of Mastering Bitcoin as the first topics of the SEN0401 vocabulary",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "46fe0fb79238470baa359fa8542816813bb6d116f65b3393f2b393d1df11cf1b",
+    "hash": "e76620404667accdde78495d7f4a7eb4d8894c0a712c49662b686441f6c1107f"
+   },
+   {
+    "seq": 6,
+    "ts": "2026-10-16T14:25:18.882Z",
+    "member": "Eylem Sarıbal",
+    "process": "P05",
+    "story": "S4",
+    "hours": 1.5,
+    "description": "Drafted the SKOS scheme with broader and narrower links for the Transactions chapter",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "e76620404667accdde78495d7f4a7eb4d8894c0a712c49662b686441f6c1107f",
+    "hash": "61191817d351e5ebeede5fefc9245e2bb950dcc1e2d8915d5900859f000a0012"
+   },
+   {
+    "seq": 7,
+    "ts": "2026-10-16T14:25:42.352Z",
+    "member": "Aleyna Cebeci",
+    "process": "P06",
+    "story": "S3",
+    "hours": 1.5,
+    "description": "Compared text extraction from PDFs and photos (pypdf and Tesseract) for the AI tagger",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "61191817d351e5ebeede5fefc9245e2bb950dcc1e2d8915d5900859f000a0012",
+    "hash": "6a02e40c49b09ad0b9663e0fc912e94bf5b22d9b5f171e51fccccb548a88474a"
+   },
+   {
+    "seq": 8,
+    "ts": "2026-10-16T14:26:04.950Z",
+    "member": "Aleyna Cebeci",
+    "process": "P05",
+    "story": "S3",
+    "hours": 1.5,
+    "description": "Wrote a first prompt that limits the tagger’s topics to the vocabulary and tried it on three notes",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "6a02e40c49b09ad0b9663e0fc912e94bf5b22d9b5f171e51fccccb548a88474a",
+    "hash": "6c2a5ec2c373e85197f976795489228dc1777c47aae51b863551eca20c539c27"
+   },
+   {
+    "seq": 9,
+    "ts": "2026-10-16T14:26:52.768Z",
+    "member": "Burak Sami Şirin",
+    "process": "P06",
+    "story": "S2",
+    "hours": 1.5,
+    "description": "Read the OP_RETURN section of Mastering Bitcoin and Nakamoto’s timestamp server section and summarised how one Merkle root goes on chain",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "6c2a5ec2c373e85197f976795489228dc1777c47aae51b863551eca20c539c27",
+    "hash": "dc1193c81cd17b63e30a0595fe0aaf8935f20ca68f84bcd33b44e46219f9c9d5"
+   },
+   {
+    "seq": 10,
+    "ts": "2026-10-16T14:27:08.291Z",
+    "member": "Burak Sami Şirin",
+    "process": "P07",
+    "story": "S2",
+    "hours": 1.5,
+    "description": "Set up a Bitcoin Core node on signet and got test coins from a faucet",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "dc1193c81cd17b63e30a0595fe0aaf8935f20ca68f84bcd33b44e46219f9c9d5",
+    "hash": "edefacde3595edfb0ab29869c95745c7523f340e2aea73574c9681f7d01cb460"
+   },
+   {
+    "seq": 11,
+    "ts": "2026-10-16T14:27:27.857Z",
+    "member": "Erdener Çimen",
+    "process": "P05",
+    "story": "S5",
+    "hours": 1.5,
+    "description": "Sketched the search page and the note card with its proof badge",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "edefacde3595edfb0ab29869c95745c7523f340e2aea73574c9681f7d01cb460",
+    "hash": "842aeda0fd6d53a789b12c1236cbd29ab9020c9196ab9b4e7402150dea54faaa"
+   },
+   {
+    "seq": 12,
+    "ts": "2026-10-16T14:28:20.887Z",
+    "member": "Erdener Çimen",
+    "process": "P10",
+    "story": "S1",
+    "hours": 1.5,
+    "description": "Accepted the repository invitation and wrote the README with the project summary",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "842aeda0fd6d53a789b12c1236cbd29ab9020c9196ab9b4e7402150dea54faaa",
+    "hash": "2493d2754ca425fcbf86935d2bd0d83ce718d8d2ef25bb822f73d408274dca6a"
+   },
+   {
+    "seq": 13,
+    "ts": "2026-10-16T14:28:43.094Z",
+    "member": "Emine Esra Çiçek",
+    "process": "P06",
+    "story": "S6",
+    "hours": 1.5,
+    "description": "Compared text-similarity methods (TF-IDF and sentence embeddings) for the copy warning",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "2493d2754ca425fcbf86935d2bd0d83ce718d8d2ef25bb822f73d408274dca6a",
+    "hash": "40ccaa78d8cce2166c75f30e24d96d9c074f0a9da5b2110d1797189d8a103b1f"
+   },
+   {
+    "seq": 14,
+    "ts": "2026-10-16T14:29:06.733Z",
+    "member": "Emine Esra Çiçek",
+    "process": "P09",
+    "story": "S6",
+    "hours": 1.5,
+    "description": "Reviewed the test cases of the seven stories and the definition of done",
+    "evidence": "",
+    "kind": "work",
+    "ref": "",
+    "prev": "40ccaa78d8cce2166c75f30e24d96d9c074f0a9da5b2110d1797189d8a103b1f",
+    "hash": "6c50f9f875f2d69af0c0c904e0721bd8b65bd1f576655301f06f9a6c259ce115"
+   }
+  ],
+  "repoCheck": {
+   "ok": true,
+   "result": "found",
+   "at": "2026-10-16T18:52:19.554Z",
+   "full_name": "aozcan4482/noteproof",
+   "html_url": "https://github.com/aozcan4482/noteproof",
+   "private": false,
+   "created_at": "2026-10-16T15:45:06Z",
+   "pushed_at": "2026-10-16T15:45:07Z",
+   "default_branch": "main",
+   "id": 1422356118
+  }
+ }
+}
