@@ -61,9 +61,9 @@ Testleri çalıştırmak için: `python3 -m pytest -q`
 - [x] Günlük timestamp işi (`anchor/daily.py`): fee bump, yarıda kalanı tamamlama, mainnet reddi
 - [x] Proof JSON-LD ve doğrulama (`anchor/proof.py`)
 - [x] Testler: 37 geçti, regtest testi bitcoind olmadığı için atlandı
+- [x] Bitcoin Core v32.1.0 kuruldu (`brew install bitcoin`); gerçek regtest testi geçti: 40 not → tek işlem, 40 proof hem internetsiz hem zincirde doğrulandı. Toplam 38/38 test geçiyor.
 
 ## Sıradakiler
-- [ ] `bitcoind` kurup regtest testini gerçekten çalıştırmak
 - [ ] Regtest node'lu GitHub Actions CI
 - [ ] Signet'te gerçek bir günlük timestamp atmak (cüzdan + faucet coin)
 - [ ] Tarayıcı için JS doğrulama fonksiyonu (Erdener'e), Python ile aynı test vektörleri
