@@ -1,0 +1,34 @@
+# Kopya uyarısı ve değerlendirme seti (S6).
+# DoD: "The AI tagger and copy warning meet their targets — the 60-note evaluation set, run in CI".
+# Genel test/regtest workflow'u Burak'ın (Ops); bu dosya yalnızca copywarn/ ve evalset/ için.
+name: copywarn
+
+on:
+  push:
+    paths: ["copywarn/**", "evalset/**", "tests/copywarn/**", ".github/workflows/copywarn.yml"]
+  pull_request:
+    paths: ["copywarn/**", "evalset/**", "tests/copywarn/**", ".github/workflows/copywarn.yml"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "pytest>=8"
+      - name: Birim testleri (sentetik notlar)
+        run: python -m pytest -q tests/copywarn
+      - name: Değerlendirme seti (gerçek notlar eklenince)
+        run: |
+          if [ "$(tail -n +2 evalset/manifest.csv | grep -c .)" -eq 0 ]; then
+            echo "::notice::evalset/manifest.csv henüz boş — değerlendirme atlandı"
+          else
+            python -m evalset.run_copywarn --json copywarn-report.json
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('copywarn-report.json') != ''
+        with:
+          name: copywarn-report
+          path: copywarn-report.json

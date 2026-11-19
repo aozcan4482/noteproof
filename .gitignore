@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.egg-info/
+
+# anchor/ çalışma çıktıları: kuyruk veritabanı ve üretilen proof dosyaları
+*.sqlite
+*.sqlite3
+proofs/
+
+# Bitcoin node veri klasörleri (regtest/signet)
+.bitcoin/
