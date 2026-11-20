@@ -17,4 +17,4 @@ Açık sorular: `TestBranch`'teki `BURAK_ILERLEME.md` `main`'e girmemeli (K-009)
 
 | Tarih | Process | Story | Saat | Açıklama | Kanıt | Workbench'e girildi |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2026-11-20 | P06 | S2 | ? | Summarised Nakamoto sections 3, 7 and 8 and mapped them to the anchor/ timestamp files | https://github.com/aozcan4482/noteproof/commit/b5a7263800c485c3529e27f2ef8c41912a1ad4b9 | hayır |
+| 2026-11-20 | P06 | S2 | 2 | Summarised Nakamoto sections 3, 7 and 8 and mapped them to the anchor/ timestamp files | https://github.com/aozcan4482/noteproof/commit/b5a7263800c485c3529e27f2ef8c41912a1ad4b9 | hayır |
