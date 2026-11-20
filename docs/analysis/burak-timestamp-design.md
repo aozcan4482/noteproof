@@ -1,100 +1,76 @@
 # Zaman damgası tasarım özeti: tek bir Merkle kökü zincire nasıl gider
 
-Görev: BRK-R1 · Sahibi: burak · İnceleyen: arda · Durum: taslak (1. yarı)
+Görev: BRK-R1 · Sahibi: burak · İnceleyen: arda · Durum: tamam
 
-Bu belge, NoteProof'un Bitcoin zaman damgası tasarımının hangi kaynağa dayandığını ve `anchor/`
-dosyalarının bu kaynakların hangi kısmını karşıladığını özetler. Her iddia, köşeli parantez içinde
-kaynağın bölümüne bağlanır.
-
-Not: Belgede adı geçen `anchor/` ve `tests/anchor/` dosyaları şu an `TestBranch`'te duruyor. `main`'e
-BRK-0 ile girecekler.
-
-Kaynaklar:
+Bu belge, NoteProof'un Bitcoin zaman damgasının hangi kaynağa dayandığını ve `anchor/` dosyalarının
+bunun hangi kısmını karşıladığını özetler. Her iddia köşeli parantez içinde kaynağın bölümüne bağlanır.
+Adı geçen `anchor/` ve `tests/anchor/` dosyaları şu an `TestBranch`'te; `main`'e BRK-0 ile girecekler.
 
 - **[N]** Nakamoto, S. (2008). *Bitcoin: A Peer-to-Peer Electronic Cash System.* Bölüm numaraları makaledeki gibidir.
-- **[MB]** Antonopoulos, A. M. & Harding, D. A. (2023). *Mastering Bitcoin*, 3. baskı. O'Reilly. (2. yarıda)
+- **[MB]** Antonopoulos, A. M. & Harding, D. A. (2023). *Mastering Bitcoin*, 3. baskı. "Data Recording Output (OP_RETURN)" bölümü.
 
-## 1. Zaman damgası sunucusu — [N §3]
+## 1. Kaynaklar ne diyor
 
-**Kaynak ne diyor.**
+**Zaman damgası sunucusu [N §3].** Bir grup öğenin hash'i alınır ve geniş çapta yayımlanır. Yayımlanan
+hash, verinin o anda var olduğunu kanıtlar. Her damga bir öncekini de içerdiği için zincir oluşur ve her
+yeni damga öncekileri güçlendirir. Zinciri kimsenin tek başına değiştiremediği bir kayıt yapan şey iş
+kanıtıdır: bir bloğu değiştirmek, ondan sonraki bütün blokların işini yeniden yapmayı gerektirir [N §4].
 
-- Zaman damgası sunucusu, damgalanacak bir grup öğenin hash'ini alır ve bu hash'i geniş çapta yayımlar. [N §3]
-- Yayımlanan hash, o verinin o anda var olduğunu kanıtlar; çünkü veri o anda var olmasaydı hash'i
-  hesaplanıp yayımlanamazdı. [N §3]
-- Her zaman damgası, kendi hash'ine bir önceki zaman damgasını da katar. Böylece bir zincir oluşur ve
-  her yeni damga, kendinden öncekileri güçlendirir. [N §3]
-- Bu zinciri tek bir kişinin değil, herkesin değiştiremeyeceği bir kayda dönüştüren şey iş kanıtıdır
-  (proof-of-work): bir bloğu değiştirmek, o blokla ondan sonraki bütün blokların işini yeniden yapmayı
-  gerektirir. [N §4]
+**Merkle tree [N §7].** Bir bloktaki işlemler bir Merkle tree'de hash'lenir; blok başlığına yalnızca kök
+girer. Teknik, Haber ve Stornetta (1991) ile Bayer, Haber ve Stornetta'nın (1993) zaman damgası
+çalışmalarına dayanır; ikisi de proposal'ın kaynakçasında var.
 
-**NoteProof'ta karşılığı.**
+**Basit doğrulama, SPV [N §8].** Doğrulayıcının tam node'a ihtiyacı yoktur: blok başlıklarını ve işlemi
+bloğa bağlayan Merkle dalını tutması yeter. İşlemi zincirdeki yerine bağlayınca ağın onu kabul ettiğini
+görür; sonraki her blok bunu pekiştirir.
 
-| Kaynaktaki kavram | NoteProof | Dosya |
-| --- | --- | --- |
-| Damgalanacak "öğe grubu" | Bir gün içinde kuyruğa giren not hash'leri | `anchor/store.py` (`enqueue`, `pending_hashes`) |
-| Grubun hash'ini almak | Günün hash'lerinden tek bir Merkle kökü hesaplamak | `anchor/merkle.py` (`build_tree`) |
-| Hash'i "geniş çapta yayımlamak" | Kökü bir signet işleminin OP_RETURN çıktısına yazıp ağa göndermek | `anchor/daily.py` (`broadcast_root`) |
-| Önceki damgaya bağlanmak | Bunu biz yapmıyoruz; Bitcoin'in blok zinciri yapıyor. İşlemimiz bir bloğa girdiği anda, o bloktan sonraki her blok damgamızı güçlendirir | — |
+**OP_RETURN [MB].** OP_RETURN çıktısı ispatlanabilir biçimde harcanamaz. Bu yüzden node'lar onu harcanmamış
+çıktılar kümesinde (UTXO) tutmaz ve zincire küçük veri yazmanın zararsız yolu budur. Kitap bu çıktıyı tam da
+bir belgenin hash'ini kaydedip var olduğunu kanıtlamak için örnekler. Kitap yazıldığında node'ların varsayılan
+politikası 80 byte'a kadar veri ve işlem başına tek OP_RETURN çıktısına izin veriyordu. Bitcoin Core 30 bu
+sınırı genişletti; bizim 34 byte'lık script'imiz her iki politikaya da sığar.
 
-Proposal'ın "Blockchain design" bölümündeki gerekçe de budur: arşivi çalıştıran kişi kendi
-veritabanındaki tarihleri değiştirebilir, ama bloğa girmiş bir işlemi değiştiremez. [N §3, §4]
+## 2. NoteProof bunları nasıl uyguluyor: bir notun kökü zincire nasıl gider
 
-## 2. Merkle tree ile yer kazanmak — [N §7]
+Adımlar proposal'ın aktivite modelindeki numaraları taşır.
 
-**Kaynak ne diyor.**
+1. **Kuyruk (adım 9).** Kayıt servisi onaylanmış notun SHA-256 hash'ini `Store.enqueue` ile kuyruğa
+   koyar. Bu, Arda'nın modülüyle tek temas noktasıdır (`02` bölüm 5.5). `anchor/store.py`
+2. **Grubu toplamak (adım 10) [N §3].** Günlük iş her gün 23:00'te kuyrukta bekleyen bütün hash'leri alır;
+   "damgalanacak öğe grubu" budur. `anchor/daily.py` (`run_daily`)
+3. **Tek kök (adım 11) [N §7].** Hash'ler bir Merkle tree'de birleşir; 40 not da 4.000 not da tek bir
+   32 byte'lık kök verir (story S2). `anchor/merkle.py` (`build_tree`). Bitcoin'den bilinçli farklar
+   sabit sözleşmedir (`02` bölüm 5.5):
+   - yaprak `SHA256(0x00 || hash)`, iç düğüm `SHA256(0x01 || sol || sağ)`: önek, iki hash'in birleşiminin
+     yaprak gibi gösterilmesini engeller;
+   - tek kalan düğüm kopyalanmaz, yukarı taşınır: Bitcoin'in kopyalama kuralı farklı iki listeye aynı kökü
+     verdirebilir (CVE-2012-2459);
+   - çift değil tek SHA-256 kullanılır; not hash'iyle aynı algoritmadır.
+4. **Kökü işleme koymak (adım 11) [MB].** Çıktının script'i tam 34 byte'tır: `6a` (OP_RETURN), `20`
+   (32 byte koy) ve kök. Başka bir biçim reddedilir. Zincire not içeriği, isim ya da öğrenci numarası gitmez
+   (KVKK, D3). `anchor/opreturn.py` (`build_script`, `tx_holds_only_root`)
+5. **Yayımlamak (adım 12) [N §3].** İşlem cüzdandan fonlanır, imzalanır, gönderilmeden önce çözülüp yalnızca
+   kökü taşıdığı kontrol edilir ve signet'e gönderilir. 6 blokta onay gelmezse fee artırılır. Mainnet
+   reddedilir. `anchor/daily.py` (`broadcast_root`, `wait_for_confirmation`, `check_network`)
+6. **Zincirin güvencesi [N §3, §4].** İşlem bir bloğa girince damgayı arşiv değil Bitcoin'in iş kanıtı korur;
+   arşivi çalıştıran kişi kendi veritabanındaki tarihi değiştirebilir, bloğu değiştiremez.
+7. **Proof (adım 13) [N §8].** Her not için Merkle path, kök, `txid` ve blok bilgisi bir JSON-LD dosyasına
+   yazılır; alanlar `02` bölüm 6'da sabittir. `anchor/proof.py` (`build_proof`)
+8. **Doğrulama (adım 16–17) [N §8].** Önce çevrimdışı: dosyanın hash'i `noteHash`'e eşit mi, path köke
+   varıyor mu (`verify_offline`; tarayıcıda Erdener'in `web/js/verify.js`'i). Sonra zincirde: işlem o blokta
+   mı ve OP_RETURN'ü bu kökü taşıyor mu (`verify_on_chain`).
 
-- Bir bloktaki işlemler bir Merkle tree'de hash'lenir ve blok başlığına yalnızca ağacın kökü konur. [N §7]
-- Ağacın iç dalları sonradan atılabilir; kökün kendisi değişmediği için blok hash'i bozulmaz. [N §7]
-- Makale bu tekniği zaman damgası literatürüne dayandırır: Haber ve Stornetta (1991) ile Bayer, Haber ve
-  Stornetta (1993). Proposal'ın kaynakçasında 3. ve 4. sırada geçen çalışmalar bunlardır. [N §7, kaynakça]
+## 3. Özet: kaynak → kod → kanıt
 
-**NoteProof'ta karşılığı.**
+| Kaynaktaki fikir | Karşılayan dosya | Testi | Durum |
+| --- | --- | --- | --- |
+| Grubun hash'ini yayımlamak [N §3] | `daily.py` | `test_40_notes_one_transaction_and_valid_proofs` | Karşılanıyor (regtest); signet'te ilk gerçek işlem BRK-5 |
+| Merkle tree, yalnızca kök [N §7] | `merkle.py` | `test_every_path_verifies`, `test_internal_node_cannot_pose_as_leaf`, `test_odd_node_is_promoted_not_duplicated` | Karşılanıyor |
+| OP_RETURN ile veri kaydı [MB] | `opreturn.py` | `test_only_32_bytes_allowed`, `test_only_32_byte_roots_reach_the_chain` | Karşılanıyor |
+| Merkle dalıyla doğrulama [N §8] | `proof.py` | `test_changed_file_is_not_the_registered_file`, `test_40_notes_anchored_on_regtest` | Kısmen (aşağıya bakın) |
 
-- Bitcoin her işlemi ayrı ayrı zincire yazmaz; biz de her notu ayrı yazmayız. Günün bütün not hash'leri
-  bir Merkle tree'de birleşir ve zincire **yalnızca kök** gider. 40 not da 4.000 not da tek işlem,
-  tek 32 byte'tır (story S2). `anchor/merkle.py`, `anchor/opreturn.py`
-- Bilinçli farklar. Bunlar sabit sözleşmedir (`02` bölüm 5.5) ve proof sayfası da aynısını uygular:
-  - **Önekler.** Yaprak hash'i `SHA256(0x00 || not_hash)`, iç düğüm hash'i `SHA256(0x01 || sol || sağ)`.
-    Bitcoin'in blok ağacında bu ayrım yoktur. Öneksiz bir ağaçta iki hash'in birleşimi bir yaprakmış gibi
-    gösterilebilir; önek bunu engeller. `tests/anchor/test_merkle.py::test_internal_node_cannot_pose_as_leaf`
-  - **Tek kalan düğüm.** Bitcoin, bir seviyede tek sayıda düğüm kalırsa sonuncuyu kopyalar. Bu kural farklı
-    iki listenin aynı kökü vermesine izin verir (CVE-2012-2459). Biz tek kalan düğümü kopyalamadan bir üst
-    seviyeye taşırız. `test_odd_node_is_promoted_not_duplicated`
-  - **Hash.** Bitcoin çift SHA-256 kullanır; biz tek SHA-256 kullanırız. Kanıt için yeterlidir ve not
-    hash'iyle (SHA-256) aynı algoritmadır.
-
-## 3. Basitleştirilmiş doğrulama (SPV) — [N §8]
-
-**Kaynak ne diyor.**
-
-- Bir işlemi doğrulamak için tam bir node çalıştırmak gerekmez. Kullanıcı en uzun zincirin blok
-  başlıklarını tutar ve işlemi bloğun zaman damgasına bağlayan Merkle dalını (Merkle branch) alır. [N §8]
-- Kullanıcı işlemi kendisi denetleyemez; ama onu zincirdeki yerine bağlayarak ağın işlemi kabul ettiğini
-  görür. Ondan sonra eklenen her blok bu kabulü pekiştirir. [N §8]
-
-**NoteProof'ta karşılığı.**
-
-- Bir notun proof'u, notun hash'ini günün köküne bağlayan Merkle path'tir. Yanında kökü taşıyan işlemin
-  `txid`'si ve bloğun hash'i, yüksekliği ve zamanı bulunur. Proof dosyasının alanları `02` bölüm 6'da
-  sabittir. `anchor/proof.py` (`build_proof`)
-- Doğrulama iki adımlıdır:
-  1. **Çevrimdışı:** dosyanın SHA-256'sı `noteHash` ile eşleşiyor mu, path yürüyünce `merkleRoot`'a
-     varılıyor mu? İnternet gerekmez. `verify_offline`; tarayıcıdaki karşılığı Erdener'in
-     `web/js/verify.js`'idir.
-  2. **Zincirde:** `txid`'li işlem `blockHash`'teki blokta mı ve OP_RETURN çıktısı bu kökü taşıyor mu?
-     `verify_on_chain`
-- **Bilinen sınır.** [N §8]'deki SPV, işlemin bloğa girdiğini de bir Merkle dalıyla kanıtlar ve yalnızca
-  blok başlıklarına güvenir. Bizim 2. adımımız ise işlemi ve bloğu bir node'a ya da public bir signet
-  API'sine sorar; yani o kaynağa güvenir. Proof'a işlemin bloktaki Merkle dalını da eklemek tam SPV'ye
-  yaklaştırırdı, ama bu proof dosyasına alan eklemek demektir ve sözleşme değişikliği gerektirir
-  (`02` bölüm 9). Şimdilik yalnızca not olarak kalıyor; tarayıcı tarafındaki kaynak K-008 ile seçilecek.
-
-## 4. OP_RETURN: kök işleme nasıl konur — [MB]
-
-*2. yarıda yazılacak (21 Kasım): Mastering Bitcoin'in OP_RETURN bölümü, `6a 20 <32 byte>` script'i,
-neden yalnızca 32 byte ve `anchor/opreturn.py` ile `anchor/daily.py`'deki işlem kurma adımları.*
-
-## 5. Uçtan uca: bir notun kökü zincire nasıl gider
-
-*2. yarıda yazılacak (21 Kasım): yukarıdaki bölümleri tek akışta birleştiren adım listesi ve
-`anchor/` dosyalarının her adımı karşılayıp karşılamadığını gösteren özet tablo.*
+**Bilinen sınır.** [N §8]'deki SPV, işlemin bloğa girdiğini de bir Merkle dalıyla kanıtlar ve yalnızca blok
+başlıklarına güvenir. Bizim zincir kontrolümüz ise işlemi bir node'a ya da public bir signet API'sine sorar;
+yani o kaynağa güvenir. İşlemin bloktaki dalını proof'a eklemek bu güveni kaldırırdı, ama bu proof dosyasına
+alan eklemek demektir ve sözleşme değişikliği gerektirir (`02` bölüm 9). Tarayıcının kullanacağı kaynak
+K-008 ile seçilecek (BRK-6).
