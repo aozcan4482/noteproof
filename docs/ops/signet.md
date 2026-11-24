@@ -1,6 +1,6 @@
 # Signet node'u ve test coin'i
 
-Görev: BRK-R2 · Sahibi: burak · İnceleyen: arda · Durum: sürüyor (senkron devam ediyor, faucet bekleniyor)
+Görev: BRK-R2 · Sahibi: burak · İnceleyen: arda · Durum: tamam
 
 Bu belge, günlük zaman damgasının yazılacağı Bitcoin signet node'unun nasıl kurulduğunu ve hazır olduğunun
 nasıl doğrulandığını kayda geçirir. Proposal'daki eski kayıt (#10, "signet node'u kuruldu, faucet'ten coin
@@ -47,10 +47,10 @@ kalır ve cüzdan bakiyesi tam görünmez.
 | --- | --- | --- | --- |
 | 2026-11-20 08:51 | 0 / 0 | 0.00 | true (başlatıldı) |
 | 2026-11-23 15:38 | 236475 / 332169 | 0.45 | true |
-| *bitince eklenecek* | | | **false** |
+| 2026-11-24 08:59 | 332266 / 332266 | 1.00 | **false** (senkron tamam) |
 
-Not: Node 20 Kasım'da bilgisayar kapandığı için durdu ve 23 Kasım'da kaldığı yerden yeniden başlatıldı.
-Senkron sürerken bilgisayarın uyku moduna geçmemesi gerekir.
+Not: Node 20 Kasım'da ve 23–24 Kasım gecesi bilgisayar kapandığı için durdu; her seferinde kaldığı yerden
+yeniden başlatıldı. Node kapalıyken günlük iş çalışamaz; işletim kılavuzu BRK-7'de yazılacak.
 
 Kontrol komutu:
 
@@ -80,10 +80,15 @@ bitcoin-cli -signet -rpcwallet=noteproof getnewaddress "faucet" bech32m
 
 | Ne | Değer |
 | --- | --- |
-| Faucet | *eklenecek: hangi signet faucet'i kullanıldı* |
-| İstek zamanı (UTC) | *eklenecek* |
-| Gelen işlem (txid) | *eklenecek* |
-| Bakiye | *senkron bitince eklenecek; sıfırdan büyük olmalı* |
+| Faucet | `alt.signetfaucet.com` (ana site `signetfaucet.com` 2026-11-23'te yanıt vermiyordu) |
+| İstek zamanı (UTC) | 2026-11-23, yaklaşık 15:45 |
+| Onaylanan işlem (txid) | `0c4af8b479c714196b0df09b99e945893f349b9276bfa34e811dc9cb76bb39a5` · 1.858.050 sat · blok 332171 · 2026-11-23 15:50:37 UTC |
+| Bakiye | 0,0185805 signet BTC (`trusted`, 2026-11-24 08:59 UTC) |
+
+Not: Faucet sayfası istekten hemen sonra `b325287d…6a6175d8` kimlikli, 3.353.611 sat'lık onaysız bir işlem
+gösterdi. Bu işlem bloğa girmedi; beş dakika sonra yukarıdaki işlem onaylandı. Faucet'in ilk işlemini başka
+bir işlemle değiştirdiği düşünülüyor; public API istek sınırına takıldığı için bu doğrulanamadı. Cüzdana
+onaylı olarak gelen tek işlem yukarıdakidir.
 
 Bakiye kontrolü:
 
@@ -93,7 +98,7 @@ bitcoin-cli -signet -rpcwallet=noteproof getbalances
 
 ## 5. BRK-R2 kabul ölçütü
 
-- [ ] `getblockchaininfo` çıktısında `chain: signet` ve `initialblockdownload: false`
-- [ ] Cüzdan bakiyesi sıfırdan büyük
-- [ ] Coin'in hangi faucet'ten ne zaman alındığı yazılı
+- [x] `getblockchaininfo` çıktısında `chain: signet` ve `initialblockdownload: false` (bölüm 2)
+- [x] Cüzdan bakiyesi sıfırdan büyük: 0,0185805 signet BTC (bölüm 4)
+- [x] Coin'in hangi faucet'ten ne zaman alındığı yazılı (bölüm 4)
 - [x] Şifre, cüzdan dosyası ve özel anahtar belgede yok
