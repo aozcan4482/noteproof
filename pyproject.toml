@@ -1,0 +1,18 @@
+[project]
+name = "noteproof"
+version = "0.0.1"
+description = "Bitcoin timestamps and an AI-tagged knowledge graph for students' lecture notes"
+requires-python = ">=3.11"
+# anchor/ paketi yalnızca Python standart kütüphanesini kullanır (hashlib, sqlite3, urllib).
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Testler paketi kurmadan, repo kökünden "anchor" olarak import edebilsin.
+pythonpath = ["."]
+markers = [
+    "regtest: yerel bir bitcoind gerektirir; bitcoind yoksa otomatik atlanır",
+]
