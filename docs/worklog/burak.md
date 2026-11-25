@@ -4,14 +4,14 @@ Bu dosyayı yalnızca Burak düzenler (K-009). En üstteki "Durum" bölümü her
 bir sonraki oturum buradan devam eder. Alttaki tablo, Workbench'e girilecek work log kayıtlarının
 taslağıdır.
 
-## Durum (2026-11-24)
+## Durum (2026-11-25)
 
 Biten (main'de): —
-PR'da: BRK-R1 (#2, 20 Kas'tan beri review bekliyor) · BRK-R2 (#5, signet senkronu tamam, bakiye 0,0185805 signet BTC)
-Sürüyor: BRK-0 — PR #3'e (TestBranch) "Request changes" gönderildi: `BURAK_ILERLEME.md` silinsin (K-009). Silinince onay + merge, ardından `burak` ve `feature/S6-copy-warning` branch'leri silinecek (#1 #3'ün içinde)
-Beklediklerim: ERD-0 — #3'te `BURAK_ILERLEME.md`'nin silinmesi · Arda ve Emine'den #2 ve #5 review'ları
-Sıradaki adım: #3 merge edilince BRK-1 (`infra/repo-setup`), ardından BRK-2 (CI) ve BRK-3 (test vektörleri)
-Açık sorular: Düzenlenebilir Workbench dosyası henüz yok · Eski kayıt #9 ve #10 için: "was not done" mı, "was never committed" mı? · Commit yazar e-postasında öğrenci numarası var (03 bölüm 9) → ekiple konuşulacak
+PR'da: BRK-R1 (#2, Emine onayladı; notu düzeltildi, Arda'nın merge'ü bekleniyor) · BRK-R2 (#5, Emine onayladı; notu düzeltildi, Arda'nın merge'ü bekleniyor)
+Sürüyor: BRK-0 — #3'te `BURAK_ILERLEME.md` silinmeli (K-009). Branch Erdener'in olduğu için silmeyi o yapmalı (04 bölüm 1); silinince onay + merge. #1 kapatıldı (içeriği #3'te)
+Beklediklerim: ERD-0 — #3'te dosyanın silinmesi · Arda — #2 ve #5'in merge'ü
+Sıradaki adım: #3 merge edilince BRK-1 (`infra/repo-setup`), ardından BRK-2 (genel CI: Emine'nin test planına göre `anchor/` testleri CI'da hiç çalışmıyor) ve BRK-3 (test vektörleri)
+Açık sorular: Düzenlenebilir Workbench (`proposal_workbench_v4_11_0.html`) kimde? · Work log PR'ları "en çok 2 açık branch" sınırına dahil mi? (Erdener'e soruldu) · Eski kayıt #9 ve #10 için: "was not done" mı, "was never committed" mı? · Commit yazar e-postasında öğrenci numarası var (03 bölüm 9)
 
 ## Work log taslakları
 
@@ -22,6 +22,7 @@ Açık sorular: Düzenlenebilir Workbench dosyası henüz yok · Eski kayıt #9 
 | 2026-11-23 | P12 | S2 | 2 | Restarted the signet node, created the noteproof wallet and documented the node setup in docs/ops/signet.md | https://github.com/aozcan4482/noteproof/commit/e6187681acb160d478ecc9adbda4965f9f1928e1 | hayır |
 | 2026-11-24 | P12 | S2 | 1.5 | Finished the signet sync, confirmed the faucet coins and completed the BRK-R2 signet record | https://github.com/aozcan4482/noteproof/commit/0d194e3a6905cf9e26d5f6445eb0482178232951 | hayır |
 | 2026-11-24 | P10 | S2 | 0.5 | Reviewed the TestBranch pull request, ran its 61 tests and requested removal of the personal log | https://github.com/aozcan4482/noteproof/pull/3 | hayır |
+| 2026-11-25 | P10 | - | 1 | Reviewed the open pull request queue and merged the approved UI sketches pull request into main | https://github.com/aozcan4482/noteproof/pull/4 | hayır |
 
 ### BRK-R1 `main`'e girince (04 bölüm 9.1)
 
