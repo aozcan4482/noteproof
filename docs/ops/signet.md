@@ -43,11 +43,11 @@ bitcoin-cli -signet stop
 Node'un bütün signet zincirini indirip doğrulaması gerekir. Bitene kadar `initialblockdownload` değeri `true`
 kalır ve cüzdan bakiyesi tam görünmez.
 
-| Zaman (UTC) | `blocks` / `headers` | `verificationprogress` | `initialblockdownload` |
-| --- | --- | --- | --- |
-| 2026-11-20 08:51 | 0 / 0 | 0.00 | true (başlatıldı) |
-| 2026-11-23 15:38 | 236475 / 332169 | 0.45 | true |
-| 2026-11-24 08:59 | 332266 / 332266 | 1.00 | **false** (senkron tamam) |
+| Zaman (UTC) | `chain` | `blocks` / `headers` | `verificationprogress` | `initialblockdownload` |
+| --- | --- | --- | --- | --- |
+| 2026-11-20 08:51 | signet | 0 / 0 | 0.00 | true (başlatıldı) |
+| 2026-11-23 15:38 | signet | 236475 / 332169 | 0.45 | true |
+| 2026-11-24 08:59 | **signet** | 332266 / 332266 | 1.00 | **false** (senkron tamam) |
 
 Not: Node 20 Kasım'da ve 23–24 Kasım gecesi bilgisayar kapandığı için durdu; her seferinde kaldığı yerden
 yeniden başlatıldı. Node kapalıyken günlük iş çalışamaz; işletim kılavuzu BRK-7'de yazılacak.
