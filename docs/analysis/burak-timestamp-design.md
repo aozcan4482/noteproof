@@ -8,6 +8,7 @@ Adı geçen `anchor/` ve `tests/anchor/` dosyaları şu an `TestBranch`'te; `mai
 
 - **[N]** Nakamoto, S. (2008). *Bitcoin: A Peer-to-Peer Electronic Cash System.* Bölüm numaraları makaledeki gibidir.
 - **[MB]** Antonopoulos, A. M. & Harding, D. A. (2023). *Mastering Bitcoin*, 3. baskı. "Data Recording Output (OP_RETURN)" bölümü.
+- **[BC]** Bitcoin Core v32.1.0, `bitcoind -help` çıktısı: `-datacarrier` (varsayılan 1) ve `-datacarriersize` (varsayılan 100000, birden çok çıktıya izin verir) seçenekleri.
 
 ## 1. Kaynaklar ne diyor
 
@@ -27,8 +28,9 @@ görür; sonraki her blok bunu pekiştirir.
 **OP_RETURN [MB].** OP_RETURN çıktısı ispatlanabilir biçimde harcanamaz. Bu yüzden node'lar onu harcanmamış
 çıktılar kümesinde (UTXO) tutmaz ve zincire küçük veri yazmanın zararsız yolu budur. Kitap bu çıktıyı tam da
 bir belgenin hash'ini kaydedip var olduğunu kanıtlamak için örnekler. Kitap yazıldığında node'ların varsayılan
-politikası 80 byte'a kadar veri ve işlem başına tek OP_RETURN çıktısına izin veriyordu. Bitcoin Core 30 bu
-sınırı genişletti; bizim 34 byte'lık script'imiz her iki politikaya da sığar.
+politikası 80 byte'a kadar veri ve işlem başına tek OP_RETURN çıktısına izin veriyordu. Kullandığımız Bitcoin
+Core v32.1.0'da ise varsayılan sınır toplam 100.000 byte ve birden çok veri çıktısına izin veriliyor [BC].
+Bizim 34 byte'lık script'imiz her iki politikaya da sığar.
 
 ## 2. NoteProof bunları nasıl uyguluyor: bir notun kökü zincire nasıl gider
 
