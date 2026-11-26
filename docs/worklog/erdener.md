@@ -17,8 +17,8 @@ Açık sorular: ERD-0 — `TestBranch` #3 ile `main`'e girdi; kural seti dağıt
 
 | Tarih | Process | Story | Saat | Açıklama | Kanıt | Workbench'e girildi |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2026-11-24 | P05 | S5 | <saat> | Drew 360 px text wireframes for the search, note card, upload and proof pages and mapped every API field to them | https://github.com/aozcan4482/noteproof/pull/4 | hayır |
-| 2026-11-26 | P13 | - | <saat> | Wrote the repository README with the project summary, module owners, setup and test steps | <ERD-R2 PR linki> | hayır |
+| 2026-11-24 | P05 | S5 | 2 | Drew 360 px text wireframes for the search, note card, upload and proof pages and mapped every API field to them | https://github.com/aozcan4482/noteproof/pull/4 | hayır |
+| 2026-11-26 | P13 | - | 1 | Wrote the repository README with the project summary, module owners, setup and test steps | <ERD-R2 PR linki> | hayır |
 
 ### ERD-R1 için Correction kaydı (#4 `main`'de; 04 bölüm 9.1)
 
