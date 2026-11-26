@@ -10,11 +10,11 @@ It is the starting point of the test report (EMN-6, `docs/reports/test-report.md
 
 | | |
 | --- | --- |
-| Date | 2026-11-25 |
-| `main` | No code and no tests yet (proposal files only) |
-| Code under test | `TestBranch` (PR #3, commit `547c0bb`): `anchor/`, `copywarn/`, `evalset/` |
-| Local run | `python -m pytest -q` → **60 passed, 1 skipped** (the regtest test is skipped when `bitcoind` is not installed) |
-| CI | Only `.github/workflows/copywarn.yml` (runs `tests/copywarn`); the general `ci.yml` does not exist yet |
+| Date | 2026-11-26 (first version 2026-11-25) |
+| `main` | Commit `20ae356`: `anchor/`, `copywarn/`, `evalset/` (PR #3 merged on 2026-11-25) |
+| Local run on `main` | `python -m pytest -q` → **60 passed, 1 skipped** (the regtest test is skipped when `bitcoind` is not installed) |
+| CI on `main` | Only `.github/workflows/copywarn.yml` (runs `tests/copywarn`, green on `16aeaaf`); the general `ci.yml` does not exist yet |
+| Open PRs with tests | #10 (aleyna, `feature/S3-ai-tagger`): S3 tests in `tests/tagger/` against a stub vocabulary; 76 passed, 1 skipped on that branch. Not counted below until it is in `main` |
 
 Status values: **Covered** = an automated test checks the acceptance criterion · **Partial** = some parts are
 tested, the end-to-end criterion is not · **Missing** = no automated test.
@@ -25,7 +25,7 @@ tested, the end-to-end criterion is not · **Missing** = no automated test.
 | --- | --- | --- | --- | --- |
 | S1 Upload and get a proof | Upload a note PDF, check its hash, registration time and, after anchoring, its proof | `tests/anchor/test_daily.py::test_40_notes_one_transaction_and_valid_proofs` checks the proof half (proofs verify offline and on chain) | Partial | Upload → hash + registration time via the API: ARD-4 (arda, "S1 acceptance test"). Full flow upload → daily timestamp → proof: EMN-4 (emine) |
 | S2 One transaction per day | Register 40 notes, run the daily timestamp on regtest, verify every Merkle path against the transaction | `tests/anchor/test_daily.py::test_40_notes_one_transaction_and_valid_proofs` (fake node); `tests/anchor/test_regtest.py::test_40_notes_anchored_on_regtest` (real `bitcoind`, skipped without it) | Covered locally | Regtest test must run in CI without being skipped: BRK-2 (burak) |
-| S3 AI suggests course and topics | Upload the 60 evaluation notes and compare suggested topics with the known ones | — | Missing | S3 acceptance test with `FakeLLM`: ALY-4 (aleyna). O3 measurement on the 60 notes: ALY-5 (aleyna), needs EMN-2 (emine) |
+| S3 AI suggests course and topics | Upload the 60 evaluation notes and compare suggested topics with the known ones | — in `main`. In PR #10: `tests/tagger/test_suggest.py::test_s3_acceptance_transaction_fee_note_suggests_sen0401_and_transaction_fees` (with `FakeLLM` and a stub vocabulary) | Missing (in PR) | S3 acceptance test with `FakeLLM`: ALY-4 (aleyna), PR #10; becomes Partial when merged, Covered with the real vocabulary (EYL-3). O3 measurement on the 60 notes: ALY-5 (aleyna), needs EMN-2 (emine) |
 | S4 Unknown topic is refused | Confirm a note with a topic outside the vocabulary and expect a refusal | — | Missing | Shape rejects an unknown topic: EYL-5 (eylem). API returns 422 `shape_violation` and stores nothing: ARD-4 (arda). End-to-end: EMN-4 (emine) |
 | S5 Search finds narrower topics | Search "Transactions" and expect notes on its narrower topics | — | Missing | S5 acceptance test in `tests/search/`: ERD-5 (erdener), needs EYL-3 (eylem) |
 | S6 Possible-copy warning | Upload the 20 planted copies and count how many are flagged | `tests/copywarn/test_checker.py::test_s6_acceptance_nearly_identical_note_is_linked_to_earlier_proof`; `tests/copywarn/test_evalset.py::test_evaluation_meets_the_90_percent_target_on_synthetic_notes` (20/20 on synthetic notes) | Covered (synthetic data) | Measurement on the 60 real notes and 20 planted copies: EMN-2, EMN-3 (emine) |
@@ -53,10 +53,10 @@ tested, the end-to-end criterion is not · **Missing** = no automated test.
    name contains the story"). `tests/anchor/` has the S2 and S7 tests but their names do not contain the story
    (e.g. `test_40_notes_one_transaction_and_valid_proofs`). Request to burak: rename or add `test_s2_...` and
    `test_s7_...` while doing BRK-4.
-2. **No general CI.** Until BRK-2 is merged, `tests/anchor` (including the S2 regtest test) never runs in CI.
-   DoD 1 and DoD 3 cannot be ticked on any PR before that.
-3. **Three stories have no test at all** (S3, S4, S5). Their tests are already part of ALY-4, ARD-4/EYL-5 and ERD-5;
-   all of these are past or at their due date (23–27 Nov) and none has started on any branch.
+2. **No general CI.** Until BRK-2 is merged, `tests/anchor` (including the S2 regtest test) and `tests/tagger`
+   never run in CI. DoD 1 and DoD 3 cannot be ticked on any PR before that.
+3. **Three stories have no test in `main`** (S3, S4, S5). The S3 test is in PR #10 (ALY-4). The S4 and S5 tests
+   (ARD-4/EYL-5, ERD-5) are past or at their due date (23–27 Nov) and have not started on any branch.
 4. **End-to-end tests** (EMN-4) depend on ARD-4 and ARD-6. Until they are in `main`, EMN-4 is written against the
    API in `02` section 7 with `NP-STUB`.
 
