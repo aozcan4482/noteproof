@@ -17,13 +17,9 @@ import io
 import shutil
 
 import pytest
+from PIL import Image, ImageDraw, ImageFont
 
 from tagger.extract import SUPPORTED_MEDIA_TYPES, extract_text
-
-PIL = pytest.importorskip("PIL")  # NP-TODO(burak): Pillow, pypdf, pytesseract pyproject.toml'a girince kalkar
-pytest.importorskip("pypdf")
-pytest.importorskip("pytesseract")
-from PIL import Image, ImageDraw, ImageFont  # noqa: E402
 
 needs_tesseract = pytest.mark.skipif(shutil.which("tesseract") is None, reason="Tesseract kurulu değil")
 WORDS = "MERKLE ROOT HASH"

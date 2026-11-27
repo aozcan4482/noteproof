@@ -37,9 +37,8 @@ SUPPORTED_MEDIA_TYPES = ("application/pdf", "image/jpeg", "image/png", "text/pla
 
 OCR_LANG = "tur+eng"  # ALY-R1: yalnızca `eng` ile Türkçe harflerin hiçbiri okunmadı.
 
-# NP-TODO(burak): pypdf, pytesseract ve Pillow pyproject.toml'da yok (BRK-1, `tagger` grubu).
-# Bu yüzden içe aktarmalar fonksiyonların içinde: paket kurulmamışsa metin dosyaları yine çalışır,
-# PDF ve resimler ise açık bir ImportError verir.
+# pypdf, pytesseract ve Pillow pyproject.toml'daki `tagger` grubundadır (BRK-1). İçe aktarmalar yine de
+# fonksiyonların içinde: düz metin dosyası için bu kütüphaneler hiç yüklenmez.
 
 
 # NP-CONTRACT(02#5.3): imza sabit. Desteklenmeyen tür -> ValueError; metin çıkmazsa boş string.
