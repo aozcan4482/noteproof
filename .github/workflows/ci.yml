@@ -10,6 +10,7 @@
 # - Python 3.12, bağımlılıklar pyproject.toml'daki gruplardan: pip install -e ".[dev,all]"
 # - Bitcoin Core regtest testi (tests/anchor/test_regtest.py) burada ATLANMADAN çalışır; atlanırsa iş kırmızı olur.
 # - tests/web/ varsa repo kökünde `node --test` (Node 22 ve üstü klasör argümanını kabul etmez, 03 bölüm 8).
+# - Tesseract (tur + eng): tagger/'ın fotoğraf ve taranmış PDF OCR testleri atlanmasın (Aleyna'nın talebi, #17).
 # Sır kullanılmaz: signet cüzdanı CI'da yoktur; yalnızca regtest ve sahte node (burak.md, tasarım notları).
 # copywarn.yml (Emine) ayrı kalır; kopya uyarısının değerlendirme setini o çalıştırır.
 name: ci
@@ -46,6 +47,14 @@ jobs:
           python -m pip install -e ".[dev,all]"
 
       # Bitcoin Core ikili dosyaları; her çalışmada yeniden indirmemek için önbellekte tutulur.
+      # OCR (02 bölüm 1: "Tesseract + pytesseract"). tagger/ Türkçe ve İngilizce dil verisiyle okur (tur+eng).
+      - name: Tesseract (OCR, tur+eng)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-tur tesseract-ocr-eng
+          tesseract --version | head -1
+          tesseract --list-langs
+
       - name: Bitcoin Core önbelleği
         id: bitcoin-cache
         uses: actions/cache@v4
