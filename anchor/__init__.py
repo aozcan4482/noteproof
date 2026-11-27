@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S1, S2, S7
+# contract: -
+# depends:  -
+# status:   stable
 """NoteProof — Bitcoin timestamp servisi (anchor/).
 
 Bu paket proposal'daki "Bitcoin timestamp service" modülüdür:

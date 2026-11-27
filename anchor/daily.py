@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S1, S2
+# contract: 02#5.5 günlük iş, mainnet reddi
+# depends:  core.config.data_dir
+# status:   stable
 """Günlük timestamp işi — proposal aktivite modeli B (adım 10-13).
 
 Her gün 23:00'te (cron ile) çalışır:
@@ -9,7 +16,9 @@ Her gün 23:00'te (cron ile) çalışır:
 
 Çalıştırma:
     export NOTEPROOF_RPC_USER=... NOTEPROOF_RPC_PASSWORD=... NOTEPROOF_RPC_WALLET=noteproof
-    python -m anchor.daily --db noteproof.sqlite --out proofs/
+    python -m anchor.daily
+    (varsayılanlar: data/noteproof.sqlite ve data/proofs/; NOTEPROOF_DATA_DIR ile değişir,
+     elle vermek için: --db data/noteproof.sqlite --out data/proofs)
 
 Güvenlik: mainnet'te çalışmayı reddeder (proposal kapsam dışı: "Bitcoin mainnet").
 """
@@ -23,11 +32,16 @@ from datetime import date
 from pathlib import Path
 from typing import Callable
 
+from core.config import data_dir
+
 from . import merkle, opreturn
 from .proof import build_proof
 from .rpc import BitcoinRPC, RpcError
-from .store import Batch, Store
+from .store import Batch, Store, default_db_path
 
+PROOFS_DIR_NAME = "proofs"  # data/proofs/<hash>.json (02 bölüm 2)
+
+# NP-CONTRACT(02#5.5): mainnet reddedilir; bu kontrol kaldırılmaz (03 bölüm 9).
 ALLOWED_CHAINS = {"signet", "regtest", "test", "testnet4"}
 
 
@@ -140,8 +154,11 @@ def run_daily(store: Store, rpc, out_dir: Path, day: str | None = None, **wait_k
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="NoteProof günlük Bitcoin timestamp işi")
-    parser.add_argument("--db", default="noteproof.sqlite", help="kuyruk veritabanı")
-    parser.add_argument("--out", default="proofs", help="proof dosyalarının yazılacağı klasör")
+    parser.add_argument("--db", default=str(default_db_path()), help="kuyruk veritabanı (varsayılan: %(default)s)")
+    parser.add_argument(
+        "--out", default=str(data_dir() / PROOFS_DIR_NAME),
+        help="proof dosyalarının yazılacağı klasör (varsayılan: %(default)s)",
+    )
     parser.add_argument("--max-blocks", type=int, default=6, help="bu kadar blokta onay yoksa fee artır")
     parser.add_argument("--poll", type=float, default=30, help="onay kontrolleri arası saniye")
     args = parser.parse_args(argv)

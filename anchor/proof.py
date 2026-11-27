@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S1, S7
+# contract: 02#5.5, 02#6 proof dosyası
+# depends:  core.ns.NAMESPACE
+# status:   stable
 """Proof dosyası: bir notun zincirdeki kanıtı (JSON-LD).
 
 Proposal'daki "Interface" bölümüne göre proof küçük bir JSON-LD dosyasıdır ve
@@ -11,8 +18,8 @@ Doğrulama iki adımdır:
     verify_on_chain  -> txid'li işlemin OP_RETURN'ünde bu kök gerçekten var mı ve
                         işlem bir blokta mı? (bir Bitcoin node'u gerekir)
 
-ÖNEMLİ: Alan adları ve NAMESPACE, Erdener (proof sayfası) ve Eylem (ontoloji)
-ile birlikte sabitlenmeli. Değişirse JS doğrulayıcı da değişmeli.
+ÖNEMLİ: Alan adları sabit sözleşmedir (02 bölüm 6); değişirse JS doğrulayıcı da
+(Erdener) değişmeli. NAMESPACE core/ns.py'den (Arda) içe aktarılır.
 """
 
 from __future__ import annotations
@@ -20,15 +27,15 @@ from __future__ import annotations
 import hashlib
 from datetime import datetime, timezone
 
+from core.ns import NAMESPACE  # NP-DECISION(K-001): tek tanım core/ns.py'de; burada elle yazılmaz
+
 from . import merkle, opreturn
 from .merkle import PathStep
-
-# TODO(ekip): Kalıcı IRI'ye karar verilince değiştir (proposal: "Stable IRIs").
-NAMESPACE = "https://github.com/aozcan4482/noteproof/ns#"
 
 CONTEXT = {"@vocab": NAMESPACE}
 
 
+# NP-CONTRACT(02#6): alan adları ve yazımları sabit.
 def build_proof(
     note_hash_hex: str,
     path: list[PathStep],
@@ -62,6 +69,7 @@ def path_of(proof: dict) -> list[PathStep]:
     return [PathStep(s["side"], bytes.fromhex(s["sibling"])) for s in proof["merklePath"]]
 
 
+# NP-CONTRACT(02#5.5): imza sabit.
 def verify_offline(proof: dict, note_file: bytes) -> tuple[bool, str]:
     """Not dosyası + proof ile, internetsiz kontrol. (sonuç, açıklama) döner."""
     file_hash = hashlib.sha256(note_file).hexdigest()
@@ -74,6 +82,7 @@ def verify_offline(proof: dict, note_file: bytes) -> tuple[bool, str]:
     return True, "Hash ve Merkle path geçerli"
 
 
+# NP-CONTRACT(02#5.5): imza sabit.
 def verify_on_chain(proof: dict, rpc) -> tuple[bool, str]:
     """İşlemi node'dan çekip kökün OP_RETURN'de olduğunu ve işlemin onaylandığını kontrol eder."""
     # Blok hash'ini de veriyoruz: böylece node'da -txindex açık olmasa da işlem bulunur.

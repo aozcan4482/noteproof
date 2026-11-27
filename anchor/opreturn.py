@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S2
+# contract: 02#5.5 OP_RETURN
+# depends:  -
+# status:   stable
 """OP_RETURN çıktısı: Merkle kökünü Bitcoin işlemine koyduğumuz yer.
 
 OP_RETURN, harcanamayan ve içine küçük veri koyulabilen bir çıktı türüdür.
@@ -20,6 +27,7 @@ PUSH_32 = 0x20
 ROOT_SIZE = 32
 
 
+# NP-CONTRACT(02#5.5): zincire yalnızca 32 byte'lık kök gider (03 bölüm 9).
 def build_script(root: bytes) -> bytes:
     """32 byte'lık kökten OP_RETURN scriptPubKey'i üretir."""
     if len(root) != ROOT_SIZE:

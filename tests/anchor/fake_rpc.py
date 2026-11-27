@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S1, S2, S7
+# contract: -
+# depends:  -
+# status:   stable
 """Testler için sahte Bitcoin node'u.
 
 Gerçek bitcoind olmadan daily.py akışını denemek için, kullandığımız RPC
