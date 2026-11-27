@@ -114,3 +114,19 @@ Medyan: 24 yanıt sıraya dizildiğinde 12. ve 13. yanıtların ikisi de "10–2
   sayılırsa ilk 20'de 10, 24'te 13 olur. Bu tanım proposal'da yazmıyor. Final raporunda belirtilmesi önerilir.
 - **"Paylaşan" kanal sayıları.** WhatsApp (10) ve fotoğraf (9) sayıları yalnızca soru 1'e "Evet" diyenler
   içinden sayıldı. Proposal'daki "10 of the 17" ifadesi de bunu söylüyor.
+
+  ## 6. Baseline kontrolü (AYS-R2)
+
+Kaynak: `proposal/proposal.json` → `objectives`.
+
+| Objective | Proposal baseline | Kaynak | Sonuç |
+| --- | --- | --- | --- |
+| O1 — 24 saat içinde geçerli proof'u olan pilot notlarının oranı | %0 | Sistem henüz yok; hiçbir notun signet proof'u yok | Doğru |
+| O2 — Onaylı etiketleri shape'lerden geçen pilot notlarının oranı | %0 | Sistem henüz yok; etiketli not yok | Doğru |
+| O3 — 60 değerlendirme notunda düzeltmeden onaylanan AI konu önerilerinin oranı | %0 | Tagger henüz ölçülmedi; öneri yok | Doğru |
+| O4 — Bir konudaki notu bulmanın medyan süresi | 15 dk | Anket, soru 4: medyan yanıt "10–20 dakika" (hem ilk 20 hem 24 yanıtta); aralığın ortası 15 dk | Doğru. Yalnız proposal'daki tanımda "20 students" yazıyor; 24 yanıtla güncellenirse bu ifade de değişir (bölüm 5) |
+| O5 — 20 planted copy'den kopya uyarısının yakaladığı oran | %0 | Kopya uyarısı gerçek değerlendirme setinde henüz çalışmadı | Doğru |
+| O6 — 32 byte'lık kök dışında veri taşıyan OP_RETURN + onaysız kayıtlı etiket sayısı | 0 | Sistem henüz yok; sızıntı yok. Hedef de 0 (korunacak değer) | Doğru |
+
+O4 için not: anketteki süre öğrencinin kendi tahminidir, ölçüm değildir. Pilottaki ölçüm ise kronometreyle
+yapılacak (AYS-3, AYS-6). İki sayının yöntemi farklı. Bu fark final raporunda yazılmalı.
