@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": "shape_violation",
+    "message": "Note does not conform to NoteShape",
+    "violations": [
+      {
+        "shape": "NoteShape",
+        "path": "np:topic",
+        "message": "Not en az bir konu taşımalı ve konu sözlükte olmalı."
+      }
+    ]
+  }
+}

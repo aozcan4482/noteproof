@@ -1,0 +1,1 @@
+SEN0401 örnek not (NoteProof sahte verisi): Bir Bitcoin işleminin ücreti, girdilerin toplamı ile çıktıların toplamı arasındaki farktır; madenciler ücret oranı (sat/vB) yüksek işlemleri önce seçer.
