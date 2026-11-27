@@ -1,0 +1,31 @@
+{
+  "@context": {
+    "@vocab": "https://github.com/aozcan4482/noteproof/ns#"
+  },
+  "@type": "Proof",
+  "@id": "https://github.com/aozcan4482/noteproof/ns#proof/7c1a60358b1eec6b402a1fbcb8cf3961cefb793d82c7f37006d46c5121156950",
+  "noteHash": "7c1a60358b1eec6b402a1fbcb8cf3961cefb793d82c7f37006d46c5121156950",
+  "hashAlgorithm": "SHA-256",
+  "leafPrefix": "00",
+  "nodePrefix": "01",
+  "merklePath": [
+    {
+      "side": "left",
+      "sibling": "cd20e8384d3055c20f443fe8ad562f54664d47c99dd3de4b291cbb36d5c27097"
+    },
+    {
+      "side": "right",
+      "sibling": "1978a57e33d715cc972730c68d079ae029ccc42916c650cad5f9ebe1026c0287"
+    },
+    {
+      "side": "right",
+      "sibling": "331119a6b200c174788f018248cff4ea03ebdb7f6c87e26b1e62f332ed6383d7"
+    }
+  ],
+  "merkleRoot": "6d31866fe8baa1bc591a4ad3f952f5bacb72872c2c6e862b2a6e1d3fffcd6bd0",
+  "network": "signet",
+  "txid": "8dc13a4934b60cc09137e738da048e335cc1af27884e668b9262d019a796c85a",
+  "blockHeight": 214392,
+  "blockHash": "f454bd3aa3b2c83c0020a8bc45eaf72193e793a528b967f34e5e9a061c057892",
+  "blockTime": "2026-11-23T19:14:00+00:00"
+}

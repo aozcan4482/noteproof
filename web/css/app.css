@@ -1,0 +1,202 @@
+/*
+NOTEPROOF-FILE
+module:   web
+owner:    erdener         second: aysu
+story:    S5, S7
+contract: -
+depends:  -
+status:   wip
+*/
+/* Önce telefon (360 piksel), sonra genişler. Dış yazı tipi ya da CDN yok: proof sayfası çevrimdışı açılır. */
+
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #1b1f24;
+  --muted: #555e6b;
+  --border: #d4d9e0;
+  --accent: #1f5fbf;
+  --accent-text: #ffffff;
+  --pending-bg: #fff4d6;
+  --pending-text: #6b4a00;
+  --proven-bg: #dcf3e3;
+  --proven-text: #145a2c;
+  --modified-bg: #fbe0e0;
+  --modified-text: #8a1c1c;
+  --warn-bg: #fff4d6;
+  --warn-border: #e0b44c;
+  --radius: 10px;
+  --gap: 12px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; }
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.app-header h1 { font-size: 1.1rem; margin: 0; }
+.app-header a { color: var(--accent); }
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+[hidden] { display: none !important; }
+
+/* Ekranda görünmez ama klavye ve ekran okuyucu için yerinde kalır (dosya seçme kutuları). */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.file-button { margin: 0; font-weight: 600; }
+/* Gizli dosya kutusu klavyeyle odaklanınca görünen düğme çerçevelenir. */
+.dropzone:has(input.visually-hidden:focus-visible) .file-button,
+.row:has(+ input.visually-hidden:focus-visible) .file-button { outline: 3px solid var(--accent); outline-offset: 2px; }
+.file-button[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+.field-title { font-weight: 600; margin: 12px 0 4px; }
+
+/* Form öğeleri: dokunmatik için en az 44 piksel yükseklik */
+label { display: block; font-weight: 600; margin: 12px 0 4px; }
+select, input[type="text"], textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  font: inherit;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+textarea { min-height: 96px; resize: vertical; }
+.hint { color: var(--muted); font-size: 0.9rem; margin: 4px 0 0; }
+
+.button, button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.button.primary, button.primary { color: var(--accent-text); background: var(--accent); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.button.block, button.block { width: 100%; margin-top: 16px; }
+.link-button { border: none; background: none; padding: 0; min-height: auto; text-decoration: underline; }
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.row { display: flex; gap: var(--gap); align-items: center; flex-wrap: wrap; }
+.row.split { justify-content: space-between; }
+
+/* Kartlar */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin: 10px 0;
+}
+.card-list { list-style: none; padding: 0; margin: 0; }
+.card-link { display: block; color: inherit; text-decoration: none; }
+.card-title { font-size: 1.05rem; font-weight: 700; margin: 0 0 4px; }
+.meta { color: var(--muted); font-size: 0.92rem; margin: 2px 0; }
+.result-count { color: var(--muted); margin: 16px 0 4px; }
+
+/* Proof rozeti: Beklemede, Kanıtlandı, Değiştirilmiş */
+.badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.badge.pending { background: var(--pending-bg); color: var(--pending-text); }
+.badge.proven { background: var(--proven-bg); color: var(--proven-text); }
+.badge.modified { background: var(--modified-bg); color: var(--modified-text); }
+
+/* Olası kopya şeridi: hüküm değil, önceki notun kanıtına bağlantı */
+.copy-note {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--warn-bg);
+  border-left: 4px solid var(--warn-border);
+  border-radius: 6px;
+  font-size: 0.92rem;
+}
+.copy-note a { color: var(--text); font-weight: 600; }
+
+/* Konu etiketleri */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0; padding: 0; list-style: none; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 4px 4px 12px;
+  background: #e7eefb;
+  border-radius: 999px;
+  font-size: 0.92rem;
+}
+.chip.static { padding-right: 12px; }
+.chip button { min-height: 32px; min-width: 32px; padding: 0; border: none; border-radius: 999px; background: transparent; }
+
+/* Mesaj kutuları */
+.notice { padding: 10px 12px; border-radius: 8px; margin: 12px 0; }
+.notice.error { background: var(--modified-bg); color: var(--modified-text); }
+.notice.info { background: #e7eefb; }
+.notice ul { margin: 6px 0 0; padding-left: 20px; }
+.field-invalid { border-color: var(--modified-text) !important; }
+
+/* Dosya bırakma alanı */
+.dropzone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 24px 16px;
+  text-align: center;
+  background: var(--surface);
+}
+.dropzone.dragover { border-color: var(--accent); background: #eef3fc; }
+.dropzone p { margin: 6px 0; }
+
+/* Tanım listesi (ayrıntı ve proof bilgileri) */
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 12px 0; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; word-break: break-all; }
+.mono { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+
+.honesty { color: var(--muted); font-size: 0.9rem; margin-top: 16px; }
+
+fieldset { border: none; padding: 0; margin: 12px 0; }
+legend { font-weight: 600; padding: 0; }
+.radio { display: flex; align-items: center; gap: 8px; font-weight: 400; margin: 8px 0; }
+
+@media (min-width: 720px) {
+  main { padding: 24px; }
+}

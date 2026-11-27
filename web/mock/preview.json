@@ -1,0 +1,22 @@
+{
+  "previewToken": "mock-preview-token",
+  "noteHash": "fd5fc5693272845ab0edb836591be520ecde8ce84b4757dafb8529c672f37f19",
+  "alreadyRegistered": null,
+  "suggestion": {
+    "course": "Course_SEN0401",
+    "topics": [
+      "Topic_TransactionFees"
+    ],
+    "summary": "Bu not, işlem ücretlerinin nasıl belirlendiğini anlatır. Ücret oranının bloğa girişi nasıl etkilediğini açıklar."
+  },
+  "copyWarnings": [
+    {
+      "earlierNoteHash": "7c1a60358b1eec6b402a1fbcb8cf3961cefb793d82c7f37006d46c5121156950",
+      "earlierAuthor": "kuzgun",
+      "earlierRegisteredAt": "2026-11-18T11:05:00+00:00",
+      "earlierProofUrl": "/api/notes/7c1a60358b1eec6b402a1fbcb8cf3961cefb793d82c7f37006d46c5121156950/proof",
+      "score": 0.93,
+      "method": "char-cosine"
+    }
+  ]
+}

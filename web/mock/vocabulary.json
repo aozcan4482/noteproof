@@ -1,0 +1,47 @@
+{
+  "courses": [
+    {
+      "id": "Course_SEN0401",
+      "labelTr": "SEN 401 Blockchain",
+      "labelEn": "SEN 401 Blockchain",
+      "topics": [
+        {
+          "id": "Topic_Transactions",
+          "labelTr": "İşlemler",
+          "labelEn": "Transactions",
+          "broader": "Course_SEN0401"
+        },
+        {
+          "id": "Topic_TransactionFees",
+          "labelTr": "İşlem ücretleri",
+          "labelEn": "Transaction fees",
+          "broader": "Topic_Transactions"
+        },
+        {
+          "id": "Topic_FeeRate",
+          "labelTr": "Ücret oranı",
+          "labelEn": "Fee rate",
+          "broader": "Topic_TransactionFees"
+        },
+        {
+          "id": "Topic_Blocks",
+          "labelTr": "Bloklar",
+          "labelEn": "Blocks",
+          "broader": "Course_SEN0401"
+        },
+        {
+          "id": "Topic_MerkleTrees",
+          "labelTr": "Merkle ağaçları",
+          "labelEn": "Merkle trees",
+          "broader": "Topic_Blocks"
+        },
+        {
+          "id": "Topic_Timestamping",
+          "labelTr": "Zaman damgası",
+          "labelEn": "Timestamping",
+          "broader": "Course_SEN0401"
+        }
+      ]
+    }
+  ]
+}

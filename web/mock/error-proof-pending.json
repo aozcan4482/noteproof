@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": "proof_pending",
+    "message": "Proof not ready"
+  }
+}

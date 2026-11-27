@@ -1,0 +1,106 @@
+<!doctype html>
+<!--
+NOTEPROOF-FILE
+module:   web
+owner:    erdener         second: aysu
+story:    S1, S3, S4, S6
+contract: 02#7 POST /api/accounts, GET /api/vocabulary, POST /api/notes/preview, POST /api/notes
+depends:  register/app.py HTTP API (arda)
+status:   wip
+-->
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NoteProof · Not yükle</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/upload-page.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <a href="index.html">‹ Arama</a>
+    <h1>Not yükle</h1>
+  </header>
+
+  <main>
+    <div id="error" class="notice error" role="alert" hidden></div>
+
+    <!-- Hesap yoksa: yalnızca takma ad istenir (K-007) -->
+    <section id="account-view" hidden>
+      <form id="account-form">
+        <label for="pseudonym">Takma ad</label>
+        <input id="pseudonym" name="pseudonym" type="text" autocomplete="off" required
+               pattern="[a-z0-9_]{3,30}" placeholder="ör. kuzgun">
+        <p class="hint">3–30 karakter: küçük harf, rakam ve alt çizgi. Gerçek adını ya da öğrenci numaranı yazma.</p>
+        <button class="primary block" type="submit">Hesap oluştur</button>
+      </form>
+    </section>
+
+    <!-- 3a. Dosya seçimi -->
+    <section id="pick-view" hidden>
+      <div class="row split">
+        <span>Takma ad: <strong id="current-pseudonym"></strong></span>
+        <button id="change-account" class="link-button" type="button">Değiştir</button>
+      </div>
+      <div id="dropzone" class="dropzone card">
+        <p>Dosyayı buraya bırak</p>
+        <p>ya da</p>
+        <label class="button file-button" for="file-input">Dosya seç</label>
+        <input id="file-input" class="visually-hidden" type="file" accept=".pdf,.jpg,.jpeg,.png,.txt,.md">
+        <p class="hint">PDF, JPEG, PNG, metin · En çok 10 MB</p>
+      </div>
+      <p id="pick-status" class="hint" aria-live="polite"></p>
+    </section>
+
+    <!-- 3b. Öneriler ve onay -->
+    <section id="review-view" hidden>
+      <p><strong id="file-name"></strong><br><span class="meta">Hash: <span id="note-hash" class="mono"></span></span></p>
+
+      <div id="already" class="notice info" hidden></div>
+      <div id="copy-warnings"></div>
+
+      <form id="confirm-form">
+        <div id="violations" class="notice error" role="alert" hidden></div>
+
+        <label for="title">Başlık</label>
+        <input id="title" name="title" type="text" required maxlength="120">
+
+        <label for="course">Ders (AI önerisi)</label>
+        <select id="course" name="course" required></select>
+
+        <label for="add-topic">Konular (AI önerisi)</label>
+        <ul id="topics" class="chips" aria-live="polite"></ul>
+        <select id="add-topic">
+          <option value="">+ Listeden konu ekle</option>
+        </select>
+
+        <label for="summary">Özet (AI önerisi)</label>
+        <textarea id="summary" name="summary" maxlength="600"></textarea>
+
+        <label class="radio"><input id="checked" type="checkbox"> Etiketleri kontrol ettim</label>
+
+        <div class="row split">
+          <button id="cancel" type="button">Vazgeç</button>
+          <button id="save" class="primary" type="submit" disabled>Kaydet</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 3c. Sonuç -->
+    <section id="done-view" class="card" hidden>
+      <h2>Kaydedildi</h2>
+      <dl class="facts">
+        <dt>Hash</dt><dd><span id="done-hash" class="mono"></span> <button id="done-copy" type="button">Kopyala</button></dd>
+        <dt>Kayıt</dt><dd id="done-registered"></dd>
+      </dl>
+      <span class="badge pending">Beklemede</span>
+      <p>Kanıt bu gece 23:00'teki zaman damgasından sonra hazır olur.</p>
+      <div class="row">
+        <a id="done-view-note" class="button" href="index.html">Notu gör</a>
+        <button id="new-note" class="primary" type="button">Yeni not</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
