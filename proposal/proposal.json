@@ -4,7 +4,7 @@
  "stage": "proposal",
  "stageLabel": "Proposal",
  "stageFills": "The plan: who the system is for, what it will do, how it will be built and checked, and who does what. Nothing is implemented yet: the Delivery and evidence part stays empty.",
- "saved": "2026-11-26T18:01:33.784Z",
+ "saved": "2026-11-27T09:04:33.986Z",
  "proposal": {
   "course": "SEN0401",
   "stage": "proposal",
@@ -933,6 +933,34 @@
     "ref": "",
     "prev": "6c50f9f875f2d69af0c0c904e0721bd8b65bd1f576655301f06f9a6c259ce115",
     "hash": "6b03b69b44bf75bd0575772c7343830d42cf7bb1ce7d1ed2af8d44c02488460d"
+   },
+   {
+    "seq": 16,
+    "ts": "2026-11-27T09:00:56.512Z",
+    "member": "Aleyna Cebeci",
+    "process": "P07",
+    "story": "S3",
+    "hours": 2,
+    "description": "Wrote the text extraction module for PDF, scanned PDF, phone photos and text files with twenty-two synthetic tests",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/17",
+    "kind": "work",
+    "ref": "",
+    "prev": "6b03b69b44bf75bd0575772c7343830d42cf7bb1ce7d1ed2af8d44c02488460d",
+    "hash": "48794799c320cc129ba3998b64a299a4fd073a753cb5dc1ac197ee54702fad2e"
+   },
+   {
+    "seq": 17,
+    "ts": "2026-11-27T09:03:26.020Z",
+    "member": "Aleyna Cebeci",
+    "process": "P09",
+    "story": "S5",
+    "hours": 2,
+    "description": "Reviewed the SKOS vocabulary pull request, ran the tagger tests against it and checked the work log chain",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/16",
+    "kind": "work",
+    "ref": "",
+    "prev": "48794799c320cc129ba3998b64a299a4fd073a753cb5dc1ac197ee54702fad2e",
+    "hash": "ef6d6284f884533e8c458bef9da6bcd7f6acff2603cb5fe50cfa3731e87f617f"
    }
   ],
   "repoCheck": {
