@@ -93,7 +93,13 @@ python -m pytest -q
 Bugün beklenen çıktı: `60 passed, 1 skipped`. Atlanan test gerçek bir `bitcoind` ister
 (`@pytest.mark.regtest`); bilgisayarda Bitcoin Core yoksa otomatik atlanır.
 
-Tarayıcı kodunun testleri (`tests/web/`, Node.js 20 ya da üstü) eklendiğinde: `node --test tests/web/`.
+Tarayıcı kodunun testleri (`tests/web/`, Node.js 20 ya da üstü), repo kökünde:
+
+```
+node --test
+```
+
+Klasör adı verilmez; Node 22 ve üstü `node --test tests/web/` biçimini kabul etmez.
 
 ## Uygulamayı çalıştırma
 
