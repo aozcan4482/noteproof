@@ -1,0 +1,5 @@
+SEN0401 - Transaction fees (örnek not, sentetik)
+
+Bir işlemin ücreti, girdilerin toplamı ile çıktıların toplamı arasındaki farktır.
+Madenciler ücret oranı (sat/vB) yüksek işlemleri önce bloğa alır.
+Ücret düşük kalırsa işlem RBF ile daha yüksek ücretle yeniden gönderilebilir.

@@ -1,0 +1,11 @@
+# NOTEPROOF-FILE
+# module:   (repo kökü)
+# owner:    burak           second: arda
+# story:    S7
+# contract: 02#2 ortak yapılandırma
+# depends:  -
+# status:   stable
+#
+# Test vektörleri byte byte aynı kalmalı: Windows'ta Git satır sonlarını değiştirseydi
+# sample_note.txt'nin SHA-256'sı, dolayısıyla bütün proof değişirdi (BRK-3).
+tests/vectors/* -text
