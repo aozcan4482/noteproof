@@ -4,7 +4,7 @@
  "stage": "proposal",
  "stageLabel": "Proposal",
  "stageFills": "The plan: who the system is for, what it will do, how it will be built and checked, and who does what. Nothing is implemented yet: the Delivery and evidence part stays empty.",
- "saved": "2026-10-16T18:52:26.235Z",
+ "saved": "2026-11-26T18:01:33.784Z",
  "proposal": {
   "course": "SEN0401",
   "stage": "proposal",
@@ -919,6 +919,20 @@
     "ref": "",
     "prev": "40ccaa78d8cce2166c75f30e24d96d9c074f0a9da5b2110d1797189d8a103b1f",
     "hash": "6c50f9f875f2d69af0c0c904e0721bd8b65bd1f576655301f06f9a6c259ce115"
+   },
+   {
+    "seq": 15,
+    "ts": "2026-11-26T18:01:04.186Z",
+    "member": "Aleyna Cebeci",
+    "process": "P07",
+    "story": "S3",
+    "hours": 8,
+    "description": "Set up Python 3.12 and Tesseract with Turkish data, then wrote the tag suggestion module, the LLM client interface, FakeLLM and the S3 acceptance tests",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/10",
+    "kind": "work",
+    "ref": "",
+    "prev": "6c50f9f875f2d69af0c0c904e0721bd8b65bd1f576655301f06f9a6c259ce115",
+    "hash": "6b03b69b44bf75bd0575772c7343830d42cf7bb1ce7d1ed2af8d44c02488460d"
    }
   ],
   "repoCheck": {
