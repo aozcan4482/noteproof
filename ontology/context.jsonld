@@ -9,15 +9,21 @@
 
     "course": {"@id": "np:course", "@type": "@vocab"},
     "topic": {"@id": "np:topic", "@type": "@vocab"},
+    "topics": {"@id": "np:topic", "@type": "@vocab"},
     "hasProof": {"@id": "np:hasProof", "@type": "@id"},
     "laterNote": {"@id": "np:laterNote", "@type": "@id"},
     "earlierNote": {"@id": "np:earlierNote", "@type": "@id"},
     "day": {"@id": "np:day", "@type": "xsd:date"},
     "blockTime": {"@id": "np:blockTime", "@type": "xsd:dateTime"},
 
+    "confirmed": "np:tagsConfirmed",
+    "previewToken": null,
+
+    "title": "schema:name",
     "name": "schema:name",
-    "encodingFormat": "schema:encodingFormat",
+    "summary": "schema:abstract",
     "abstract": "schema:abstract",
+    "encodingFormat": "schema:encodingFormat",
     "alternateName": "schema:alternateName",
 
     "wasGeneratedBy": {"@id": "prov:wasGeneratedBy", "@type": "@id"},

@@ -163,7 +163,7 @@ def test_context_np_terms_exist_in_ontology(graph: rdflib.Graph, context: dict) 
             assert target[len("np:"):] in defined, key
 
 
-def test_context_turns_an_api_note_into_ontology_triples(context: dict) -> None:
+def test_context_also_accepts_ontology_style_field_names(context: dict) -> None:
     note_iri = f"{NAMESPACE}note/{SAMPLE_HASH}"
     document = {
         "@context": context["@context"],
@@ -188,6 +188,39 @@ def test_context_turns_an_api_note_into_ontology_triples(context: dict) -> None:
     assert (note, NP.noteHash, rdflib.Literal(SAMPLE_HASH)) in g
     assert (note, SCHEMA.name, rdflib.Literal("İşlem ücretleri notu")) in g
     assert (note, PROV.wasAttributedTo, rdflib.URIRef(f"{NAMESPACE}account/kuzgun")) in g
+
+
+def test_context_turns_the_api_confirm_body_into_shape_ready_triples(graph: rdflib.Graph, context: dict) -> None:
+    # 02#7'deki onay gövdesi, alan adlarıyla olduğu gibi; kayıt servisi yalnızca @id, @type ve noteHash ekler.
+    # NoteShape'in (shapes/) istediği np:course, np:topic ve np:tagsConfirmed buradan çıkmalı.
+    note_iri = f"{NAMESPACE}note/{SAMPLE_HASH}"
+    confirm_body = {
+        "previewToken": "tok-123",
+        "title": "İşlem ücretleri notu",
+        "course": "Course_SEN0401",
+        "topics": ["Topic_TransactionFees", "Topic_FeeRate"],
+        "summary": "Ücret, girdiler ile çıktılar arasındaki farktır.",
+        "confirmed": True,
+    }
+    document = {"@context": context["@context"], "@id": note_iri, "@type": "Note", "noteHash": SAMPLE_HASH,
+                **confirm_body}
+    g = rdflib.Graph()
+    g.parse(data=json.dumps(document), format="json-ld")
+    note = rdflib.URIRef(note_iri)
+
+    assert (note, NP.course, NP.Course_SEN0401) in g
+    assert set(g.objects(note, NP.topic)) == {NP.Topic_TransactionFees, NP.Topic_FeeRate}
+    assert (note, NP.tagsConfirmed, rdflib.Literal(True)) in g
+    assert (note, SCHEMA.name, rdflib.Literal("İşlem ücretleri notu")) in g
+    assert (note, SCHEMA.abstract, rdflib.Literal("Ücret, girdiler ile çıktılar arasındaki farktır.")) in g
+
+    # previewToken grafiğe girmez ve ontolojide olmayan bir np: terimi oluşmaz.
+    defined = _np_properties(graph)
+    for predicate in set(g.predicates()):
+        text = str(predicate)
+        assert "previewToken" not in text
+        if text.startswith(NAMESPACE):
+            assert text[len(NAMESPACE):] in defined, text
 
 
 def test_proof_document_from_contract_uses_only_ontology_terms(graph: rdflib.Graph) -> None:
