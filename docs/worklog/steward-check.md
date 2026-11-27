@@ -16,5 +16,5 @@ Eksiği olana aynı gün ekip grubundan haber verilir.
 Notlar (2026-11-27):
 
 - Zincir, Workbench'in kendi formülüyle (`SHA-256(prev + U+001E + alanlar)`) yeniden hesaplandı; 14 kaydın hepsi tutuyor.
-- 23–27 Kasım haftasında `main`'e hiçbir üyenin kaydı girmedi. Aleyna'nın kayıt 15'i #11 ile 27 Kasım 11:31'de main'e girdi (zincir 15 kayıtla sağlam).
+- Kontrol anında (27 Kasım sabahı) 23–27 Kasım haftasında `main`'e hiçbir üyenin kaydı girmemişti. Sonra Aleyna'nın kayıt 15'i #11 ile 11:31'de `main`'e girdi; zincir 15 kayıtla sağlam.
 - Risk: bekleyen kayıtlar tek oturumda girilirse "aynı üyenin 10 dakika içinde 5 kaydı" ihlali oluşur; 10 dakikada en çok 4 kayıt.
