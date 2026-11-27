@@ -4,7 +4,7 @@
  "stage": "proposal",
  "stageLabel": "Proposal",
  "stageFills": "The plan: who the system is for, what it will do, how it will be built and checked, and who does what. Nothing is implemented yet: the Delivery and evidence part stays empty.",
- "saved": "2026-11-27T09:04:33.986Z",
+ "saved": "2026-11-27T11:30:29.327Z",
  "proposal": {
   "course": "SEN0401",
   "stage": "proposal",
@@ -961,6 +961,34 @@
     "ref": "",
     "prev": "48794799c320cc129ba3998b64a299a4fd073a753cb5dc1ac197ee54702fad2e",
     "hash": "ef6d6284f884533e8c458bef9da6bcd7f6acff2603cb5fe50cfa3731e87f617f"
+   },
+   {
+    "seq": 18,
+    "ts": "2026-11-27T11:25:29.213Z",
+    "member": "Eylem Sarıbal",
+    "process": "P07",
+    "story": "S5",
+    "hours": 2.5,
+    "description": "Wrote the SKOS course vocabulary and the Vocabulary reader with 24 tests",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/16",
+    "kind": "work",
+    "ref": "",
+    "prev": "ef6d6284f884533e8c458bef9da6bcd7f6acff2603cb5fe50cfa3731e87f617f",
+    "hash": "9823ba01c387624bd996fb4b0919c97a65ca97f7c23a9bfe924c932447cb0921"
+   },
+   {
+    "seq": 19,
+    "ts": "2026-11-27T11:27:03.678Z",
+    "member": "Eylem Sarıbal",
+    "process": "P05",
+    "story": "S4",
+    "hours": 1,
+    "description": "Wrote the note ontology (noteproof.ttl) and the JSON-LD context with 11 tests",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/22",
+    "kind": "work",
+    "ref": "",
+    "prev": "9823ba01c387624bd996fb4b0919c97a65ca97f7c23a9bfe924c932447cb0921",
+    "hash": "cdb5a36e8564f0cb284b39656180fe7730c8805885d78e707e167a5eecb7b2d5"
    }
   ],
   "repoCheck": {
