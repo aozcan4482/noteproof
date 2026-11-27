@@ -1,0 +1,105 @@
+# NOTEPROOF-FILE
+# module:   shapes
+# owner:    eylem           second: aleyna
+# story:    S1, S4
+# contract: 02#4 NoteShape, 02#5.2 validate_note
+# depends:  ontology/courses.ttl (doğrulama sırasında sözlük grafiği veriye eklenir)
+# status:   wip
+#
+# Kaydedilmeye hazır bir notun SHACL shape'leri. Önizleme aşamasındaki AI önerisi burada denetlenmez;
+# yalnızca yazarın onayladığı hâl denetlenir (uyeler/eylem.md, tasarım notları).
+#
+# NoteShape şunları reddeder (02#4): hash'i olmayan not, dersi olmayan not, konusu olmayan not,
+# şemada olmayan konu, np:tagsConfirmed değeri true olmayan not.
+#
+# Her kısıt ayrı bir property shape'tedir; böylece her ihlal kendi Türkçe mesajıyla döner.
+# shapes/validate.py bu mesajları Violation.message olarak verir; ihlal edilen değer varsa sonuna ekler.
+# Ders ve konunun sözlükte olup olmadığı, doğrulama sırasında veri grafiğine eklenen sözlük grafiğinden
+# (ontology/courses.ttl) skos:inScheme np:CourseScheme ile anlaşılır.
+
+# NP-DECISION(K-001): np: öneki geçici namespace değeridir; core.ns.NAMESPACE ile aynı olmak zorundadır.
+@prefix np:   <https://github.com/aozcan4482/noteproof/ns#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# ===================================================================================================
+# NoteShape: her np:Note
+# ===================================================================================================
+
+np:NoteShape a sh:NodeShape ;
+    sh:targetClass np:Note ;
+    rdfs:label "Not shape'i"@tr , "Note shape"@en ;
+    rdfs:comment "Kaydedilmeye hazır notun zorunlu alanları."@tr ;
+
+    # Hash: tam bir tane, küçük harfli 64 karakter hex.
+    sh:property [
+        sh:path np:noteHash ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Notun SHA-256 hash'i yok."@tr ;
+    ] ;
+    sh:property [
+        sh:path np:noteHash ;
+        sh:nodeKind sh:Literal ;
+        sh:pattern "^[0-9a-f]{64}$" ;
+        sh:message "Notun hash'i küçük harfli 64 karakterlik SHA-256 hex'i değil."@tr ;
+    ] ;
+
+    # Ders: tam bir tane ve sözlükteki bir Course_ kavramı.
+    sh:property [
+        sh:path np:course ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Notun tam bir dersi olmalı."@tr ;
+    ] ;
+    sh:property [
+        sh:path np:course ;
+        sh:node np:CourseShape ;
+        sh:message "Ders sözlükte yok."@tr ;
+    ] ;
+
+    # Konu: en az bir tane ve her biri sözlükteki bir Topic_ kavramı.
+    sh:property [
+        sh:path np:topic ;
+        sh:minCount 1 ;
+        sh:message "Notun en az bir konusu olmalı."@tr ;
+    ] ;
+    sh:property [
+        sh:path np:topic ;
+        sh:node np:TopicShape ;
+        sh:message "Konu sözlükte yok."@tr ;
+    ] ;
+
+    # Onay: yazar etiketleri onaylamış olmalı.
+    sh:property [
+        sh:path np:tagsConfirmed ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue true ;
+        sh:message "Ders ve konular yazar tarafından onaylanmamış (np:tagsConfirmed true olmalı)."@tr ;
+    ] .
+
+# ===================================================================================================
+# Yardımcı shape'ler: hedefleri yok, yalnızca sh:node ile kullanılırlar.
+# ===================================================================================================
+
+np:CourseShape a sh:NodeShape ;
+    rdfs:label "Ders shape'i"@tr , "Course shape"@en ;
+    rdfs:comment "Değer sözlükteki bir ders olmalı: Course_ kimliği ve np:CourseScheme üyeliği."@tr ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "#Course_[A-Z0-9]+$" ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:hasValue np:CourseScheme ;
+    ] .
+
+np:TopicShape a sh:NodeShape ;
+    rdfs:label "Konu shape'i"@tr , "Topic shape"@en ;
+    rdfs:comment "Değer sözlükteki bir konu olmalı: Topic_ kimliği ve np:CourseScheme üyeliği."@tr ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "#Topic_[A-Z][A-Za-z0-9]*$" ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:hasValue np:CourseScheme ;
+    ] .
