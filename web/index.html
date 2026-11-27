@@ -1,0 +1,91 @@
+<!doctype html>
+<!--
+NOTEPROOF-FILE
+module:   web
+owner:    erdener         second: aysu
+story:    S5, S6
+contract: 02#7 GET /api/vocabulary, GET /api/search, GET /api/notes/{hash}
+depends:  register/app.py HTTP API (arda)
+status:   wip
+-->
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NoteProof · Not ara</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/search-page.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>NoteProof</h1>
+    <a class="button" href="upload.html">Yükle</a>
+  </header>
+
+  <main>
+    <!-- 1. ekran: arama ve sonuç listesi -->
+    <section id="search-view" aria-label="Not ara">
+      <form id="search-form">
+        <label for="course">Ders</label>
+        <select id="course" name="course">
+          <option value="">Bütün dersler</option>
+        </select>
+
+        <label for="topic">Konu</label>
+        <select id="topic" name="topic" disabled>
+          <option value="">Bütün konular</option>
+        </select>
+        <p class="hint">Alt konular da aranır.</p>
+
+        <label for="q">Başlıkta ara</label>
+        <input id="q" name="q" type="text" autocomplete="off" placeholder="Başlıkta ara...">
+
+        <button class="primary block" type="submit">Ara</button>
+      </form>
+
+      <div id="search-error" class="notice error" role="alert" hidden></div>
+      <p id="result-count" class="result-count" aria-live="polite"></p>
+      <ul id="results" class="card-list"></ul>
+      <div id="empty" class="card" hidden>
+        <p>Bu ders ve konuda kayıtlı not yok.</p>
+        <button id="reset-filters" class="link-button" type="button">Süzgeçleri sıfırla</button>
+      </div>
+    </section>
+
+    <!-- 2. ekran: not kartı ayrıntısı (aynı sayfada ayrı görünüm) -->
+    <section id="detail-view" hidden>
+      <a class="button" href="#">‹ Sonuçlar</a>
+      <div id="detail-error" class="notice error" role="alert" hidden></div>
+      <article id="detail" class="card" hidden>
+        <h2 id="d-title" class="card-title"></h2>
+        <p id="d-course" class="meta"></p>
+        <p class="meta">Konular:</p>
+        <ul id="d-topics" class="chips"></ul>
+
+        <h3>Özet</h3>
+        <p id="d-summary"></p>
+
+        <dl class="facts">
+          <dt>Yazar</dt><dd id="d-author"></dd>
+          <dt>Kayıt</dt><dd id="d-registered"></dd>
+        </dl>
+
+        <div class="card">
+          <span id="d-badge" class="badge"></span>
+          <p id="d-proof-text"></p>
+          <a id="d-proof-link" class="button" href="#">Kanıtı kontrol et ›</a>
+        </div>
+
+        <div id="d-copy" class="copy-note" hidden></div>
+
+        <div class="row">
+          <span class="meta">Hash: <span id="d-hash" class="mono"></span></span>
+          <button id="d-copy-hash" type="button">Kopyala</button>
+        </div>
+        <p id="d-copy-status" class="hint" aria-live="polite"></p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

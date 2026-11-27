@@ -1,0 +1,6 @@
+{
+  "name": "noteproof-web",
+  "private": true,
+  "type": "module",
+  "description": "Statik arayüz; derleme adımı yok. Bu dosya yalnızca node --test'in web/js/*.js dosyalarını ES modülü olarak okuması içindir."
+}

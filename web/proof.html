@@ -1,0 +1,79 @@
+<!doctype html>
+<!--
+NOTEPROOF-FILE
+module:   web
+owner:    erdener         second: aysu
+story:    S7
+contract: 02#6 proof dosyası, 02#7 GET /api/notes/{hash}/proof
+depends:  register/app.py HTTP API (arda), anchor/proof.py proof biçimi (burak)
+status:   wip
+-->
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NoteProof · Kanıt kontrolü</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/proof-page.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>NoteProof · Kanıt kontrolü</h1>
+    <a href="index.html">Arama</a>
+  </header>
+
+  <main>
+    <!-- 4a. Giriş: hesap gerekmez; sunucu kapalıyken yerel kanıt dosyasıyla çalışır (S7) -->
+    <form id="proof-form" class="card">
+      <p class="field-title">1. Not dosyası</p>
+      <div class="row">
+        <label class="button file-button" for="note-file">Dosya seç</label>
+        <span id="note-file-name" class="meta">Dosya seçilmedi</span>
+      </div>
+      <input id="note-file" class="visually-hidden" type="file">
+
+      <fieldset>
+        <legend>2. Kanıt dosyası</legend>
+        <label class="radio">
+          <input type="radio" name="source" value="server" id="source-server">
+          <span>Sunucudan al <span id="server-hash" class="mono"></span></span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="source" value="local" id="source-local">
+          <span>Bilgisayarımdan seç</span>
+        </label>
+        <div class="row">
+          <label id="proof-file-button" class="button file-button" for="proof-file">Dosya seç</label>
+          <span id="proof-file-name" class="meta">Dosya seçilmedi</span>
+        </div>
+        <input id="proof-file" class="visually-hidden" type="file" accept=".json,application/json,application/ld+json" disabled>
+      </fieldset>
+
+      <button class="primary block" type="submit">Kontrol et</button>
+      <p class="hint">Dosyan bu cihazdan çıkmaz; hash tarayıcıda hesaplanır.</p>
+    </form>
+
+    <div id="error" class="notice error" role="alert" hidden></div>
+
+    <!-- 4b/4c. Sonuç: doğrulama ERD-2, ağaç çizimi ve zincir kontrolü ERD-3 -->
+    <section id="result" class="card" hidden aria-live="polite">
+      <div id="verdict" class="notice info"></div>
+      <dl class="facts">
+        <dt>Hash</dt><dd id="r-hash" class="mono"></dd>
+        <dt>Ağ</dt><dd id="r-network"></dd>
+        <dt>Blok</dt><dd id="r-block"></dd>
+        <dt>Zaman</dt><dd id="r-time"></dd>
+        <dt>İşlem</dt><dd id="r-txid" class="mono"></dd>
+      </dl>
+      <h3>Merkle yolu</h3>
+      <ol id="r-path" class="mono"></ol>
+      <p class="meta">Kök: <span id="r-root" class="mono"></span></p>
+    </section>
+
+    <p class="honesty">
+      Kanıt, dosyanın bu tarihte var olduğunu ve kimin kaydettiğini gösterir; notu ilk kimin yazdığını göstermez.
+    </p>
+  </main>
+</body>
+</html>

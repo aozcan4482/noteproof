@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "noteHash": "7c1a60358b1eec6b402a1fbcb8cf3961cefb793d82c7f37006d46c5121156950",
+      "title": "İşlem ücretleri ders notu",
+      "course": "Course_SEN0401",
+      "topics": [
+        "Topic_TransactionFees",
+        "Topic_FeeRate"
+      ],
+      "summary": "Bu not, işlem ücretinin nasıl hesaplandığını anlatır. Ücret oranının bloğa giriş sırasını nasıl etkilediğini örnekle gösterir.",
+      "author": "kuzgun",
+      "registeredAt": "2026-11-18T11:05:00+00:00",
+      "proofStatus": "proven",
+      "possibleCopyOf": null
+    },
+    {
+      "noteHash": "c368a164c2e2a999a879efb895330bfb5ee5fbea7a6c77f06682d378d941c4b7",
+      "title": "Ücret oranı özeti",
+      "course": "Course_SEN0401",
+      "topics": [
+        "Topic_FeeRate"
+      ],
+      "summary": "Ücret oranının sat/vB cinsinden nasıl hesaplandığını özetler. Düşük ücretli işlemlerin neden beklediğini anlatır.",
+      "author": "mavi_kalem",
+      "registeredAt": "2026-11-20T09:40:00+00:00",
+      "proofStatus": "pending",
+      "possibleCopyOf": "7c1a60358b1eec6b402a1fbcb8cf3961cefb793d82c7f37006d46c5121156950"
+    },
+    {
+      "noteHash": "adb9e91a72fbbfabaf03cd6211e35c71f9fecf4e1bf50a55af8af8239af9f990",
+      "title": "Merkle ağacı ve zaman damgası",
+      "course": "Course_SEN0401",
+      "topics": [
+        "Topic_MerkleTrees"
+      ],
+      "summary": "Merkle ağacının nasıl kurulduğunu ve kökün tek bir işlemle nasıl damgalandığını anlatır. Merkle path ile doğrulamayı gösterir.",
+      "author": "gece_kusu",
+      "registeredAt": "2026-11-21T16:20:00+00:00",
+      "proofStatus": "proven",
+      "possibleCopyOf": null
+    }
+  ]
+}
