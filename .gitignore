@@ -1,14 +1,41 @@
+# NOTEPROOF-FILE
+# module:   (repo kökü)
+# owner:    burak           second: arda
+# story:    -
+# contract: 02#2 çalışma verisi repoya girmez
+# depends:  -
+# status:   stable
+
 # Python
 __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
 *.egg-info/
+build/
 
-# anchor/ çalışma çıktıları: kuyruk veritabanı ve üretilen proof dosyaları
+# Çalışma verisi (02 bölüm 2): not dosyaları, çıkarılan metin, grafik, kuyruk ve proof'lar data/ altında durur
+data/
+
+# Eski varsayılan yollarla üretilen anchor/ çıktıları (BRK-4'te data/ altına taşınacak)
 *.sqlite
 *.sqlite3
 proofs/
 
-# Bitcoin node veri klasörleri (regtest/signet)
+# Yerel ayarlar ve sırlar (02 bölüm 8): RPC şifresi, dil modeli anahtarı
+.env
+
+# Bitcoin node veri klasörleri (regtest/signet) ve cüzdan dosyaları
 .bitcoin/
+wallet.dat
+
+# Tarayıcı testleri için Node.js (yalnızca yerelde, node --test)
+node_modules/
+
+# Ekibe zip olarak dağıtılan kural seti repoya girmez (AGENTS.md bölüm 5)
+noteproof-kurallar/
+
+# İşletim sistemi ve editör dosyaları
+.DS_Store
+.vscode/
+.idea/
