@@ -9,9 +9,9 @@ taslağıdır.
 Kural seti: 2.3
 Biten (main'de): BRK-R1 (#2) · BRK-R2 (#5) · BRK-0 (#8)
 PR'da: —
-Sürüyor: BRK-1 — `pyproject.toml`, `CODEOWNERS`, `.gitignore` main'de (#14, Arda merge etti); `main` için branch koruması Arda'da (admin) · BRK-2 — `ci.yml` yazıldı (branch: `infra/ci-regtest`)
+Sürüyor: BRK-1 — `pyproject.toml`, `CODEOWNERS`, `.gitignore` main'de (#14, Arda merge etti); `main` için branch koruması Arda'da (admin) · BRK-2 — `ci.yml` ilk çalışmada yeşil (run 45969400152: Bitcoin Core 32.1 hash doğrulandı, `pytest` 77 passed, regtest 1 passed atlanmadan, `node --test` 7/7); PR açılıyor (branch: `infra/ci-regtest`)
 Beklediklerim: Arda — branch koruması (BRK-1 `(done)` buna bağlı), `core/` (ARD-0, BRK-4), K-001 (BRK-5), `v0.3.0` kararı
-Sıradaki adım: BRK-2'nin ilk CI çalışması yeşilse PR; ardından BRK-3 (test vektörleri, Erdener bekliyor)
+Sıradaki adım: BRK-2 PR'ı merge olunca branch korumasına "CI yeşil" şartı eklenir (Arda); ardından BRK-3 (test vektörleri, Erdener bekliyor)
 Açık sorular: Düzenlenebilir Workbench (Aleyna'da) · Eski kayıt #9 ve #10 için: "was not done" mı, "was never committed" mı? · `v0.3.0` (27 Kas) ertelensin mi? · Commit yazar e-postasında öğrenci numarası var (03 bölüm 9)
 Not: #2, #5 ve #8'i kural 04 bölüm 6.7'nin aksine (Burak'ın PR'larını Arda merge eder) ben merge ettim; PR'lara açıklama yazıldı. 2.3'teki 24 saat kuralından önceydi.
 
