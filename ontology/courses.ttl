@@ -1,0 +1,180 @@
+# NOTEPROOF-FILE
+# module:   ontology
+# owner:    eylem           second: aleyna
+# story:    S3, S4, S5
+# contract: 02#3 IRI şeması (Course_, Topic_, CourseScheme), 02#4 Ders ve Konu
+# depends:  -
+# status:   wip
+#
+# SEN0401 ders ve konu sözlüğü (SKOS). Konular Mastering Bitcoin 3. baskının 14 bölümünden çıkarıldı;
+# gerekçeler docs/analysis/eylem-vocabulary-scope.md içinde.
+#
+# Bu dosyayı okuyanlar: ontology/vocab.py (Vocabulary), tagger (Aleyna), arama (Erdener),
+# evalset/manifest.csv (Emine). Hepsi kavramları yerel kimlikleriyle kullanır (ör. Topic_FeeRate).
+# Kural (03#7): bir kimlik main'e girdikten sonra yeniden adlandırılmaz; yanlışsa owl:deprecated yapılır.
+#
+# Her kavramda skos:broader ve skos:narrower ikisi de açıkça yazılır; tests/ontology bunların birbirinin
+# tersi olduğunu denetler. Dersin altında en çok üç düzey konu olur.
+
+# NP-DECISION(K-001): np: öneki geçici namespace değeridir; core.ns.NAMESPACE ile aynı olmak zorundadır.
+@prefix np:   <https://github.com/aozcan4482/noteproof/ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# ---------------------------------------------------------------------------------------------------
+# Kavram şeması
+# ---------------------------------------------------------------------------------------------------
+
+np:CourseScheme a skos:ConceptScheme ;
+    rdfs:label "NoteProof ders ve konu sözlüğü"@tr , "NoteProof course and topic vocabulary"@en ;
+    rdfs:comment "Notların etiketlendiği derslerin ve konuların ortak SKOS şeması."@tr ;
+    skos:hasTopConcept np:Course_SEN0401 .
+
+# ---------------------------------------------------------------------------------------------------
+# Ders: SEN0401
+# ---------------------------------------------------------------------------------------------------
+
+np:Course_SEN0401 a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:topConceptOf np:CourseScheme ;
+    skos:notation "SEN0401" ;
+    skos:prefLabel "Özel Konular: Blokzincir"@tr , "Special Topics: Blockchain"@en ;
+    rdfs:comment "SEN0401 dersi. Ana kaynak: Mastering Bitcoin, 3. baskı (Antonopoulos ve Harding, 2023)."@tr ;
+    skos:narrower np:Topic_BitcoinIntroduction ,
+                  np:Topic_HowBitcoinWorks ,
+                  np:Topic_BitcoinCore ,
+                  np:Topic_KeysAndAddresses ,
+                  np:Topic_WalletRecovery ,
+                  np:Topic_Transactions ,
+                  np:Topic_AuthorizationAndAuthentication ,
+                  np:Topic_DigitalSignatures ,
+                  np:Topic_BitcoinNetwork ,
+                  np:Topic_Blockchain ,
+                  np:Topic_MiningAndConsensus ,
+                  np:Topic_BitcoinSecurity ,
+                  np:Topic_SecondLayerApplications .
+
+# ---------------------------------------------------------------------------------------------------
+# 1. düzey: kitabın bölümleri (9. bölüm "Transaction Fees" Transactions'ın altındadır, karar 3.1)
+# ---------------------------------------------------------------------------------------------------
+
+np:Topic_BitcoinIntroduction a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Bitcoin'e giriş"@tr , "Introduction to Bitcoin"@en ;
+    rdfs:comment "Kitabın 1. bölümü (Introduction)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_HowBitcoinWorks a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Bitcoin nasıl çalışır"@tr , "How Bitcoin works"@en ;
+    rdfs:comment "Kitabın 2. bölümü (How Bitcoin Works)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_BitcoinCore a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Bitcoin Core: referans uygulama"@tr , "Bitcoin Core: the reference implementation"@en ;
+    rdfs:comment "Kitabın 3. bölümü (Bitcoin Core: The Reference Implementation)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_KeysAndAddresses a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Anahtarlar ve adresler"@tr , "Keys and addresses"@en ;
+    rdfs:comment "Kitabın 4. bölümü (Keys and Addresses)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_WalletRecovery a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Cüzdan kurtarma"@tr , "Wallet recovery"@en ;
+    rdfs:comment "Kitabın 5. bölümü (Wallet Recovery)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_Transactions a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "İşlemler"@tr , "Transactions"@en ;
+    rdfs:comment "Kitabın 6. bölümü (Transactions). S5: aranınca alt konulardaki notlar da bulunur."@tr ;
+    skos:broader np:Course_SEN0401 ;
+    skos:narrower np:Topic_TransactionInputs ,
+                  np:Topic_TransactionOutputs ,
+                  np:Topic_TransactionFees .
+
+np:Topic_AuthorizationAndAuthentication a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Yetkilendirme ve kimlik doğrulama"@tr , "Authorization and authentication"@en ;
+    rdfs:comment "Kitabın 7. bölümü (Authorization and Authentication)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_DigitalSignatures a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Dijital imzalar"@tr , "Digital signatures"@en ;
+    rdfs:comment "Kitabın 8. bölümü (Digital Signatures)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_BitcoinNetwork a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Bitcoin ağı"@tr , "The Bitcoin network"@en ;
+    rdfs:comment "Kitabın 10. bölümü (The Bitcoin Network)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_Blockchain a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Blokzincir"@tr , "The blockchain"@en ;
+    rdfs:comment "Kitabın 11. bölümü (The Blockchain)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_MiningAndConsensus a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Madencilik ve uzlaşı"@tr , "Mining and consensus"@en ;
+    rdfs:comment "Kitabın 12. bölümü (Mining and Consensus)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_BitcoinSecurity a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Bitcoin güvenliği"@tr , "Bitcoin security"@en ;
+    rdfs:comment "Kitabın 13. bölümü (Bitcoin Security)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+np:Topic_SecondLayerApplications a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "İkinci katman uygulamaları"@tr , "Second-layer applications"@en ;
+    rdfs:comment "Kitabın 14. bölümü (Second-Layer Applications)."@tr ;
+    skos:broader np:Course_SEN0401 .
+
+# ---------------------------------------------------------------------------------------------------
+# 2. düzey: Transactions'ın alt konuları (EYL-R2)
+# ---------------------------------------------------------------------------------------------------
+
+np:Topic_TransactionInputs a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "İşlem girdileri"@tr , "Transaction inputs"@en ;
+    rdfs:comment "Bir işlemin harcadığı önceki çıktılara yaptığı başvurular."@tr ;
+    skos:broader np:Topic_Transactions .
+
+np:Topic_TransactionOutputs a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "İşlem çıktıları"@tr , "Transaction outputs"@en ;
+    rdfs:comment "Bir işlemin oluşturduğu miktarlar ve harcama koşulları."@tr ;
+    skos:broader np:Topic_Transactions .
+
+np:Topic_TransactionFees a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "İşlem ücretleri"@tr , "Transaction fees"@en ;
+    rdfs:comment "Kitabın 9. bölümü (Transaction Fees). S5 için Transactions altında (karar 3.1)."@tr ;
+    skos:broader np:Topic_Transactions ;
+    skos:narrower np:Topic_FeeRate ,
+                  np:Topic_FeeBumping .
+
+# ---------------------------------------------------------------------------------------------------
+# 3. düzey: işlem ücretlerinin alt konuları (izin verilen en derin düzey)
+# ---------------------------------------------------------------------------------------------------
+
+np:Topic_FeeRate a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Ücret oranı"@tr , "Fee rate"@en ;
+    rdfs:comment "Ücretin işlem boyutuna oranı (ör. satoshi/vbyte). S5 kabul kriterindeki konu."@tr ;
+    skos:broader np:Topic_TransactionFees .
+
+np:Topic_FeeBumping a skos:Concept ;
+    skos:inScheme np:CourseScheme ;
+    skos:prefLabel "Ücret artırma (RBF, CPFP)"@tr , "Fee bumping (RBF, CPFP)"@en ;
+    rdfs:comment "Onaylanmamış işlemin ücretini sonradan artırma: Replace by Fee, Child Pays for Parent."@tr ;
+    skos:broader np:Topic_TransactionFees .

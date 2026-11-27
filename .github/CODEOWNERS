@@ -1,0 +1,79 @@
+# NOTEPROOF-FILE
+# module:   .github
+# owner:    burak           second: arda
+# story:    -
+# contract: 02#2 klasörler ve sahiplik
+# depends:  -
+# status:   wip
+#
+# Klasör sahipliği: 02_MIMARI_SOZLESMELER.md bölüm 2'deki tablonun GitHub karşılığı.
+# Bir PR açıldığında burada adı geçenler otomatik olarak reviewer istenir. Her satırda önce sahip,
+# sonra ikinci (reviewer) üye yazılır; GitHub PR'ı açan kişiyi reviewer yapmaz, böylece reviewer
+# her zaman öbür kişi olur.
+# Aynı yola uyan birden çok satır varsa EN SONDAKİ geçerlidir; bu yüzden özel yollar sondadır.
+#
+# Kullanıcı adları:
+#   arda = @aozcan4482     burak = @buraksamisirin   emine = @esraciicek    erdener = @Lexar343
+#   aysu = @howlerofdarrow  eylem = @eylemsaribal    aleyna = @Aleycode
+
+# Modüller
+/core/                @aozcan4482 @buraksamisirin
+/register/            @aozcan4482 @buraksamisirin
+/anchor/              @buraksamisirin @aozcan4482
+/ontology/            @eylemsaribal @Aleycode
+/shapes/              @eylemsaribal @Aleycode
+/tagger/              @Aleycode @eylemsaribal
+/copywarn/            @esraciicek @Aleycode
+/evalset/             @esraciicek @Aleycode
+/evalset/run_tagger.py  @Aleycode @esraciicek
+/search/              @Lexar343 @howlerofdarrow
+/web/                 @Lexar343 @howlerofdarrow
+
+# Testler (paketin sahibi ve ikincisi)
+/tests/core/          @aozcan4482 @buraksamisirin
+/tests/register/      @aozcan4482 @buraksamisirin
+/tests/anchor/        @buraksamisirin @aozcan4482
+/tests/ontology/      @eylemsaribal @Aleycode
+/tests/shapes/        @eylemsaribal @Aleycode
+/tests/tagger/        @Aleycode @eylemsaribal
+/tests/copywarn/      @esraciicek @Aleycode
+/tests/evalset/       @esraciicek @Aleycode
+/tests/search/        @Lexar343 @howlerofdarrow
+/tests/vectors/       @buraksamisirin @Lexar343
+/tests/web/           @Lexar343 @buraksamisirin
+/tests/e2e/           @esraciicek @aozcan4482
+
+# Belgeler
+/docs/acceptance/     @howlerofdarrow @esraciicek
+/docs/pilot/          @howlerofdarrow @esraciicek
+/docs/reports/        @esraciicek @aozcan4482
+/docs/ops/            @buraksamisirin @aozcan4482
+/docs/guide/          @Lexar343 @howlerofdarrow
+/docs/minutes/        @Lexar343 @howlerofdarrow
+/README.md            @Lexar343 @howlerofdarrow
+/proposal/            @aozcan4482 @Lexar343
+
+# Üyenin kendi analiz belgeleri ve work log taslakları: sahibi ve modülünün ikincisi
+/docs/analysis/arda-*     @aozcan4482 @buraksamisirin
+/docs/analysis/burak-*    @buraksamisirin @aozcan4482
+/docs/analysis/eylem-*    @eylemsaribal @Aleycode
+/docs/analysis/aleyna-*   @Aleycode @eylemsaribal
+/docs/analysis/emine-*    @esraciicek @Aleycode
+/docs/analysis/erdener-*  @Lexar343 @howlerofdarrow
+/docs/analysis/aysu-*     @howlerofdarrow @esraciicek
+/docs/worklog/arda.md     @aozcan4482
+/docs/worklog/burak.md    @buraksamisirin
+/docs/worklog/eylem.md    @eylemsaribal
+/docs/worklog/aleyna.md   @Aleycode
+/docs/worklog/emine.md    @esraciicek
+/docs/worklog/erdener.md  @Lexar343
+/docs/worklog/aysu.md     @howlerofdarrow
+
+# Ortak yapılandırma
+/pyproject.toml                       @buraksamisirin @aozcan4482
+/.gitignore                           @buraksamisirin @aozcan4482
+/.gitattributes                       @buraksamisirin @aozcan4482
+/.github/workflows/ci.yml             @buraksamisirin @aozcan4482
+/.github/CODEOWNERS                   @buraksamisirin @aozcan4482
+/.github/workflows/copywarn.yml       @esraciicek @buraksamisirin
+/.github/pull_request_template.md     @esraciicek @buraksamisirin

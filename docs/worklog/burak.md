@@ -4,15 +4,16 @@ Bu dosyayı yalnızca Burak düzenler (K-009). En üstteki "Durum" bölümü her
 bir sonraki oturum buradan devam eder. Alttaki tablo, Workbench'e girilecek work log kayıtlarının
 taslağıdır.
 
-## Durum (2026-11-26)
+## Durum (2026-11-27)
 
-Biten (main'de): BRK-R1 (#2, `6903ae0`) · BRK-R2 (#5, `20ae356`)
-PR'da: BRK-0 — `BURAK_ILERLEME.md` içeriği bu dosyaya taşındı (branch: `docs/brk-0-worklog-move`); #3 ile `anchor/`, `copywarn/`, `evalset/` `main`'de, testler 61/61
-Sürüyor: —
-Beklediklerim: Arda — `main` için branch koruması (admin yetkisi bende yok), `core/` (ARD-0, BRK-4 buna bağlı), K-001 kararı (BRK-5 buna bağlı)
-Sıradaki adım: BRK-1 (`infra/repo-setup`): `pyproject.toml` (`[build-system]`, paket listesi, bağımlılık grupları), `CODEOWNERS`, `.gitignore`; ardından BRK-2 (genel CI) ve BRK-3 (test vektörleri)
-Açık sorular: Düzenlenebilir Workbench (`proposal_workbench_v4_11_0.html`) kimde? · Work log PR'ları 2 açık branch sınırına dahil mi? · Eski kayıt #9 ve #10 için: "was not done" mı, "was never committed" mı? · `v0.3.0` (27 Kas): entegrasyon kapısı tutmuyor, ertelensin mi? · Commit yazar e-postasında öğrenci numarası var (03 bölüm 9)
-Not: #2 ve #5'i kural 04 bölüm 6.7'nin aksine (Burak'ın PR'larını Arda merge eder) ben merge ettim; PR'lara açıklama yazıldı.
+Kural seti: 2.3
+Biten (main'de): BRK-R1 (#2) · BRK-R2 (#5) · BRK-0 (#8)
+PR'da: —
+Sürüyor: BRK-1 — `pyproject.toml`, `CODEOWNERS`, `.gitignore` main'de (#14, Arda merge etti); `main` için branch koruması Arda'da (admin) · BRK-2 — `ci.yml` ilk çalışmada yeşil (run 45969400152: Bitcoin Core 32.1 hash doğrulandı, `pytest` 77 passed, regtest 1 passed atlanmadan, `node --test` 7/7); PR açılıyor (branch: `infra/ci-regtest`)
+Beklediklerim: Arda — branch koruması (BRK-1 `(done)` buna bağlı), `core/` (ARD-0, BRK-4), K-001 (BRK-5), `v0.3.0` kararı
+Sıradaki adım: BRK-2 PR'ı merge olunca branch korumasına "CI yeşil" şartı eklenir (Arda); ardından BRK-3 (test vektörleri, Erdener bekliyor)
+Açık sorular: Düzenlenebilir Workbench (Aleyna'da) · Eski kayıt #9 ve #10 için: "was not done" mı, "was never committed" mı? · `v0.3.0` (27 Kas) ertelensin mi? · Commit yazar e-postasında öğrenci numarası var (03 bölüm 9)
+Not: #2, #5 ve #8'i kural 04 bölüm 6.7'nin aksine (Burak'ın PR'larını Arda merge eder) ben merge ettim; PR'lara açıklama yazıldı. 2.3'teki 24 saat kuralından önceydi.
 
 ## Work log taslakları
 
@@ -25,7 +26,9 @@ Not: #2 ve #5'i kural 04 bölüm 6.7'nin aksine (Burak'ın PR'larını Arda merg
 | 2026-11-24 | P10 | S2 | 0.5 | Reviewed the TestBranch pull request, ran its 61 tests and requested removal of the personal log | https://github.com/aozcan4482/noteproof/pull/3 | hayır |
 | 2026-11-25 | P10 | - | 1 | Reviewed the open pull request queue and merged the approved UI sketches pull request into main | https://github.com/aozcan4482/noteproof/pull/4 | hayır |
 | 2026-11-26 | P10 | - | 1 | Merged the approved BRK-R1 and BRK-R2 pull requests into main and deleted their branches | https://github.com/aozcan4482/noteproof/pull/5 | hayır |
-| 2026-11-26 | P10 | - | 1 | Moved the old personal progress log into the work-log file and closed the BRK-0 task | PR linki (açılınca eklenecek) | hayır |
+| 2026-11-26 | P10 | - | 1 | Moved the old personal progress log into the work-log file and closed the BRK-0 task | https://github.com/aozcan4482/noteproof/pull/8 | hayır |
+| 2026-11-27 | P10 | - | 2.5 | Tested and merged six approved pull requests and reviewed the web skeleton and work-log pull requests | https://github.com/aozcan4482/noteproof/pull/13 | hayır |
+| 2026-11-27 | P10 | - | 1.5 | Added the build system, package list, dependency groups, CODEOWNERS and ignore rules for BRK-1 | https://github.com/aozcan4482/noteproof/pull/14 | hayır |
 
 ### BRK-R1 ve BRK-R2 `main`'de: girilecek düzeltme kayıtları (04 bölüm 9.1)
 
