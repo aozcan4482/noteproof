@@ -4,7 +4,7 @@
  "stage": "proposal",
  "stageLabel": "Proposal",
  "stageFills": "The plan: who the system is for, what it will do, how it will be built and checked, and who does what. Nothing is implemented yet: the Delivery and evidence part stays empty.",
- "saved": "2026-11-27T11:30:29.327Z",
+ "saved": "2026-11-27T12:30:15.623Z",
  "proposal": {
   "course": "SEN0401",
   "stage": "proposal",
@@ -989,6 +989,48 @@
     "ref": "",
     "prev": "9823ba01c387624bd996fb4b0919c97a65ca97f7c23a9bfe924c932447cb0921",
     "hash": "cdb5a36e8564f0cb284b39656180fe7730c8805885d78e707e167a5eecb7b2d5"
+   },
+   {
+    "seq": 20,
+    "ts": "2026-11-27T12:24:56.180Z",
+    "member": "Eylem Sarıbal",
+    "process": "P06",
+    "story": "S5",
+    "hours": 0.5,
+    "description": "Extracted the 14 chapters of Mastering Bitcoin 3rd ed. into topic IDs and drafted the Transactions hierarchy",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/19",
+    "kind": "work",
+    "ref": "",
+    "prev": "cdb5a36e8564f0cb284b39656180fe7730c8805885d78e707e167a5eecb7b2d5",
+    "hash": "228d29c0ef6bf21a9f04169a177f11c4c409311dc098540c45f1dc68ca692191"
+   },
+   {
+    "seq": 21,
+    "ts": "2026-11-27T12:27:06.778Z",
+    "member": "Eylem Sarıbal",
+    "process": "P06",
+    "story": "S3",
+    "hours": 0.25,
+    "description": "Entry 5 was not done at the time; the chapter list was done and delivered in entry 20",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/19",
+    "kind": "correction",
+    "ref": "5",
+    "prev": "228d29c0ef6bf21a9f04169a177f11c4c409311dc098540c45f1dc68ca692191",
+    "hash": "a89a8c6c7ec14704cbaccadc9f9be5f7d2b05aadd5259724d16e9854c2e624a6"
+   },
+   {
+    "seq": 22,
+    "ts": "2026-11-27T12:28:57.027Z",
+    "member": "Eylem Sarıbal",
+    "process": "P05",
+    "story": "S4",
+    "hours": 0.25,
+    "description": "Entry 6 was not done at the time; the Transactions SKOS draft was done and delivered in entry 20",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/19",
+    "kind": "correction",
+    "ref": "6",
+    "prev": "a89a8c6c7ec14704cbaccadc9f9be5f7d2b05aadd5259724d16e9854c2e624a6",
+    "hash": "3000544f2d12e2186082778cbfc96fe9942187930198a1cb9812948ba32510e1"
    }
   ],
   "repoCheck": {
