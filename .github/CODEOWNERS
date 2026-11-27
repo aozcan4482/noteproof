@@ -72,6 +72,7 @@
 # Ortak yapılandırma
 /pyproject.toml                       @buraksamisirin @aozcan4482
 /.gitignore                           @buraksamisirin @aozcan4482
+/.gitattributes                       @buraksamisirin @aozcan4482
 /.github/workflows/ci.yml             @buraksamisirin @aozcan4482
 /.github/CODEOWNERS                   @buraksamisirin @aozcan4482
 /.github/workflows/copywarn.yml       @esraciicek @buraksamisirin
