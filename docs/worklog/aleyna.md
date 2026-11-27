@@ -11,7 +11,7 @@ PR'da: ALY-R1 — #12, Emine'nin review'u bekleniyor · Steward kontrolü 27 Kas
 Sürüyor: ALY-2 (part, main'de #10 ile) — `LLMClient`, `client_from_env`, `FakeLLM`; sağlayıcı istemcisi K-005 kararını bekliyor · ALY-4 (part, main'de #10 ile) — `suggest`, `TagSuggestion` ve S3 testleri; `tests/tagger/fake_vocab.py` (NP-STUB) ile çalışıyor, EYL-3 main'e girince gerçek sözlüğe bağlanacak
 Beklediklerim: EYL-3 — Eylem'in `feature/S5-course-vocabulary` branch'inde (27 Kas 00:05; imzalar 02#5.2 ile aynı, `Topic_TransactionFees` ve `Topic_FeeRate` var), PR henüz yok · EMN-2 (60 not) — kimlikler ve notlar bekleniyor · BRK-1 (`pyproject.toml` bağımlılık grupları, `rdflib` dahil; `.gitignore`'da `.env` ve `data/` yok)
 Sıradaki adım: ALY-3 `tagger/extract.py` (karar: `docs/analysis/aleyna-text-extraction.md` bölüm 5) · ALY-5 sentetik örneklerle · Emine için 9 kendi notum (EMN-2)
-Açık sorular: K-005 dil modeli sağlayıcısı · 22–23 Kasım tarihli görevlerin yeni tarihleri (repoya erişim 23 Kasım 19:17'de geldi; Erdener kural setini 27 Kasım'da revize ediyor) · `suggest` boş metinde `ValueError` veriyor; sözleşmede tanımlı değil (`NP-TODO(arda)`) · Özetin "iki cümle" olması kodla denetlenmiyor (Emine'nin #10 notu) → ALY-6
+Açık sorular: K-005 dil modeli sağlayıcısı · `suggest` boş metinde `ValueError` veriyor; sözleşmede tanımlı değil (`NP-TODO(arda)`) · Özetin "iki cümle" olması kodla denetlenmiyor (Emine'nin #10 notu) → ALY-6
 Cevaplanan: Eski kayıt #7 ve #8 plan olarak yazılmış, iş yapılmamış → Correction'larda "was not done" (Aleyna, 27 Kas) · Work log `log/` branch'leri 2 açık branch sınırına dahil değil (ekip grubu, 27 Kas)
 
 ## Work log taslakları
