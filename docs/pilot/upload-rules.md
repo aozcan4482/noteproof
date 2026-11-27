@@ -2,16 +2,17 @@
 
 Görev: AYS-2 · Sahip: aysu · İnceleyen: emine · Kural seti sürüm 2.3 · Karar: K-006
 
-**Durum: taslak, öğrencilerle teyit ediliyor.** Bu sayfadaki kurallar ekibin K-006 kararıdır. Arşivin
-sahibi olan 3. ve 4. sınıf öğrencileri teyit edince durum "teyit edildi" olur. Görüşler bölüm 5'e eklenir
-ve K-006 kapanır.
+**Durum: öğrencilerle teyit edildi (27 Kasım 2026).** 8 öğrenciden 6'sı "yalnızca kendi notu" kuralına,
+dosya türleri ve boyut sorusunda 4'ü mevcut sınırlara katıldı. Kurallar K-006'daki hâliyle geçerlidir.
+Öğrencilerin değişiklik istekleri (bölüm 6) Arda'ya iletildi; kabul edilen olursa K-006 ve bu sayfa
+birlikte güncellenir.
 
 ## 1. Neler yüklenir
 
 | Kural | Ayrıntı |
 | --- | --- |
 | Yalnızca **kendi** ders notun | Kendi elinle ya da bilgisayarında yazdığın not |
-| Dosya türleri | PDF, JPEG, PNG, düz metin (`.txt`), Markdown (`.md`) |
+| Dosya türleri | PDF, JPEG, PNG, düz metin (`.txt`), Markdown (`.md`). Word dosyanı PDF olarak kaydedip yükle |
 | En büyük dosya | 10 MB |
 | Bir dosya bir not | Birden çok dersin notu tek dosyada olmaz |
 
@@ -50,13 +51,39 @@ ve K-006 kapanır.
 
 ## 5. Öğrenci görüşleri
 
-<!-- Gruplardan gelen yanıtların özeti buraya. Yalnızca toplu sayılar ve anonim alıntılar; isim yok. -->
+| | |
+| --- | --- |
+| Kime soruldu | 8 öğrenci: 3'ü 3. sınıf, 5'i 4. sınıf. Ekip üyesi yok |
+| Nasıl | Aysu tarafından yüz yüze ya da tek tek, 27 Kasım 2026. Dört soru |
+| Kayıt | Yalnızca toplu sayılar ve isimsiz ifadeler. İsimler alınmadı |
 
-| Soru | Yanıt veren | Özet |
+| Soru | Katılıyor | Katılmıyor / değişiklik istiyor | Belirsiz |
+| --- | --- | --- | --- |
+| 1. Yalnızca kendi notun yüklenir | 6 | 1 — arkadaşının notunu ve hocanın sınıfta verdiği etkinlikleri de yüklemek istiyor | 1 — "notum yok" dedi |
+| 2. PDF, JPEG, PNG, metin; en çok 10 MB yeterli mi | 4 | 3 — ikisi Word (`.docx`) istiyor; biri 10 MB yerine 25 MB istiyor | 1 — "No" dedi, anlamı netleşmedi |
+| 3. Bildirilen notun arşivden silinmesi | 6 | 1 — bildirim yerine yazarın kendisinin silebileceği bir düğme istiyor | 1 — "fark etmez" |
+
+4. soru (eklemek istediğin kural), her biri bir öğrenciden:
+
+- Ek kural yok (3 öğrenci).
+- "Notlarım kamuya açıktır."
+- Notlara isim etiketi eklensin.
+- Bir etiketleme sistemi olsun.
+- Ses kaydı da yüklenebilsin.
+- Ders kodu zorunlu olsun.
+
+## 6. İstekler ve yanıtları
+
+| İstek | Yanıt | Kime |
 | --- | --- | --- |
-| Dosya türleri ve 10 MB yeterli mi | | |
-| "Kendi notu" tanımına katılıyor musun | | |
-| Kaldırma yolu uygun mu | | |
-| Eklemek istediğin kural | | |
+| Arkadaşının notunu yüklemek | Kapsam dışı (`01` bölüm 5). Notu arkadaşı kendisi yükler; kanıt da doğru kişiye ait olur | — |
+| Hocanın sınıfta verdiği etkinlikler | Kapsam dışı (`01` bölüm 5). Öğrencinin o etkinliğe kendi yazdığı çözüm ya da not yüklenebilir | — |
+| Word (`.docx`) desteği (2 öğrenci) | Şimdilik PDF olarak kaydedip yükleme. Yeni dosya türü sözleşme değişikliğidir (`02` bölüm 7, metin çıkarma: Aleyna) | Arda |
+| 25 MB sınırı (1 öğrenci) | K-006 değişikliği | Arda |
+| Yazarın kendi notunu silebileceği düğme (1 öğrenci) | Şu an kaldırma bildirimle yapılıyor (ARD-8). Öneri olarak iletildi | Arda |
+| Ses kaydı (1 öğrenci) | Kabul edilen türler arasında yok; K-006 değişikliği | Arda |
+| İsim etiketi (1 öğrenci) | Gerçek isim saklanmaz (K-007). Not zaten yazarın takma adıyla görünür | — |
+| Etiketleme sistemi (1 öğrenci) | Var: AI dersi ve konuları önerir, yazar onaylar (S3) | — |
+| Ders kodu zorunlu (1 öğrenci) | Var: her notun tam bir dersi olmak zorunda (shape kuralı) | — |
 
-Teyit tarihi: —
+Teyit tarihi: 27 Kasım 2026
