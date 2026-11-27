@@ -1,0 +1,208 @@
+# NOTEPROOF-FILE
+# module:   ontology
+# owner:    eylem           second: aleyna
+# story:    S1, S2, S4, S6, S7
+# contract: 02#4 Veri modeli, 02#6 Proof dosyası
+# depends:  -
+# status:   wip
+#
+# NoteProof not ontolojisi: kayıt servisi (Arda), shape'ler (EYL-5), arama (Erdener) ve proof dosyası
+# (Burak, Erdener) bu dosyadaki adları kullanır. Burada yalnızca np: terimleri tanımlanır; schema:, prov:
+# ve skos: terimleri olduğu gibi yeniden kullanılır, yeniden tanımlanmaz.
+#
+# Kurallar:
+# - Terim adları 02_MIMARI_SOZLESMELER.md bölüm 4 ve 6 ile birebir aynıdır. Bir ad değişecekse
+#   sözleşme değişikliği prosedürü (02#9) işler; bu dosyada tek başına değiştirilmez.
+# - np:StudentAccount gerçek isim ya da öğrenci numarası tutan hiçbir özellik taşımaz; yalnızca takma ad
+#   (schema:alternateName). tests/ontology bunu denetler.
+# - Ders ve konu ayrı bir np: sınıfı değildir: ikisi de skos:Concept'tir (ontology/courses.ttl).
+# - Kısıtlar (tam 1 ders, en az 1 konu, tagsConfirmed = true) burada değil, shapes/ altındaki SHACL
+#   shape'lerinde denetlenir. rdfs:domain yalnızca tek bir sınıfa ait özelliklerde yazılır; noteHash,
+#   network, txid gibi hem not/proof hem timestamp'te geçen alanlarda domain yoktur.
+
+# NP-DECISION(K-001): np: öneki geçici namespace değeridir; core.ns.NAMESPACE ile aynı olmak zorundadır.
+@prefix np:     <https://github.com/aozcan4482/noteproof/ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+<https://github.com/aozcan4482/noteproof/ns> a owl:Ontology ;
+    rdfs:label "NoteProof not ontolojisi"@tr , "NoteProof note ontology"@en ;
+    rdfs:comment "Ders notlarının kaydı, zaman damgası, proof'u ve kopya uyarısı için terimler."@tr .
+
+# ===================================================================================================
+# Sınıflar (02#4)
+# ===================================================================================================
+
+np:Note a owl:Class ;
+    rdfs:subClassOf schema:CreativeWork ;
+    rdfs:label "Not"@tr , "Note"@en ;
+    rdfs:comment "Bir öğrencinin kaydettiği ders notu. IRI: {NS}note/{hash}."@tr .
+
+np:Registration a owl:Class ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "Kayıt"@tr , "Registration"@en ;
+    rdfs:comment "Notun kayıt etkinliği; hesap prov:wasAssociatedWith, zaman prov:endedAtTime ile."@tr .
+
+np:StudentAccount a owl:Class ;
+    rdfs:subClassOf prov:Agent ;
+    rdfs:label "Öğrenci hesabı"@tr , "Student account"@en ;
+    rdfs:comment "Notu kaydeden hesap. Yalnızca takma ad (schema:alternateName); gerçek isim ve numara yok."@tr .
+
+np:DailyTimestamp a owl:Class ;
+    rdfs:label "Günlük zaman damgası"@tr , "Daily timestamp"@en ;
+    rdfs:comment "Bir günün not hash'lerinin Merkle kökünü taşıyan Bitcoin işlemi."@tr .
+
+np:Proof a owl:Class ;
+    rdfs:label "Proof"@tr , "Proof"@en ;
+    rdfs:comment "Bir notun zincirdeki kanıtı; alanları 02 bölüm 6'daki proof dosyasıyla aynı."@tr .
+
+np:CopyWarning a owl:Class ;
+    rdfs:label "Kopya uyarısı"@tr , "Copy warning"@en ;
+    rdfs:comment "Yeni notun önceki bir nota benzediğini bildiren uyarı; karar ya da ceza değildir."@tr .
+
+# ===================================================================================================
+# Not özellikleri (np:Note)
+# Not ayrıca şunları kullanır: schema:name (başlık), schema:encodingFormat (MIME türü),
+# schema:abstract (özet), prov:wasGeneratedBy (np:Registration), prov:wasAttributedTo
+# (np:StudentAccount), prov:wasRevisionOf (önceki sürüm, varsa).
+# ===================================================================================================
+
+np:noteHash a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "not hash'i"@tr , "note hash"@en ;
+    rdfs:comment "Not dosyasının küçük harfli 64 karakterlik SHA-256 hex'i. Not ve proof'ta geçer."@tr .
+
+np:course a owl:ObjectProperty ;
+    rdfs:domain np:Note ;
+    rdfs:range skos:Concept ;
+    rdfs:label "ders"@tr , "course"@en ;
+    rdfs:comment "Notun dersi: np:CourseScheme'deki bir Course_ kavramı; tam bir tane."@tr .
+
+np:topic a owl:ObjectProperty ;
+    rdfs:domain np:Note ;
+    rdfs:range skos:Concept ;
+    rdfs:label "konu"@tr , "topic"@en ;
+    rdfs:comment "Notun konusu: np:CourseScheme'deki bir Topic_ kavramı; en az bir tane."@tr .
+
+np:tagsConfirmed a owl:DatatypeProperty ;
+    rdfs:domain np:Note ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "etiketler onaylandı"@tr , "tags confirmed"@en ;
+    rdfs:comment "Yazar ders ve konuları onayladı mı; kaydedilen notta true olmak zorunda."@tr .
+
+np:status a owl:DatatypeProperty ;
+    rdfs:domain np:Note ;
+    rdfs:range xsd:string ;
+    rdfs:label "durum"@tr , "status"@en ;
+    rdfs:comment "Notun yaşam döngüsü: uploaded, tagged, confirmed, registered, timestamped, superseded."@tr .
+
+np:hasProof a owl:ObjectProperty ;
+    rdfs:domain np:Note ;
+    rdfs:range np:Proof ;
+    rdfs:label "proof'u"@tr , "has proof"@en ;
+    rdfs:comment "Notun proof'u; zaman damgası onaylandıktan sonra eklenir."@tr .
+
+# ===================================================================================================
+# Zaman damgası ve proof özellikleri (np:DailyTimestamp, np:Proof)
+# ===================================================================================================
+
+np:day a owl:DatatypeProperty ;
+    rdfs:domain np:DailyTimestamp ;
+    rdfs:range xsd:date ;
+    rdfs:label "gün"@tr , "day"@en ;
+    rdfs:comment "Zaman damgasının kapsadığı gün (UTC)."@tr .
+
+np:merkleRoot a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "Merkle kökü"@tr , "Merkle root"@en ;
+    rdfs:comment "OP_RETURN çıktısına yazılan 32 baytlık kökün 64 karakterlik hex'i."@tr .
+
+np:txid a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "işlem kimliği"@tr , "transaction id"@en ;
+    rdfs:comment "Kökü taşıyan Bitcoin işleminin kimliği (64 hex)."@tr .
+
+np:blockHeight a owl:DatatypeProperty ;
+    rdfs:range xsd:integer ;
+    rdfs:label "blok yüksekliği"@tr , "block height"@en ;
+    rdfs:comment "İşlemin onaylandığı bloğun yüksekliği."@tr .
+
+np:blockHash a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "blok hash'i"@tr , "block hash"@en ;
+    rdfs:comment "İşlemin onaylandığı bloğun hash'i (64 hex)."@tr .
+
+np:blockTime a owl:DatatypeProperty ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "blok zamanı"@tr , "block time"@en ;
+    rdfs:comment "Bloğun zamanı, ISO 8601, UTC."@tr .
+
+np:network a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "ağ"@tr , "network"@en ;
+    rdfs:comment "Bitcoin ağı: signet ya da regtest. Mainnet kullanılmaz."@tr .
+
+np:hashAlgorithm a owl:DatatypeProperty ;
+    rdfs:domain np:Proof ;
+    rdfs:range xsd:string ;
+    rdfs:label "hash algoritması"@tr , "hash algorithm"@en ;
+    rdfs:comment "Not hash'inin algoritması; her zaman SHA-256."@tr .
+
+np:leafPrefix a owl:DatatypeProperty ;
+    rdfs:domain np:Proof ;
+    rdfs:range xsd:string ;
+    rdfs:label "yaprak öneki"@tr , "leaf prefix"@en ;
+    rdfs:comment "Merkle yaprak hash'inden önce eklenen bayt (hex, 00)."@tr .
+
+np:nodePrefix a owl:DatatypeProperty ;
+    rdfs:domain np:Proof ;
+    rdfs:range xsd:string ;
+    rdfs:label "düğüm öneki"@tr , "node prefix"@en ;
+    rdfs:comment "Merkle iç düğüm hash'inden önce eklenen bayt (hex, 01)."@tr .
+
+np:merklePath a owl:ObjectProperty ;
+    rdfs:domain np:Proof ;
+    rdfs:label "Merkle yolu"@tr , "Merkle path"@en ;
+    rdfs:comment "Yapraktan köke kardeş hash'ler; her adım np:side ve np:sibling taşır."@tr .
+
+np:side a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "taraf"@tr , "side"@en ;
+    rdfs:comment "Merkle yolundaki kardeş hash'in tarafı: left ya da right."@tr .
+
+np:sibling a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "kardeş hash"@tr , "sibling"@en ;
+    rdfs:comment "Merkle yolundaki kardeş düğümün hash'i (64 hex)."@tr .
+
+# ===================================================================================================
+# Kopya uyarısı özellikleri (np:CopyWarning)
+# ===================================================================================================
+
+np:laterNote a owl:ObjectProperty ;
+    rdfs:domain np:CopyWarning ;
+    rdfs:range np:Note ;
+    rdfs:label "sonraki not"@tr , "later note"@en ;
+    rdfs:comment "Uyarının hakkında olduğu, sonra yüklenen not."@tr .
+
+np:earlierNote a owl:ObjectProperty ;
+    rdfs:domain np:CopyWarning ;
+    rdfs:range np:Note ;
+    rdfs:label "önceki not"@tr , "earlier note"@en ;
+    rdfs:comment "Benzerlik bulunan, daha önce kaydedilmiş not; uyarı onun proof'una bağlanır."@tr .
+
+np:score a owl:DatatypeProperty ;
+    rdfs:domain np:CopyWarning ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "benzerlik puanı"@tr , "similarity score"@en ;
+    rdfs:comment "0 ile 1 arasında benzerlik puanı."@tr .
+
+np:method a owl:DatatypeProperty ;
+    rdfs:domain np:CopyWarning ;
+    rdfs:range xsd:string ;
+    rdfs:label "yöntem"@tr , "method"@en ;
+    rdfs:comment "Benzerliği bulan yöntemin adı (ör. char-cosine)."@tr .

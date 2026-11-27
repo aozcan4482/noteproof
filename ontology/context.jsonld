@@ -1,0 +1,29 @@
+{
+  "@context": {
+    "@vocab": "https://github.com/aozcan4482/noteproof/ns#",
+    "np": "https://github.com/aozcan4482/noteproof/ns#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "course": {"@id": "np:course", "@type": "@vocab"},
+    "topic": {"@id": "np:topic", "@type": "@vocab"},
+    "hasProof": {"@id": "np:hasProof", "@type": "@id"},
+    "laterNote": {"@id": "np:laterNote", "@type": "@id"},
+    "earlierNote": {"@id": "np:earlierNote", "@type": "@id"},
+    "day": {"@id": "np:day", "@type": "xsd:date"},
+    "blockTime": {"@id": "np:blockTime", "@type": "xsd:dateTime"},
+
+    "name": "schema:name",
+    "encodingFormat": "schema:encodingFormat",
+    "abstract": "schema:abstract",
+    "alternateName": "schema:alternateName",
+
+    "wasGeneratedBy": {"@id": "prov:wasGeneratedBy", "@type": "@id"},
+    "wasAttributedTo": {"@id": "prov:wasAttributedTo", "@type": "@id"},
+    "wasRevisionOf": {"@id": "prov:wasRevisionOf", "@type": "@id"},
+    "wasAssociatedWith": {"@id": "prov:wasAssociatedWith", "@type": "@id"},
+    "endedAtTime": {"@id": "prov:endedAtTime", "@type": "xsd:dateTime"}
+  }
+}
