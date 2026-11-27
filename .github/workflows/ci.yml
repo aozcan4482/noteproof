@@ -46,7 +46,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev,all]"
 
-      # Bitcoin Core ikili dosyaları; her çalışmada yeniden indirmemek için önbellekte tutulur.
       # OCR (02 bölüm 1: "Tesseract + pytesseract"). tagger/ Türkçe ve İngilizce dil verisiyle okur (tur+eng).
       - name: Tesseract (OCR, tur+eng)
         run: |
@@ -55,6 +54,7 @@ jobs:
           tesseract --version | head -1
           tesseract --list-langs
 
+      # Bitcoin Core ikili dosyaları; her çalışmada yeniden indirmemek için önbellekte tutulur.
       - name: Bitcoin Core önbelleği
         id: bitcoin-cache
         uses: actions/cache@v4
