@@ -4,7 +4,7 @@
  "stage": "proposal",
  "stageLabel": "Proposal",
  "stageFills": "The plan: who the system is for, what it will do, how it will be built and checked, and who does what. Nothing is implemented yet: the Delivery and evidence part stays empty.",
- "saved": "2026-11-27T21:29:16.470Z",
+ "saved": "2026-11-27T21:47:43.276Z",
  "proposal": {
   "course": "SEN0401",
   "stage": "proposal",
@@ -1213,6 +1213,48 @@
     "ref": "",
     "prev": "164af249fd3282bea49852624fc86c4fd9a76f09f095769f61dbfc5688b43a53",
     "hash": "417f4fcca783faf9f3b13b4622e022137b98fd84da6ec61fad78a18fa74db15f"
+   },
+   {
+    "seq": 36,
+    "ts": "2026-11-27T21:45:42.129Z",
+    "member": "Aysu Akdüzen",
+    "process": "P03",
+    "story": "S1",
+    "hours": 0.75,
+    "description": "Wrote acceptance scenarios for stories S1 to S7 with the fixed criteria, manual steps and result tables",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/32",
+    "kind": "work",
+    "ref": "",
+    "prev": "417f4fcca783faf9f3b13b4622e022137b98fd84da6ec61fad78a18fa74db15f",
+    "hash": "465d7defab3dd12b4dbc6823ff7ebe26c9205bc7c533dbd838e6d0c6166a7ee4"
+   },
+   {
+    "seq": 37,
+    "ts": "2026-11-27T21:46:26.247Z",
+    "member": "Aysu Akdüzen",
+    "process": "P02",
+    "story": "S1",
+    "hours": 0.5,
+    "description": "Drafted the upload rules and asked eight 3rd- and 4th-year students about them",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/33",
+    "kind": "work",
+    "ref": "",
+    "prev": "465d7defab3dd12b4dbc6823ff7ebe26c9205bc7c533dbd838e6d0c6166a7ee4",
+    "hash": "17453d840f37aafc6a7ac988f1be17d92e8eaf66d05002e5031e45753ebbd34f"
+   },
+   {
+    "seq": 38,
+    "ts": "2026-11-27T21:47:02.803Z",
+    "member": "Aysu Akdüzen",
+    "process": "P11",
+    "story": "",
+    "hours": 0.25,
+    "description": "Drafted the pilot plan with the O4 measurement protocol, the consent text and the feedback form",
+    "evidence": "https://github.com/aozcan4482/noteproof/pull/34",
+    "kind": "work",
+    "ref": "",
+    "prev": "17453d840f37aafc6a7ac988f1be17d92e8eaf66d05002e5031e45753ebbd34f",
+    "hash": "0936873ee8e952e59c4f807a9e7589c30a8bbade3d80428366dcad4f3691b63a"
    }
   ],
   "repoCheck": {
