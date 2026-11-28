@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   copywarn
+# owner:    emine           second: aleyna
+# story:    S6
+# contract: 02#5.4
+# depends:  -
+# status:   stable
 """NoteProof — kopya uyarısı (copywarn/).
 
 Proposal'daki "Copy warning and evaluation set" modülü (E3, story S6):

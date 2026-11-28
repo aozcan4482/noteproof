@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   evalset
+# owner:    emine           second: aleyna
+# story:    S6
+# contract: -
+# depends:  copywarn.CopyChecker.check
+# status:   stable
 """Değerlendirme hattının (plant -> evaluate) uçtan uca testi, sentetik notlarla.
 
 Gerçek 60 notluk set evalset/ altına eklendiğinde CI aynı hattı

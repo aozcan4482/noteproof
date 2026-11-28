@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   copywarn
+# owner:    emine           second: aleyna
+# story:    S6
+# contract: -
+# depends:  -
+# status:   stable
 """Testler için SENTETİK not metinleri.
 
 Bunlar gerçek öğrenci notları DEĞİLDİR: testlerin çalışması için yazılmış kısa

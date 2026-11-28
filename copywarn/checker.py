@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   copywarn
+# owner:    emine           second: aleyna
+# story:    S6
+# contract: 02#5.4 CopyChecker, RegisteredNote, CopyWarning
+# depends:  -
+# status:   stable
 """CopyChecker: yeni bir notu önceki notlarla karşılaştırır.
 
 Kayıt servisiyle (Arda) sözleşme:
@@ -14,12 +21,15 @@ from dataclasses import dataclass, field
 
 from . import text as T
 
-# Eşikler testlerle ve değerlendirme setiyle ayarlanır (eval/run_copywarn.py).
+# Eşikler testlerle ve değerlendirme setiyle ayarlanır (evalset/run_copywarn.py).
+# NP-DECISION(K-002): karakter 5-gram kosinüs + kelime 3-shingle containment, eşik 0.60.
+# Eşik gerçek veriyle EMN-3'te ayarlanır.
 DEFAULT_THRESHOLD = 0.60
 # Containment ölçüsü, kısa metinlerde yanıltıcı olmasın diye en az bu kadar shingle ister.
 MIN_SHINGLES = 15
 
 
+# NP-CONTRACT(02#5.4): alan adları ve sırası sabit; kayıt servisi (Arda) bu sınıfla not ekler.
 @dataclass(frozen=True)
 class RegisteredNote:
     """Arşivde kayıtlı bir not (karşılaştırma için gereken kadarı)."""
@@ -31,6 +41,7 @@ class RegisteredNote:
     proof: str = ""  # önceki notun proof sayfası linki (varsa)
 
 
+# NP-CONTRACT(02#5.4): alan adları sabit; önizleme yanıtındaki copyWarnings bunlardan üretilir (02#7).
 @dataclass(frozen=True)
 class CopyWarning:
     earlier_note_id: str
@@ -48,6 +59,7 @@ class _Indexed:
     sh: set = field(default_factory=set)
 
 
+# NP-CONTRACT(02#5.4): CopyChecker(threshold=0.60) kurucusu sabit.
 class CopyChecker:
     def __init__(self, threshold: float = DEFAULT_THRESHOLD):
         self.threshold = threshold
@@ -56,6 +68,7 @@ class CopyChecker:
     def __len__(self) -> int:
         return len(self._notes)
 
+    # NP-CONTRACT(02#5.4): imza sabit. Aktivite modeli adım 9'dan sonra çağrılır.
     def add(self, note: RegisteredNote) -> None:
         """Kaydedilmiş bir notu karşılaştırma havuzuna ekle."""
         self._notes.append(_Indexed(note, T.tf_vector(T.char_ngrams(note.text)), T.shingles(note.text)))
@@ -75,6 +88,7 @@ class CopyChecker:
                     best, method = c, "shingle-containment"
         return best, method
 
+    # NP-CONTRACT(02#5.4): imza sabit. Aktivite modeli adım 4b; aynı hesabın notu kopya sayılmaz.
     def check(self, text: str, author: str | None = None, before: str | None = None) -> list[CopyWarning]:
         """Yeni notun metnine benzeyen önceki notlar, en benzer olan önce.
 
