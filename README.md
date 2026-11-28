@@ -124,7 +124,8 @@ python -m anchor.daily --db data/noteproof.sqlite --out data/proofs
   **bir görev → bir branch → bir PR → `main` → branch silinir.**
 - Branch adları: `feature/S<no>-<kısa-ad>`, `infra/<kısa-ad>`, `docs/<kısa-ad>`, `fix/<kısa-ad>`, `log/<üye>-<no>`.
 - Commit mesajları İngilizce; açıklamada `Task: <görev> (part|done)` satırı bulunur.
-- Merge yöntemi: merge commit (squash yok). Merge'i Burak yapar.
+- Merge yöntemi: merge commit (squash yok). Merge'i Burak yapar; onaydan 24 saat sonra PR sahibi de
+  merge edebilir. Work log PR'larını sahibi merge eder.
 - `proposal/proposal.json` elle düzenlenmez; work log kayıtları yalnızca Proposal Workbench ile eklenir.
 - Repoya girmeyenler: `data/`, `.env`, `.venv/`, cüzdan dosyaları, API anahtarları, gerçek isim ve öğrenci
   numarası, anket ham verisi.
@@ -132,6 +133,6 @@ python -m anchor.daily --db data/noteproof.sqlite --out data/proofs
 ## Ekip kuralları
 
 Ekibin ayrıntılı çalışma kuralları (proje kapsamı, mimari sözleşmeler, kod kuralları, git akışı, takvim,
-kararlar ve görev listeleri) **bu repoda durmaz**; ekip içinde ayrıca dağıtılır. Güncel sürüm için
-Erdener Çimen'den (documentation lead) iste. Bu dosyaları repo klasörünün içine koyma: GitHub Desktop'ın
-Changes listesine girer ve yanlışlıkla commit edilir.
+kararlar ve her üyenin görev listesi) repodadır: giriş dosyası kökteki `AGENTS.md`, diğerleri `docs/rules/`
+altında. Geçerli kurallar `main`'deki hâlidir. Kural setinin sorumlusu Erdener Çimen'dir (documentation lead);
+değişiklikler `docs/rules-...` PR'larıyla yapılır.
