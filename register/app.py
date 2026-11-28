@@ -2,8 +2,8 @@
 # module:   register
 # owner:    arda            second: burak
 # story:    S1
-# contract: 02#7 GET /api/health, hata biçimi
-# depends:  -
+# contract: 02#7 GET /api/health, POST /api/accounts, X-NoteProof-Token, hata biçimi
+# depends:  core.graph.open_store
 # status:   wip
 """Kayıt servisinin FastAPI uygulaması: /api uç noktaları ve web/ sayfalarının sunumu.
 
@@ -20,18 +20,24 @@ from __future__ import annotations
 import logging
 import pathlib
 
-from fastapi import FastAPI, Request
+from typing import Annotated
+
+from fastapi import Depends, FastAPI, Header, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.routing import APIRoute
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from . import state
+from .accounts import AccountStore, InvalidPseudonym, PseudonymTaken
 from .errors import (
     INTERNAL_ERROR,
     INVALID_REQUEST,
     METHOD_NOT_ALLOWED,
     NOT_FOUND,
+    PSEUDONYM_TAKEN,
     UNAUTHORIZED,
     ApiError,
     error_body,
@@ -85,6 +91,42 @@ async def _unexpected_error(_: Request, exc: Exception) -> JSONResponse:
 @app.get("/api/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+# --- Hesaplar ve kimlik (K-007) -----------------------------------------------------------------------
+
+class AccountRequest(BaseModel):
+    # Yalnızca takma ad alınır. Gövdede başka alan (isim, numara, e-posta) gelirse yok sayılır, saklanmaz.
+    pseudonym: str
+
+
+# NP-CONTRACT(02#7): POST /api/accounts {"pseudonym"} → 201 {"account", "token"}; token yalnızca bir kez gösterilir.
+@app.post("/api/accounts", status_code=201)
+def create_account(
+    body: AccountRequest,
+    accounts: Annotated[AccountStore, Depends(state.account_store)],
+    graph: Annotated[object, Depends(state.graph_store)],
+) -> dict[str, str]:
+    try:
+        iri, token = accounts.create(body.pseudonym, graph)
+    except InvalidPseudonym as exc:
+        raise ApiError(422, INVALID_REQUEST, str(exc)) from exc
+    except PseudonymTaken as exc:
+        raise ApiError(409, PSEUDONYM_TAKEN, "Bu takma ad alınmış; başka bir takma ad seçin.") from exc
+    return {"account": iri, "token": token}
+
+
+# NP-CONTRACT(02#7): kimlik X-NoteProof-Token başlığıyla; yoksa ya da geçersizse 401 unauthorized.
+# Yazma uç noktaları (ARD-3, ARD-4) bunu Depends(require_account) ile kullanır; okuma ve proof kimlik istemez.
+def require_account(
+    accounts: Annotated[AccountStore, Depends(state.account_store)],
+    token: Annotated[str | None, Header(alias="X-NoteProof-Token")] = None,
+) -> str:
+    """Geçerli token'ın hesap IRI'sini döndürür."""
+    account = accounts.account_for_token(token)
+    if account is None:
+        raise ApiError(401, UNAUTHORIZED, "Token yok ya da geçersiz.")
+    return account
 
 
 # Arama servisinin router'ı (Erdener, 02 bölüm 5.6): GET /api/search.
