@@ -1,1 +1,10 @@
 id,course,topics,author,registered_at
+sen0401-001,Course_SEN0401,Topic_TransactionFees,yazar-01,2026-11-27T12:01:00
+sen0401-002,Course_SEN0401,Topic_FeeRate,yazar-01,2026-11-27T12:02:00
+sen0401-003,Course_SEN0401,Topic_FeeBumping,yazar-01,2026-11-27T12:03:00
+sen0401-004,Course_SEN0401,Topic_TransactionOutputs,yazar-01,2026-11-27T12:04:00
+sen0401-005,Course_SEN0401,Topic_KeysAndAddresses,yazar-01,2026-11-27T12:05:00
+sen0401-006,Course_SEN0401,Topic_DigitalSignatures,yazar-01,2026-11-27T12:06:00
+sen0401-007,Course_SEN0401,Topic_Blockchain,yazar-01,2026-11-27T12:07:00
+sen0401-008,Course_SEN0401,Topic_MiningAndConsensus,yazar-01,2026-11-27T12:08:00
+sen0401-009,Course_SEN0401,Topic_WalletRecovery,yazar-01,2026-11-27T12:09:00
