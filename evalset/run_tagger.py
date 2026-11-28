@@ -43,6 +43,9 @@ if TYPE_CHECKING:
 
 TARGET = 0.80  # 01_PROJE.md, O3: "≥ %80"
 
+# NP-TODO(burak): ci.yml'e ölçüm adımı: env NOTEPROOF_LLM_* (anahtar secret'tan) ile
+# `python -m evalset.run_tagger --json tagger-report.json`; anahtar yoksa betik kendisi "atlandı" der.
+
 # Groq ücretsiz planı kısa sürede çok istekte HTTP 429 veriyor (ALY-R2). Çağrılar arasında beklenir;
 # GroqClient ayrıca 429'da kendisi bekleyip yeniden dener.
 DEFAULT_DELAY = 2.5
