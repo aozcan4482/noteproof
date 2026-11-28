@@ -24,7 +24,8 @@ dependencies = []
 # NP-TODO(arda): Liste 02 bölüm 1'deki yığından türetildi; bağımlılık listesini onaylaman gerekiyor.
 # Yeni kütüphane gerekirse bu dosyayı kendi branch'inde değiştirme; 04 bölüm 8'deki ortak dosya talebini kullan.
 [project.optional-dependencies]
-dev = ["pytest>=8"]
+# httpx: FastAPI'nin test istemcisi (TestClient) ister; tests/register onsuz atlanır (Arda'nın NP-TODO'su, #41).
+dev = ["pytest>=8", "httpx>=0.27"]
 # Kayıt servisi ve HTTP API (Arda): FastAPI + uvicorn, dosya yükleme için python-multipart, grafik deposu.
 register = ["fastapi>=0.110", "uvicorn>=0.29", "python-multipart>=0.0.9", "rdflib>=7.0", "pyoxigraph>=0.4", "pyshacl>=0.26"]
 # Ontoloji, SKOS sözlüğü ve SHACL (Eylem).
