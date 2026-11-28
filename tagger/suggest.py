@@ -30,8 +30,8 @@ from typing import TYPE_CHECKING
 from .llm import LLMClient, client_from_env
 
 if TYPE_CHECKING:
-    # Yalnızca tip denetimi için. ontology/ (Eylem, EYL-3) main'e girene kadar testler
-    # tests/tagger/fake_vocab.py içindeki NP-STUB sözlükle çalışır; çalışma anında bu içe aktarma yapılmaz.
+    # Yalnızca tip denetimi için: suggest sözlüğü parametre olarak alır, tagger çalışırken rdflib'i
+    # içe aktarmak zorunda kalmaz. Testler gerçek sözlüğü (ontology.vocab, EYL-3) kullanır.
     from ontology.vocab import Vocabulary
 
 
