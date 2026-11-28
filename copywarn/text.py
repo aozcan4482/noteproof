@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   copywarn
+# owner:    emine           second: aleyna
+# story:    S6
+# contract: -
+# depends:  -
+# status:   stable
 """Metin normalleştirme ve karşılaştırma özellikleri.
 
 Kopyalar çoğu zaman birebir aynı dosya değildir (aynı dosya zaten aynı SHA-256'yı
@@ -23,6 +30,8 @@ from collections import Counter
 _TR_FOLD = str.maketrans({"ç": "c", "ğ": "g", "ı": "i", "ö": "o", "ş": "s", "ü": "u", "â": "a", "î": "i", "û": "u"})
 _NON_WORD = re.compile(r"[^0-9a-z]+")
 
+# NP-DECISION(K-002): yöntem ve uzunluklar bu karara dayanır.
+# Değişirse EMN-3 ölçümü yeniden yapılır.
 CHAR_N = 5  # karakter n-gram uzunluğu
 SHINGLE_K = 3  # kelime shingle uzunluğu
 

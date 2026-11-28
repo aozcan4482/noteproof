@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   copywarn
+# owner:    emine           second: aleyna
+# story:    S6
+# contract: 02#5.4
+# depends:  copywarn.CopyChecker.check
+# status:   stable
 """copywarn/checker.py testleri: story S6'nın kabul kriteri ve kurallar."""
 
 import random

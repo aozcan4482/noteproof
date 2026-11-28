@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   evalset
+# owner:    emine           second: aleyna
+# story:    S3, S6
+# contract: manifest.csv sütunları (uyeler/emine.md bölüm 2)
+# depends:  -
+# status:   stable
 """Değerlendirme setini diskten okuma/yazma."""
 
 from __future__ import annotations
@@ -8,6 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 
+# NP-CONTRACT(02#3): manifest.csv sütunları sabit; tagger ölçümü (Aleyna, evalset/run_tagger.py) da bunları okur.
 MANIFEST_FIELDS = ["id", "course", "topics", "author", "registered_at"]
 PLANTED_FIELDS = ["copy_id", "source_id", "transform", "author", "registered_at"]
 

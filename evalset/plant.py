@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   evalset
+# owner:    emine           second: aleyna
+# story:    S6
+# contract: -
+# depends:  -
+# status:   stable
 """Planted copy üretici: kaynak notlardan, gerçek hayattaki kopyalara benzeyen 20 kopya.
 
 Her kopya, kaynağından SONRA ve BAŞKA bir takma adlı hesapla kaydedilmiş sayılır.
