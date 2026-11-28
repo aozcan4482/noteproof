@@ -106,11 +106,16 @@ class GroqClient:
                     self._sleep(_retry_delay(err, attempt))
                     continue
                 raise RuntimeError(_http_error_message(err.code)) from None
-            except urllib.error.URLError as err:
+            except json.JSONDecodeError:
+                raise RuntimeError("Dil modeli JSON olmayan bir yanıt döndürdü.") from None
+            except OSError as err:
+                # URLError (bağlantı kurulamadı), okuma sırasında zaman aşımı (TimeoutError) ve
+                # bağlantının kopması (ConnectionResetError) OSError'dır; hepsi geçici sayılır.
                 if attempt < self.max_retries:
                     self._sleep(2.0**attempt)
                     continue
-                raise RuntimeError(f"Dil modeline bağlanılamadı: {err.reason}") from None
+                reason = getattr(err, "reason", None) or type(err).__name__
+                raise RuntimeError(f"Dil modeline bağlanılamadı: {reason}") from None
 
         try:
             content = data["choices"][0]["message"].get("content")

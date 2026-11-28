@@ -60,6 +60,8 @@ class FakeUrlopen:
         outcome = self._outcomes.pop(0)
         if isinstance(outcome, Exception):
             raise outcome
+        if isinstance(outcome, bytes):
+            return io.BytesIO(outcome)
         return io.BytesIO(json.dumps(outcome).encode())
 
 
@@ -139,6 +141,23 @@ def test_groq_client_network_failure_is_retried_then_reported():
     with pytest.raises(RuntimeError) as err:
         groq(fake, sleeps).complete("not")
     assert "bağlanılamadı" in str(err.value) and len(sleeps) == 3
+
+
+def test_groq_client_read_timeout_is_retried_then_reported():
+    # Yanıt okunurken zaman aşımı URLError değil TimeoutError olarak gelir; o da yeniden denenir.
+    sleeps = []
+    fake = FakeUrlopen(TimeoutError("timed out"), ok("{}"))
+    assert groq(fake, sleeps).complete("not") == "{}"
+    assert sleeps == [1.0]
+    with pytest.raises(RuntimeError) as err:
+        groq(FakeUrlopen(*[TimeoutError("timed out")] * 4), []).complete("not")
+    assert "bağlanılamadı" in str(err.value)
+
+
+def test_groq_client_non_json_response_is_a_clear_error():
+    with pytest.raises(RuntimeError) as err:
+        groq(FakeUrlopen(b"<html>bakim</html>")).complete("not")
+    assert "JSON" in str(err.value)
 
 
 def test_groq_client_unexpected_response_shape_is_a_clear_error():
