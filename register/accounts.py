@@ -68,6 +68,14 @@ def normalize_pseudonym(raw: str) -> str:
     return pseudonym
 
 
+def pseudonym_of(account: str) -> str:
+    """Hesap IRI'sinden takma ad: "{NS}account/mavi_kalem" -> "mavi_kalem" (kopya denetimi takma adla çalışır)."""
+    prefix = f"{NAMESPACE}account/"
+    if not account.startswith(prefix):
+        raise ValueError(f"Hesap IRI'si değil: {account!r}")
+    return account[len(prefix):]
+
+
 def _token_hash(token: str) -> str:
     return sha256_hex(token.encode("utf-8"))
 

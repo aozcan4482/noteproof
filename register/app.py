@@ -19,10 +19,9 @@ from __future__ import annotations
 
 import logging
 import pathlib
-
 from typing import Annotated
 
-from fastapi import Depends, FastAPI, Header, Request
+from fastapi import Depends, FastAPI, File, Header, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.routing import APIRoute
@@ -30,18 +29,24 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from . import state
-from .accounts import AccountStore, InvalidPseudonym, PseudonymTaken
+from copywarn import CopyChecker
+from ontology.vocab import Vocabulary
+
+from . import preview, state
+from .accounts import AccountStore, InvalidPseudonym, PseudonymTaken, pseudonym_of
 from .errors import (
     INTERNAL_ERROR,
     INVALID_REQUEST,
     METHOD_NOT_ALLOWED,
     NOT_FOUND,
     PSEUDONYM_TAKEN,
+    TOO_LARGE,
     UNAUTHORIZED,
+    UNSUPPORTED_TYPE,
     ApiError,
     error_body,
 )
+from .lookup import find_registered
 
 log = logging.getLogger(__name__)
 
@@ -127,6 +132,43 @@ def require_account(
     if account is None:
         raise ApiError(401, UNAUTHORIZED, "Token yok ya da geçersiz.")
     return account
+
+
+# --- Önizleme (aktivite adımları 2–5) -----------------------------------------------------------------
+
+# NP-CONTRACT(02#7): POST /api/notes/preview, multipart alan adı "file" → 200 önizleme. Hiçbir şey kaydedilmez.
+@app.post("/api/notes/preview")
+def preview_note(
+    file: Annotated[UploadFile, File()],
+    account: Annotated[str, Depends(require_account)],
+    graph: Annotated[object, Depends(state.graph_store)],
+    vocabulary: Annotated[Vocabulary, Depends(state.vocabulary)],
+    llm: Annotated[object, Depends(state.llm_client)],
+    checker: Annotated[CopyChecker, Depends(state.copy_checker)],
+    previews: Annotated[preview.PreviewCache, Depends(state.preview_cache)],
+) -> dict:
+    # Sınırın bir byte fazlası okunur: dosyanın tamamını belleğe almadan "10 MB'tan büyük" denebilsin.
+    data = file.file.read(preview.MAX_BYTES + 1)
+    try:
+        entry = preview.build_preview(
+            data=data,
+            content_type=file.content_type,
+            filename=file.filename,
+            account=account,
+            author=pseudonym_of(account),
+            vocabulary=vocabulary,
+            llm=llm,
+            checker=checker,
+            find_registered=lambda note_hash: find_registered(graph, note_hash),
+        )
+    except preview.TooLarge as exc:
+        raise ApiError(400, TOO_LARGE, str(exc)) from exc
+    except preview.UnsupportedType as exc:
+        raise ApiError(400, UNSUPPORTED_TYPE, str(exc)) from exc
+    except preview.EmptyFile as exc:
+        raise ApiError(422, INVALID_REQUEST, str(exc)) from exc
+    previews.put(entry)
+    return preview.preview_response(entry)
 
 
 # Arama servisinin router'ı (Erdener, 02 bölüm 5.6): GET /api/search.
