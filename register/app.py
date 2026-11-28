@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import logging
 import pathlib
-from typing import Annotated
+from typing import Annotated, Any
 
 from fastapi import Depends, FastAPI, File, Header, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
@@ -32,14 +32,18 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from copywarn import CopyChecker
 from ontology.vocab import Vocabulary
 
-from . import preview, state
+from . import preview, registration, state
 from .accounts import AccountStore, InvalidPseudonym, PseudonymTaken, pseudonym_of
 from .errors import (
+    ALREADY_REGISTERED,
     INTERNAL_ERROR,
     INVALID_REQUEST,
     METHOD_NOT_ALLOWED,
+    NOT_CONFIRMED,
     NOT_FOUND,
+    PREVIEW_EXPIRED,
     PSEUDONYM_TAKEN,
+    SHAPE_VIOLATION,
     TOO_LARGE,
     UNAUTHORIZED,
     UNSUPPORTED_TYPE,
@@ -169,6 +173,65 @@ def preview_note(
         raise ApiError(422, INVALID_REQUEST, str(exc)) from exc
     previews.put(entry)
     return preview.preview_response(entry)
+
+
+# --- Kayıt (aktivite adımları 6–9) --------------------------------------------------------------------
+
+class ConfirmRequest(BaseModel):
+    previewToken: str
+    title: str
+    course: str
+    topics: list[str]
+    summary: str = ""
+    # Dönüştürülmeden alınır: Pydantic "true" metnini ve 1'i de True yapardı. Yalnızca JSON true onaydır (G4).
+    confirmed: Any = None
+
+
+# NP-CONTRACT(02#7): POST /api/notes onay gövdesi → 201 {"noteHash", "registeredAt", "status", "proofStatus"}.
+@app.post("/api/notes", status_code=201)
+def register_note(
+    body: ConfirmRequest,
+    account: Annotated[str, Depends(require_account)],
+    graph: Annotated[object, Depends(state.graph_store)],
+    open_queue: Annotated[object, Depends(state.anchor_queue)],
+    checker: Annotated[CopyChecker, Depends(state.copy_checker)],
+    previews: Annotated[preview.PreviewCache, Depends(state.preview_cache)],
+) -> dict:
+    # G4: yazar onaylamadan hiçbir etiket ya da özet kaydedilmez; onay denetimi her şeyden önce gelir.
+    if body.confirmed is not True:
+        raise ApiError(400, NOT_CONFIRMED, "Ders ve konular onaylanmadan not kaydedilmez.")
+    entry = previews.get(body.previewToken, account)
+    if entry is None:
+        raise ApiError(410, PREVIEW_EXPIRED, "Önizlemenin süresi doldu; dosyayı yeniden yükleyin.")
+    title = body.title.strip()
+    if not title:
+        raise ApiError(422, INVALID_REQUEST, "Notun bir başlığı olmalı.")
+    if entry.already_registered is not None or find_registered(graph, entry.note_hash) is not None:
+        # Aynı dosya iki kez kaydedilmez (adım 3); önceki kayıt önizlemede gösterilmişti.
+        raise ApiError(409, ALREADY_REGISTERED, "Bu dosya zaten kayıtlı.")
+
+    confirmation = registration.Confirmation(
+        title=title,
+        course=body.course.strip(),
+        topics=list(dict.fromkeys(t.strip() for t in body.topics)),  # sırayı koruyarak tekrarı at
+        summary=body.summary.strip(),
+    )
+    try:
+        done = registration.register_note(
+            entry=entry, confirmation=confirmation, author=pseudonym_of(account),
+            graph=graph, open_queue=open_queue, checker=checker,
+        )
+    except registration.ShapeViolation as exc:
+        # Önizleme silinmez: yazar etiketleri düzeltip aynı previewToken ile yeniden onaylayabilir (adım 7 → 6).
+        violations = [{"shape": v.shape, "path": v.path, "message": v.message} for v in exc.violations]
+        raise ApiError(422, SHAPE_VIOLATION, "Not shape'lere uymuyor.", violations) from exc
+    previews.discard(body.previewToken)
+    return {
+        "noteHash": done.note_hash,
+        "registeredAt": done.registered_at,
+        "status": registration.STATUS_REGISTERED,
+        "proofStatus": "pending",
+    }
 
 
 # Arama servisinin router'ı (Erdener, 02 bölüm 5.6): GET /api/search.

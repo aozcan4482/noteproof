@@ -17,8 +17,9 @@ from __future__ import annotations
 
 import logging
 from functools import lru_cache
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
+from anchor.store import Store as AnchorStore
 from copywarn import CopyChecker
 from core.config import data_dir
 from core.graph import open_store
@@ -42,6 +43,16 @@ def graph_store() -> "pyoxigraph.Store":
 @lru_cache(maxsize=1)
 def account_store() -> AccountStore:
     return AccountStore(data_dir() / ACCOUNTS_DB)
+
+
+def anchor_queue() -> Callable[[], AnchorStore]:
+    """Zaman damgası kuyruğunu (Burak, 02#5.5) açan fabrika: data/noteproof.sqlite (02 bölüm 2).
+
+    Store paylaşılmaz, her kayıtta yeniden açılır: SQLite bağlantısını açıldığı iş parçacığına bağlar,
+    FastAPI ise istekleri farklı iş parçacıklarında çalıştırır.
+    """
+    path = str(data_dir() / "noteproof.sqlite")
+    return lambda: AnchorStore(path)
 
 
 @lru_cache(maxsize=1)
