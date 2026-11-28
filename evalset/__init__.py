@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   evalset
+# owner:    emine           second: aleyna
+# story:    S3, S6
+# contract: -
+# depends:  -
+# status:   stable
 """Değerlendirme seti (evalset/): AI tagger ve kopya uyarısını ölçen 60 not + 20 planted copy.
 
   notes/          -> ekibin KENDİ notları, düz metin (<id>.txt)

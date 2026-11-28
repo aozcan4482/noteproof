@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   evalset
+# owner:    emine           second: aleyna
+# story:    S6
+# contract: -
+# depends:  copywarn.CopyChecker.add, copywarn.CopyChecker.check
+# status:   stable
 """Kopya uyarısını değerlendirme setiyle ölçer (objective O5, story S6).
 
 Ölçülenler:
