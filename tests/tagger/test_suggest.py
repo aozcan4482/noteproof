@@ -3,11 +3,11 @@
 # owner:    aleyna          second: eylem
 # story:    S3
 # contract: 02#5.3
-# depends:  tagger.suggest.suggest
+# depends:  tagger.suggest.suggest, ontology.vocab.Vocabulary
 # status:   wip
 """tagger/suggest.py testleri: story S3'ün kabul kriteri ve tagger'ın üç sınırı.
 
-Testler dil modeli yerine FakeLLM, Eylem'in sözlüğü yerine NP-STUB sahte sözlük kullanır.
+Testler dil modeli yerine FakeLLM, sözlük olarak Eylem'in gerçek sözlüğünü (ontology/courses.ttl) kullanır.
 """
 
 from __future__ import annotations
@@ -16,11 +16,12 @@ import json
 import os
 
 import pytest
+import rdflib
 
+from ontology.vocab import Vocabulary
 from tagger.suggest import TagSuggestion, suggest
 
 from .fake_llm import FakeLLM
-from .fake_vocab import Vocabulary
 
 FEE_NOTE = (
     "İŞLEM ÜCRETLERİ\n"
@@ -124,5 +125,6 @@ def test_empty_note_text_is_an_explicit_error(vocab):
 
 
 def test_empty_vocabulary_is_an_explicit_error():
+    # Vocabulary.load() boş sözlüğe izin vermez; suggest'in kendi denetimi için kurucu doğrudan çağrılır.
     with pytest.raises(ValueError):
-        suggest(FEE_NOTE, Vocabulary([]), FakeLLM(answer()))
+        suggest(FEE_NOTE, Vocabulary(rdflib.Graph(), {}), FakeLLM(answer()))
