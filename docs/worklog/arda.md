@@ -25,4 +25,5 @@ Not: 27 Kasım kayıtları o gün girilmedi; 28 Kasım'da, açıklamada tarihi b
 | 2026-11-28 | P10 | - | 0.5 | Reviewed and merged pull requests 35, 40 and 43 and approved the copy-warning file headers in 39 | https://github.com/aozcan4482/noteproof/pull/43 | hayır |
 | 2026-11-28 | P12 | S3 | 0.5 | Set up the Groq account with zero data retention and added the CI language-model key as a repository secret (K-005) | - | hayır |
 | 2026-11-28 | P07 | S1 | 1 | Added pseudonymous accounts with a one-time token stored only as a hash and the X-NoteProof-Token check | https://github.com/aozcan4482/noteproof/pull/44 | hayır |
-| 2026-11-28 | P07 | S3 | 1 | Added the note preview endpoint with type and size checks, parallel tag suggestion and copy check, and nothing saved | https://github.com/aozcan4482/noteproof/commit/15435aa | hayır |
+| 2026-11-28 | P07 | S3 | 1 | Added the note preview endpoint with type and size checks, parallel tag suggestion and copy check, and nothing saved | https://github.com/aozcan4482/noteproof/pull/48 | hayır |
+| 2026-11-28 | P07 | S4 | 1 | Added note registration with the PROV-O record, SHACL check, queueing for the daily timestamp and rollback on failure | https://github.com/aozcan4482/noteproof/pull/49 | hayır |
