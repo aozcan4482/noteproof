@@ -83,13 +83,15 @@ jobs:
         run: python -m pytest -q -rs
 
       # Kabul ölçütü (BRK-2): regtest testi CI'da atlanmadan geçer. Atlanırsa ya da çalışmazsa iş kırmızı olur.
+      # Yalnızca regtest dosyası çalıştırılır: başka bir modülün atlanan testi (ör. eksik bağımlılık) bu
+      # kontrolü yanlışlıkla kırmızıya düşürmesin (#41'de oldu). Dosyadaki her test geçmeli, hiçbiri atlanmamalı.
       - name: Regtest testi atlanmadı mı
         run: |
-          out="$(python -m pytest -q -m regtest 2>&1)"
+          out="$(python -m pytest -q -rs tests/anchor/test_regtest.py 2>&1)" || { echo "$out"; echo "::error::regtest testi geçmedi"; exit 1; }
           echo "$out"
           last="$(echo "$out" | tail -1)"
-          echo "$last" | grep -q "passed" || { echo "::error::regtest testi geçmedi"; exit 1; }
-          if echo "$last" | grep -q -E "skipped|deselected only"; then
+          echo "$last" | grep -q "passed" || { echo "::error::regtest testi çalışmadı"; exit 1; }
+          if echo "$last" | grep -q "skipped"; then
             echo "::error::regtest testi atlandı; bitcoind bulunamadı"; exit 1
           fi
 

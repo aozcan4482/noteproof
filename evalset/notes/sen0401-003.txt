@@ -1,0 +1,10 @@
+Fee Bumping (RBF and CPFP)
+Sometimes a Bitcoin transaction stays unconfirmed for a long time. This usually happens when the transaction fee is too low and miners prefer other transactions with higher fees.
+
+There are two common ways to solve this problem: RBF and CPFP.
+
+RBF (Replace-By-Fee): The sender can create a new transaction with a higher fee. The new transaction replaces the old one. This helps the transaction become more attractive to miners.
+
+CPFP (Child Pays For Parent): In this method, the receiver or someone who controls the output creates a new transaction. This new transaction has a higher fee. Miners can include both the original transaction and the new transaction in the same block.
+
+The main difference is that RBF replaces the old transaction with a new one, but CPFP creates another transaction to help the original one get confirmed.

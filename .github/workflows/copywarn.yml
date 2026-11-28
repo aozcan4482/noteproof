@@ -17,13 +17,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install "pytest>=8"
-      - name: Birim testleri (sentetik notlar)
+      # ontology grubu: manifest testi konu kimliklerini Eylem'in sözlüğüne (rdflib) karşı denetler (EMN-2).
+      - run: pip install -e ".[dev,ontology]"
+      - name: Birim testleri ve manifest denetimi
         run: python -m pytest -q tests/copywarn
-      - name: Değerlendirme seti (gerçek notlar eklenince)
+      # Ölçüm, 20 planted copy üretildikten sonra çalışır (EMN-3). Notlar toplanırken manifest dolar ama
+      # planted/planted.csv henüz yoktur; o aşamada ölçüm atlanır, CI kırmızıya dönmez.
+      - name: Değerlendirme seti (planted copy'ler üretilince)
         run: |
-          if [ "$(tail -n +2 evalset/manifest.csv | grep -c .)" -eq 0 ]; then
-            echo "::notice::evalset/manifest.csv henüz boş — değerlendirme atlandı"
+          if [ ! -s evalset/planted/planted.csv ] || [ "$(tail -n +2 evalset/planted/planted.csv | grep -c .)" -eq 0 ]; then
+            echo "::notice::planted copy'ler henüz üretilmedi (EMN-3) — değerlendirme atlandı"
           else
             python -m evalset.run_copywarn --json copywarn-report.json
           fi

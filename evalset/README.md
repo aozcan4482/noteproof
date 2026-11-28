@@ -12,7 +12,8 @@ Proposal'daki deliverable: **"Evaluation set of 60 notes with known topics and 2
 
 - [x] Klasör yapısı, okuma/yazma (`data.py`), kopya üretici (`plant.py`), kopya değerlendirmesi (`run_copywarn.py`)
 - [x] Hattın kendisi `tests/copywarn/` altında **sentetik** metinlerle test ediliyor
-- [ ] **60 gerçek not** — ekipten toplanacak (aşağıdaki kurallar)
+- [ ] **60 gerçek not** — ekipten toplanıyor (aşağıdaki kurallar). 28 Kasım: 9/60 (`yazar-01`, SEN0401)
+- [x] Manifest denetimi: `tests/copywarn/test_manifest.py` (konu kimlikleri sözlükte mi, yazar takma ad mı, kişisel veri var mı)
 - [ ] `python -m evalset.plant` ile 20 planted copy üretilip commit'lenecek
 - [ ] Tagger değerlendirmesi (Aleyna ile)
 

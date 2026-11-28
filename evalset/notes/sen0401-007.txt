@@ -1,0 +1,12 @@
+The Blockchain
+Blockchain is a system where transactions are stored in blocks. These blocks are connected to each other and create a chain.
+
+Every block has a block header. The block header contains important information such as the previous block's hash, the Merkle root, the timestamp and the nonce.
+
+The previous block's hash connects the new block to the older block. This is why blocks are connected like a chain.
+
+The Merkle root is a summary of all transactions inside a block. It helps the network check whether the transactions belong to that block.
+
+If someone tries to change a transaction in an old block, its hash also changes. This affects the following blocks because they contain the previous block's hash.
+
+Because of this system, changing old information in the blockchain is very difficult. This is one of the main reasons why blockchain is considered secure.

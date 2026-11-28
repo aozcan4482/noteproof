@@ -1,0 +1,8 @@
+Fee Rate
+Fee rate is used to calculate how much we pay for a Bitcoin transaction based on its size. It is measured in sat/vB, which means satoshis per virtual byte.
+
+Miners do not only look at the total fee. They also look at the fee rate because every block has limited space. They usually choose transactions that pay more fees for each byte.
+
+A transaction with a bigger size needs more total fees to have the same priority as a smaller transaction. This is because bigger transactions use more space in a block.
+
+For example, if a transaction is 200 vB and the fee rate is 10 sat/vB, the total fee is 2000 satoshis.

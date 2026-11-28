@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S2
+# contract: 02#8 NOTEPROOF_RPC_*
+# depends:  -
+# status:   stable
 """Bitcoin Core JSON-RPC istemcisi.
 
 Bitcoin Core node'u (bitcoind) bir HTTP sunucusu açar; ona JSON ile komut
