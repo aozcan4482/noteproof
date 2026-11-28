@@ -1,0 +1,12 @@
+Digital Signatures
+Digital signatures are used to prove that a Bitcoin transaction is approved by the owner of the coins.
+
+When we want to spend Bitcoin, our wallet creates a digital signature using our private key. This signature is added to the transaction.
+
+Other people and nodes can check the signature using the public key. They do not need to know or see the private key to verify it.
+
+A digital signature provides two important things. First, it shows that the person who controls the private key approved the transaction. Second, it helps prove that the signed transaction information has not been changed.
+
+Bitcoin uses two main digital signature methods called ECDSA and Schnorr.
+
+I think the important point here is that the private key is used to sign, but the public key is used to verify the signature.

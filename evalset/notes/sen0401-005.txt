@@ -1,0 +1,14 @@
+Keys and Addresses
+Bitcoin uses private keys, public keys and addresses to control and receive money.
+
+A private key is a secret number created randomly. It is very important because it gives us control over our Bitcoin. We should never share our private key with anyone.
+
+A public key is created from the private key using elliptic curve mathematics. Other people can use the public key to verify digital signatures, but they cannot easily calculate the private key from it.
+
+A Bitcoin address is created using information from the public key, usually through a hashing process. We share our address with other people when we want to receive Bitcoin.
+
+The order is:
+
+Private Key → Public Key → Bitcoin Address
+
+The most important thing I learned is that the address and public key can be shared in the appropriate situations, but the private key must always stay secret.

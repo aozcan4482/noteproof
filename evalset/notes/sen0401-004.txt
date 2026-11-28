@@ -1,0 +1,10 @@
+Transaction Outputs and UTXO
+Bitcoin does not work exactly like a normal bank account. Instead of having one balance, Bitcoin wallets use something called UTXO. UTXO means Unspent Transaction Output.
+
+A UTXO is Bitcoin that we received but have not spent yet. When we want to make a payment, we use one or more UTXOs as inputs.
+
+One important thing is that a UTXO must be spent completely. We cannot just take a small part of it and leave the rest. If we spend more than the amount we want to send, the remaining amount comes back to us as a new output. This is called change.
+
+Every output has two main things: an amount of Bitcoin and a condition that explains who can spend it.
+
+For example, if I have 1 BTC and send 0.6 BTC to someone, the remaining amount returns to my wallet as change, after subtracting the transaction fee.

@@ -1,0 +1,14 @@
+Mining and Consensus
+Mining is an important part of the Bitcoin network. Miners help confirm transactions and add new blocks to the blockchain.
+
+Miners try to find a block hash that is lower than a specific target. They change a number called nonce and calculate the hash again and again until they find a valid result.
+
+This process is called Proof-of-Work. It requires computer power and many attempts. When a miner finds a valid block, they share it with the network.
+
+The miner receives a reward for finding a block. This reward includes newly created Bitcoin and the transaction fees from the transactions inside the block.
+
+Bitcoin also has a difficulty adjustment system. The difficulty changes every 2016 blocks to keep the average block time around 10 minutes.
+
+Consensus means that the nodes in the network agree on which blockchain is valid. They follow the valid chain with the most accumulated work.
+
+The main idea is that mining helps protect the network and makes it difficult to change the transaction history.

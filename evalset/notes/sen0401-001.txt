@@ -1,0 +1,8 @@
+Transaction Fees
+A Bitcoin transaction has inputs and outputs. Inputs are the coins that we use from previous transactions. Outputs are the money we send to another person and the change that comes back to us.
+
+The total amount of inputs is usually a little higher than the total amount of outputs. The difference between them is called the transaction fee. There is no separate fee box in a Bitcoin transaction.
+
+The sender pays the transaction fee, and the miner receives it. Miners collect transaction fees when they add transactions to a block. If we pay a higher fee, miners may choose our transaction earlier, so it can be confirmed faster.
+
+For example, if I have 1 BTC and want to send 0.5 BTC, some amount can return to my wallet as change. The small difference is the transaction fee.

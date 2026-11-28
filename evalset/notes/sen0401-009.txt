@@ -1,0 +1,12 @@
+Wallet Recovery
+A Bitcoin wallet does not actually store Bitcoin inside the device. It stores the keys that allow us to access and spend our Bitcoin.
+
+Wallets usually use something called a seed phrase or recovery phrase. It is generally a list of 12 or 24 words. These words are used to create the private keys of the wallet.
+
+If we lose our phone or computer, we can recover our wallet by entering the same recovery words into another compatible wallet. The wallet can create the same keys again, so we can access our funds.
+
+However, there is also a big risk. Anyone who knows our recovery words can access our Bitcoin. This means we must keep them private and safe.
+
+The best way is to write the words on paper and keep them in a secure place. We should not share them with anyone, take screenshots or save them in online storage.
+
+The most important thing is that losing the device does not necessarily mean losing the Bitcoin, as long as we still have our recovery words.
