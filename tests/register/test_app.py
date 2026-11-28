@@ -11,31 +11,11 @@ from __future__ import annotations
 
 import pytest
 from fastapi.routing import APIRoute
+from fastapi.testclient import TestClient
 
 from register.app import app
 
-
-def _test_client(**kwargs):
-    # FastAPI'nin test istemcisi httpx ister. Atlama modül düzeyinde değil burada yapılır: modül düzeyindeki
-    # atlama "pytest -m regtest" çalışmasında da "skipped" sayılır ve CI'ın regtest adımını kırmızıya düşürür.
-    # NP-TODO(burak): httpx pyproject.toml dev grubuna girince importorskip kaldırılabilir.
-    pytest.importorskip("httpx")
-    from fastapi.testclient import TestClient
-
-    return TestClient(app, **kwargs)
-
-
-@pytest.fixture
-def client():
-    return _test_client()
-
-
-def _assert_error(response, status: int, code: str) -> None:
-    assert response.status_code == status
-    body = response.json()
-    assert set(body) == {"error"}
-    assert body["error"]["code"] == code
-    assert isinstance(body["error"]["message"], str) and body["error"]["message"]
+from .conftest import assert_error as _assert_error
 
 
 def test_s1_health_returns_ok(client):
@@ -90,7 +70,7 @@ def temporary_route():
 
 
 def test_unexpected_error_is_500_without_details(temporary_route):
-    response = _test_client(raise_server_exceptions=False).get("/api/_test/boom")
+    response = TestClient(app, raise_server_exceptions=False).get("/api/_test/boom")
     _assert_error(response, 500, "internal_error")
     assert "gizli" not in response.text
 

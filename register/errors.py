@@ -34,6 +34,8 @@ SHAPE_VIOLATION = "shape_violation"        # 422
 METHOD_NOT_ALLOWED = "method_not_allowed"  # 405
 INVALID_REQUEST = "invalid_request"        # 422, gövde ya da parametre biçimi bozuk (SHACL'a gelinmedi)
 INTERNAL_ERROR = "internal_error"          # 500
+# NP-TODO(erdener): 02 bölüm 7 tablosuna 409 pseudonym_taken (POST /api/accounts, takma ad alınmış; ARD-2).
+PSEUDONYM_TAKEN = "pseudonym_taken"        # 409
 
 
 class ApiError(Exception):
