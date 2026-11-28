@@ -1,0 +1,121 @@
+# NOTEPROOF-FILE
+# module:   register
+# owner:    arda            second: burak
+# story:    S1
+# contract: 02#7 GET /api/health, hata biçimi
+# depends:  -
+# status:   wip
+"""Kayıt servisinin FastAPI uygulaması: /api uç noktaları ve web/ sayfalarının sunumu.
+
+Çalıştırma (repo kökünden): python -m uvicorn register.app:app --reload
+Sonra tarayıcıda http://127.0.0.1:8000/ arama sayfası, http://127.0.0.1:8000/api/health sağlık kontrolü.
+
+Sıra önemlidir: önce /api uç noktaları, sonra /api altındaki bilinmeyen yollar için yakalayıcı, en son
+web/ klasörünün statik sunumu. Statik sunum "/" köküne bağlandığı için kendinden önce eklenmeyen her
+yolu yutar.
+"""
+
+from __future__ import annotations
+
+import logging
+import pathlib
+
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from fastapi.routing import APIRoute
+from fastapi.staticfiles import StaticFiles
+from starlette.exceptions import HTTPException as StarletteHTTPException
+
+from .errors import (
+    INTERNAL_ERROR,
+    INVALID_REQUEST,
+    METHOD_NOT_ALLOWED,
+    NOT_FOUND,
+    UNAUTHORIZED,
+    ApiError,
+    error_body,
+)
+
+log = logging.getLogger(__name__)
+
+# Erdener'in statik sayfaları (02 bölüm 2). Sayfalar /api'yi aynı sunucuda bekler (web/js/config.js).
+WEB_DIR = pathlib.Path(__file__).resolve().parent.parent / "web"
+
+app = FastAPI(title="NoteProof", docs_url="/api/docs", openapi_url="/api/openapi.json", redoc_url=None)
+
+
+# --- Hata işleyiciler: her hata 02 bölüm 7'deki ortak biçimde döner -----------------------------------
+
+@app.exception_handler(ApiError)
+async def _api_error(_: Request, exc: ApiError) -> JSONResponse:
+    return JSONResponse(error_body(exc.code, exc.message, exc.violations), status_code=exc.status)
+
+
+# FastAPI ve Starlette'in kendi ürettiği HTTP hataları (bilinmeyen dosya, yanlış metot).
+_HTTP_CODES = {
+    401: (UNAUTHORIZED, "Kimlik doğrulanamadı."),
+    404: (NOT_FOUND, "İstenen adres bulunamadı."),
+    405: (METHOD_NOT_ALLOWED, "Bu adres bu HTTP metodunu desteklemiyor."),
+}
+
+
+@app.exception_handler(StarletteHTTPException)
+async def _http_error(_: Request, exc: StarletteHTTPException) -> JSONResponse:
+    code, message = _HTTP_CODES.get(exc.status_code, (INTERNAL_ERROR, "Beklenmeyen bir hata oluştu."))
+    return JSONResponse(error_body(code, message), status_code=exc.status_code, headers=exc.headers)
+
+
+@app.exception_handler(RequestValidationError)
+async def _validation_error(_: Request, exc: RequestValidationError) -> JSONResponse:
+    # Gövde ya da parametre biçimi bozuk. Bu shape_violation değildir: SHACL doğrulamasına hiç gelinmedi.
+    return JSONResponse(error_body(INVALID_REQUEST, "İstek biçimi geçersiz."), status_code=422)
+
+
+@app.exception_handler(Exception)
+async def _unexpected_error(_: Request, exc: Exception) -> JSONResponse:
+    # Ayrıntı yanıta yazılmaz (iç yol, not içeriği sızabilir); yalnızca sunucu günlüğüne gider.
+    log.exception("Beklenmeyen hata: %s", type(exc).__name__)
+    return JSONResponse(error_body(INTERNAL_ERROR, "Beklenmeyen bir hata oluştu."), status_code=500)
+
+
+# --- /api uç noktaları --------------------------------------------------------------------------------
+
+# NP-CONTRACT(02#7): GET /api/health → 200 {"status": "ok"}
+@app.get("/api/health")
+def health() -> dict[str, str]:
+    return {"status": "ok"}
+
+
+# Arama servisinin router'ı (Erdener, 02 bölüm 5.6): GET /api/search.
+# NP-TODO(erdener): search/ main'e girince aşağıdaki iki satırı aç (yakalayıcıdan önce kalmalı).
+# from search.router import router as search_router
+# app.include_router(search_router)
+
+
+# --- /api altındaki bilinmeyen yollar -----------------------------------------------------------------
+
+def _methods_for(path: str) -> set[str]:
+    """Bu yolu karşılayan /api uç noktalarının metotları; yakalayıcının kendisi hariç."""
+    methods: set[str] = set()
+    for route in app.router.routes:
+        if isinstance(route, APIRoute) and route.endpoint is not _unknown_api_path and route.path_regex.match(path):
+            methods |= route.methods
+    return methods
+
+
+@app.api_route("/api/{rest:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
+               include_in_schema=False)
+def _unknown_api_path(request: Request, rest: str) -> None:
+    # Bu yakalayıcı olmasa /api/... istekleri statik sunuma düşer ve POST bilinmeyen yola 404 yerine 405 alır.
+    # Starlette, yolu tutan ama metodu tutmayan bir uç nokta varken de buraya gelir; o durumda 405 döneriz.
+    allowed = _methods_for(request.url.path)
+    if allowed:
+        raise StarletteHTTPException(405, headers={"Allow": ", ".join(sorted(allowed))})
+    raise StarletteHTTPException(404)
+
+
+# --- web/ sayfaları (en sonda) ------------------------------------------------------------------------
+
+# html=True: "/" isteğine index.html döner. Bilinmeyen dosya 404 not_found olarak ortak biçimde döner.
+app.mount("/", StaticFiles(directory=WEB_DIR, html=True), name="web")
