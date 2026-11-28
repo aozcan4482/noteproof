@@ -69,6 +69,11 @@
 /docs/worklog/erdener.md  @Lexar343
 /docs/worklog/aysu.md     @howlerofdarrow
 
+# Kural seti (K-010): sahibi yalnızca Erdener; onayı herhangi bir üye verebilir (04 bölüm 6),
+# bu yüzden ikinci sorumlu yazılmaz.
+/AGENTS.md                            @Lexar343
+/docs/rules/                          @Lexar343
+
 # Ortak yapılandırma
 /pyproject.toml                       @buraksamisirin @aozcan4482
 /.gitignore                           @buraksamisirin @aozcan4482
