@@ -40,7 +40,7 @@ all = ["noteproof[register,ontology,tagger,search]"]
 # Paketler burada açıkça yazılır; main'e yeni bir üst klasör paketi girdiğinde (core, register, ontology,
 # shapes, search) bu listeye de eklenir (02 bölüm 1).
 [tool.setuptools]
-packages = ["anchor", "copywarn", "evalset", "tagger"]
+packages = ["anchor", "copywarn", "core", "evalset", "ontology", "shapes", "tagger"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

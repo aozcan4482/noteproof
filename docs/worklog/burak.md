@@ -4,16 +4,16 @@ Bu dosyayı yalnızca Burak düzenler (K-009). En üstteki "Durum" bölümü her
 bir sonraki oturum buradan devam eder. Alttaki tablo, Workbench'e girilecek work log kayıtlarının
 taslağıdır.
 
-## Durum (2026-11-27)
+## Durum (2026-11-28)
 
-Kural seti: 2.3
-Biten (main'de): BRK-R1 (#2) · BRK-R2 (#5) · BRK-0 (#8)
-PR'da: —
-Sürüyor: BRK-1 — `pyproject.toml`, `CODEOWNERS`, `.gitignore` main'de (#14, Arda merge etti); `main` için branch koruması Arda'da (admin) · BRK-2 — `ci.yml` ilk çalışmada yeşil (run 45969400152: Bitcoin Core 32.1 hash doğrulandı, `pytest` 77 passed, regtest 1 passed atlanmadan, `node --test` 7/7); PR açılıyor (branch: `infra/ci-regtest`)
-Beklediklerim: Arda — branch koruması (BRK-1 `(done)` buna bağlı), `core/` (ARD-0, BRK-4), K-001 (BRK-5), `v0.3.0` kararı
-Sıradaki adım: BRK-2 PR'ı merge olunca branch korumasına "CI yeşil" şartı eklenir (Arda); ardından BRK-3 (test vektörleri, Erdener bekliyor)
-Açık sorular: Düzenlenebilir Workbench (Aleyna'da) · Eski kayıt #9 ve #10 için: "was not done" mı, "was never committed" mı? · `v0.3.0` (27 Kas) ertelensin mi? · Commit yazar e-postasında öğrenci numarası var (03 bölüm 9)
-Not: #2, #5 ve #8'i kural 04 bölüm 6.7'nin aksine (Burak'ın PR'larını Arda merge eder) ben merge ettim; PR'lara açıklama yazıldı. 2.3'teki 24 saat kuralından önceydi.
+Kural seti: 2.3 (#31 ile 3.0 bekliyor)
+Biten (main'de): BRK-R1 (#2) · BRK-R2 (#5) · BRK-0 (#8) · BRK-2 (#18)
+PR'da: BRK-4 (branch: `feature/S2-anchor-maintenance`)
+Sürüyor: BRK-1 — branch koruması açık, "CI yeşil" şartı eksik (Arda) · BRK-3 — vektörler main'de (#20); Erdener'in `tests/web/` testi bekleniyor
+Beklediklerim: Erdener — vektör testi (BRK-3) · Arda — CI şartı, K-001 (BRK-5), `v0.3.0` kararı, #31 onayı
+Sıradaki adım: #31 merge edilince `CODEOWNERS`'a `AGENTS.md` ve `docs/rules/`; K-001 kapanınca BRK-5
+Açık sorular: Workbench kayıtları henüz girilmedi (ilk numara 28) · `v0.3.0` ertelensin mi? · Commit yazar e-postasında öğrenci numarası var (03 bölüm 9)
+Not: #2, #5, #8, #20 ve #25'i kural 04 bölüm 6.7'nin aksine ben merge ettim; PR'lara açıklama yazıldı.
 
 ## Work log taslakları
 
@@ -27,8 +27,10 @@ Not: #2, #5 ve #8'i kural 04 bölüm 6.7'nin aksine (Burak'ın PR'larını Arda 
 | 2026-11-25 | P10 | - | 1 | Reviewed the open pull request queue and merged the approved UI sketches pull request into main | https://github.com/aozcan4482/noteproof/pull/4 | hayır |
 | 2026-11-26 | P10 | - | 1 | Merged the approved BRK-R1 and BRK-R2 pull requests into main and deleted their branches | https://github.com/aozcan4482/noteproof/pull/5 | hayır |
 | 2026-11-26 | P10 | - | 1 | Moved the old personal progress log into the work-log file and closed the BRK-0 task | https://github.com/aozcan4482/noteproof/pull/8 | hayır |
-| 2026-11-27 | P10 | - | 2.5 | Tested and merged six approved pull requests and reviewed the web skeleton and work-log pull requests | https://github.com/aozcan4482/noteproof/pull/13 | hayır |
+| 2026-11-27 | P10 | - | 2.5 | Tested and merged seven approved pull requests and reviewed the web skeleton and work-log pull requests | https://github.com/aozcan4482/noteproof/pull/13 | hayır |
 | 2026-11-27 | P10 | - | 1.5 | Added the build system, package list, dependency groups, CODEOWNERS and ignore rules for BRK-1 | https://github.com/aozcan4482/noteproof/pull/14 | hayır |
+| 2026-11-27 | P10 | - | 1 | Wrote the general CI workflow with a verified Bitcoin Core download and a regtest check that cannot be skipped | https://github.com/aozcan4482/noteproof/pull/18 | hayır |
+| 2026-11-27 | P09 | S7 | 1 | Generated the shared Merkle test vectors and a sample note with its proof and tested them against anchor/ | https://github.com/aozcan4482/noteproof/pull/20 | hayır |
 
 ### BRK-R1 ve BRK-R2 `main`'de: girilecek düzeltme kayıtları (04 bölüm 9.1)
 

@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S1, S2, S7
+# contract: -
+# depends:  -
+# status:   stable
 """Gerçek bitcoind ile regtest testi (proposal test case: 40 not, tek işlem).
 
 bitcoind kurulu değilse otomatik atlanır. Kurmak için (macOS): brew install bitcoin

@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S1, S2
+# contract: 02#5.5 Store.enqueue
+# depends:  core.config.data_dir
+# status:   stable
 """Kuyruk ve batch kayıtları (SQLite).
 
 Kayıt servisi (Arda'nın modülü) ile benim modülüm arasındaki SÖZLEŞME:
@@ -25,8 +32,13 @@ import re
 import sqlite3
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from pathlib import Path
+
+from core.config import data_dir
 
 from .merkle import PathStep
+
+DB_FILE_NAME = "noteproof.sqlite"  # data/ altındaki düzen: 02 bölüm 2
 
 _HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -73,6 +85,11 @@ class QueuedNote:
     merkle_path: list[PathStep] | None
 
 
+def default_db_path() -> Path:
+    """Kuyruğun varsayılan yeri: <veri klasörü>/noteproof.sqlite (NOTEPROOF_DATA_DIR, yoksa ./data)."""
+    return data_dir() / DB_FILE_NAME
+
+
 def path_to_json(path: list[PathStep]) -> str:
     return json.dumps([{"side": s.side, "sibling": s.sibling.hex()} for s in path])
 
@@ -82,7 +99,12 @@ def path_from_json(text: str) -> list[PathStep]:
 
 
 class Store:
-    def __init__(self, path: str = "noteproof.sqlite"):
+    def __init__(self, path: str | None = None):
+        if path is None:
+            path = str(default_db_path())
+        if path != ":memory:":
+            # data/ ilk çalıştırmada henüz yoktur; core.config klasörü oluşturmaz, yazan modül oluşturur.
+            Path(path).parent.mkdir(parents=True, exist_ok=True)
         self.conn = sqlite3.connect(path)
         self.conn.row_factory = sqlite3.Row
         self.conn.executescript(SCHEMA)
@@ -92,6 +114,7 @@ class Store:
 
     # --- Kayıt servisinin kullandığı kısım -------------------------------------
 
+    # NP-CONTRACT(02#5.5): imza sabit. Kayıt servisi (Arda) yalnızca bunu çağırır.
     def enqueue(self, note_hash_hex: str, registered_at: str | None = None) -> bool:
         """Bir not hash'ini bir sonraki günlük timestamp için kuyruğa ekler.
 

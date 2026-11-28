@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S1, S2, S7
+# contract: -
+# depends:  -
+# status:   stable
 """opreturn.py testleri: zincire yalnızca 32 byte'lık kök gidebilir."""
 
 import pytest

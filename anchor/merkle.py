@@ -1,3 +1,10 @@
+# NOTEPROOF-FILE
+# module:   anchor
+# owner:    burak           second: arda
+# story:    S2, S7
+# contract: 02#5.5 Merkle kuralları
+# depends:  -
+# status:   stable
 """Merkle tree: günün not hash'lerinden tek bir 32 byte'lık kök üretir.
 
 Neden Merkle tree?
@@ -24,6 +31,7 @@ from __future__ import annotations
 import hashlib
 from dataclasses import dataclass
 
+# NP-CONTRACT(02#5.5): Merkle kuralları sabit; web/js/verify.js ve tests/vectors/ aynısını kullanır.
 LEAF_PREFIX = b"\x00"
 NODE_PREFIX = b"\x01"
 HASH_SIZE = 32  # SHA-256 çıktısı 32 byte
@@ -65,6 +73,7 @@ def _check_hashes(note_hashes: list[bytes]) -> None:
             raise ValueError(f"Her not hash'i 32 byte olmalı, {len(h)} byte geldi")
 
 
+# NP-CONTRACT(02#5.5): tek kalan düğüm kopyalanmadan yukarı taşınır.
 def build_levels(note_hashes: list[bytes]) -> list[list[bytes]]:
     """Ağacın bütün seviyelerini aşağıdan yukarı döndürür.
 

@@ -4,7 +4,7 @@
 # story:    S2, S7
 # contract: 02#5.5 Merkle kuralları, 02#6 proof dosyası
 # depends:  -
-# status:   wip
+# status:   stable
 """Ortak test vektörleri: Python ve tarayıcı aynı Merkle kurallarını uyguluyor mu?
 
 Proof sayfası (Erdener, `web/js/verify.js`) bir notun kanıtını tarayıcıda, bizim Python kodumuzdan bağımsız
